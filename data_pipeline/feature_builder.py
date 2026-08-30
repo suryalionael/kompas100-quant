@@ -44,15 +44,18 @@ FEATURE_COLS = [
     "squeeze_on",
     "squeeze_release",      # True only on first day squeeze is OFF after being ON
     "vwap_20d", "price_vs_vwap",
+    # IHSG relative strength (added for kompas100-quant — not in the original)
+    "rel_strength_5d", "rel_strength_20d",
     # Raw (untuk scoring + ML)
     "close", "volume",
 ]
 
 
-def build_features(df: pd.DataFrame) -> pd.DataFrame:
+def build_features(df: pd.DataFrame, ihsg: pd.DataFrame | None = None) -> pd.DataFrame:
     """Hitung semua fitur teknikal untuk satu ticker DataFrame.
 
     Input: DataFrame dengan kolom OHLCV (minimal: date, open, high, low, close, volume).
+    ihsg  : optional IHSG (^JKSE) OHLCV DataFrame — enables rel_strength_5d/20d.
     Output: DataFrame dengan kolom di FEATURE_COLS (kolom yang tidak bisa dihitung di-skip).
     """
     df = df.copy().sort_values("date").reset_index(drop=True)
@@ -62,17 +65,19 @@ def build_features(df: pd.DataFrame) -> pd.DataFrame:
     df = _add_volume(df)
     df = _add_volatility(df)
     df = _add_tv_indicators(df)
+    if ihsg is not None:
+        df = _add_relative_strength(df, ihsg)
 
     available = [c for c in FEATURE_COLS if c in df.columns]
     return df[available]
 
 
-def build_features_batch(data: dict[str, pd.DataFrame]) -> pd.DataFrame:
+def build_features_batch(data: dict[str, pd.DataFrame], ihsg: pd.DataFrame | None = None) -> pd.DataFrame:
     """Build features untuk semua ticker dan gabungkan ke satu DataFrame."""
     frames = []
     for ticker, df in data.items():
         try:
-            features = build_features(df)
+            features = build_features(df, ihsg=ihsg)
             frames.append(features)
             logger.info(f"{ticker}: features computed ({len(features)} rows)")
         except Exception as e:
@@ -178,6 +183,27 @@ def _add_volatility(df: pd.DataFrame) -> pd.DataFrame:
     log_ret = np.log(df["close"] / df["close"].shift(1))
     df["hist_vol_20d"] = log_ret.rolling(20).std() * np.sqrt(252) * 100
     return df
+
+
+# ---------------------------------------------------------------------------
+# IHSG relative strength (new — not in the original scanner)
+# ---------------------------------------------------------------------------
+
+def _add_relative_strength(df: pd.DataFrame, ihsg: pd.DataFrame) -> pd.DataFrame:
+    """Stock's N-day return minus IHSG's N-day return over the same dates.
+
+    Positive = outperforming the index, negative = underperforming — a
+    cheap, look-ahead-safe signal of whether a move is stock-specific or
+    just beta to the broader market.
+    """
+    idx = ihsg[["date", "close"]].rename(columns={"close": "ihsg_close"}).sort_values("date")
+    idx["ihsg_roc5"] = idx["ihsg_close"].pct_change(5) * 100
+    idx["ihsg_roc20"] = idx["ihsg_close"].pct_change(20) * 100
+
+    merged = df.merge(idx[["date", "ihsg_roc5", "ihsg_roc20"]], on="date", how="left")
+    merged["rel_strength_5d"] = merged["roc5"] - merged["ihsg_roc5"]
+    merged["rel_strength_20d"] = merged["roc20"] - merged["ihsg_roc20"]
+    return merged.drop(columns=["ihsg_roc5", "ihsg_roc20"])
 
 
 # ---------------------------------------------------------------------------

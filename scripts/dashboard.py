@@ -1,8 +1,11 @@
 """Kompas100 Quant — Streamlit dashboard.
 
-Session-1 scope (COMPETITION_PLAN.md §10, Days 1-2): universe overview,
-per-stock technical detail, and a data-health panel over real OHLCV data.
-Ranking/portfolio views are placeholders until those modules exist.
+Universe overview, per-stock technical detail, and a data-health panel
+over real OHLCV data (COMPETITION_PLAN.md §10, Days 1-2). The Rankings
+tab shows the real horizon-ablation comparison (§4) once
+data/published/ablation_results.json exists — never fabricated picks;
+if no horizon has beaten naive momentum yet, it says so instead of
+showing a ranked list. Portfolio construction (§6) is still a placeholder.
 """
 import json
 import sys
@@ -216,6 +219,14 @@ def load_universe_snapshot() -> pd.DataFrame:
 @st.cache_data(ttl=300)
 def load_scan_meta() -> dict | None:
     path = PUBLISHED_DIR / "scan_meta.json"
+    if not path.exists():
+        return None
+    return json.loads(path.read_text())
+
+
+@st.cache_data(ttl=300)
+def load_ablation_results() -> dict | None:
+    path = PUBLISHED_DIR / "ablation_results.json"
     if not path.exists():
         return None
     return json.loads(path.read_text())
@@ -542,13 +553,84 @@ def render_data_health_tab(tickers: list[str]) -> None:
 
 def render_rankings_tab() -> None:
     st.markdown('<h2 class="k100-section">Rankings</h2>', unsafe_allow_html=True)
-    st.info(
-        "**Rankings — coming in a later phase.**\n\n"
-        "This tab will show the cross-sectional ranking model's output once "
-        "`ranking/ranking_model.py` and the horizon ablation (COMPETITION_PLAN.md §4) "
-        "are built and validated against the backtest engine. No ranking data is "
-        "fabricated here in the meantime."
+
+    results = load_ablation_results()
+    if results is None or not results.get("horizons"):
+        st.info(
+            "**Rankings — coming in a later phase.**\n\n"
+            "This tab will show the cross-sectional ranking model's output once "
+            "`ranking/ranking_model.py` and the horizon ablation (COMPETITION_PLAN.md §4) "
+            "are built and validated against the backtest engine. No ranking data is "
+            "fabricated here in the meantime."
+        )
+        return
+
+    horizons = results["horizons"]
+    any_horizon_wins = any(
+        h["ranking_model"]["non_overlapping"]["mean_return"] > h["momentum"]["non_overlapping"]["mean_return"]
+        for h in horizons.values()
     )
+
+    if any_horizon_wins:
+        st.success(
+            "At least one horizon beats naive momentum on the honest (non-overlapping) fold set. "
+            "See the table below — still not live picks until portfolio construction (§6) exists."
+        )
+    else:
+        st.warning(
+            "**No horizon beats naive momentum yet — the ranking model does not clear the "
+            "ablation gate, so no live picks are shown.** Per COMPETITION_PLAN.md's own rule, "
+            "a level that doesn't beat the one below it gets cut, even if already built. "
+            "This is the real backtest comparison, run 2026-08-30 — not a placeholder."
+        )
+
+    bh = results.get("buy_and_hold")
+    if bh:
+        c1, c2, c3 = st.columns(3)
+        with c1:
+            st.markdown(kpi_card("Kompas100 Buy-and-Hold", _pct(bh.get("compounded_return"))), unsafe_allow_html=True)
+        with c2:
+            st.markdown(kpi_card("Max Drawdown", _pct(bh.get("max_drawdown")), tone="down"), unsafe_allow_html=True)
+        with c3:
+            st.markdown(kpi_card("Full Window", "2023-08-31 → 2026-08-28"), unsafe_allow_html=True)
+
+    st.markdown('<h3 class="k100-subsection">Horizon Ablation — Non-Overlapping Folds (the honest view)</h3>', unsafe_allow_html=True)
+    rows = []
+    for h in sorted(horizons, key=int):
+        r = horizons[h]
+        no = r["ranking_model"]["non_overlapping"]
+        mo = r["momentum"]["non_overlapping"]
+        rows.append({
+            "Horizon": f"{h}D",
+            "Model return/fold": no["mean_return"],
+            "95% CI low": no["ci_low"],
+            "95% CI high": no["ci_high"],
+            "Momentum return/fold": mo["mean_return"],
+            "Model IC": no["mean_ic"],
+            "n folds": no["n_folds"],
+            "Beats momentum?": "Yes" if no["mean_return"] > mo["mean_return"] else "No",
+        })
+    table = pd.DataFrame(rows)
+
+    def _color_beats(val):
+        return f"color: {TEAL}; font-weight: 600" if val == "Yes" else f"color: {MUTED_RED}"
+
+    pct_cols = ["Model return/fold", "95% CI low", "95% CI high", "Momentum return/fold"]
+    styler = table.style.map(_color_beats, subset=["Beats momentum?"])
+    styler = styler.format({c: "{:+.2%}".format for c in pct_cols} | {"Model IC": "{:.3f}".format})
+    st.dataframe(styler, use_container_width=True, hide_index=True)
+    st.caption(
+        "Non-overlapping folds are independent (one decision every `horizon` trading days) — "
+        "the statistically honest view. The overlapping view (a decision every trading day) can "
+        "look more favorable purely from folds sharing most of their trading days; see "
+        "COMPETITION_PLAN.md §4 for both."
+    )
+
+
+def _pct(x: float | None) -> str:
+    if x is None or pd.isna(x):
+        return "—"
+    return f"{x * 100:+.2f}%"
 
 
 def main() -> None:

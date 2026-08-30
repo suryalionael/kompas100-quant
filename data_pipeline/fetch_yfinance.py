@@ -227,3 +227,38 @@ def fetch_universe(
 
     logger.info(f"Fetched {len(results)}/{len(tickers)} tickers")
     return results
+
+
+IHSG_YF_SYMBOL = "^JKSE"
+IHSG_STORAGE_NAME = "IHSG"
+
+
+class _FixedSymbolFetcher(BaseFetcher):
+    """Wraps YFinanceFetcher for a single fixed yfinance symbol (e.g. an
+    index ticker like ^JKSE that doesn't take the .JK stock suffix)."""
+
+    def __init__(self, inner: YFinanceFetcher, yf_symbol: str, storage_name: str):
+        self._inner = inner
+        self._yf_symbol = yf_symbol
+        self._storage_name = storage_name
+
+    def fetch(self, tickers: list[str], start: str, end: str) -> dict[str, pd.DataFrame]:
+        raise NotImplementedError
+
+    def fetch_single(self, ticker: str, start: str, end: str) -> pd.DataFrame:
+        df = self._inner.fetch_single(self._yf_symbol, start, end)
+        if not df.empty:
+            df["ticker"] = self._storage_name
+        return df
+
+
+def fetch_ihsg(raw_dir: Path | str, lookback_years: int = _DEFAULT_LOOKBACK_YEARS) -> pd.DataFrame:
+    """Fetch/update IHSG (Jakarta Composite Index, ^JKSE) OHLCV — used for
+    the rel_strength_5d/20d features in feature_builder.py.
+    """
+    raw_dir = Path(raw_dir)
+    fetcher = _FixedSymbolFetcher(YFinanceFetcher(), IHSG_YF_SYMBOL, IHSG_STORAGE_NAME)
+    df = incremental_update(IHSG_STORAGE_NAME, fetcher, raw_dir, lookback_years)
+    if df.empty:
+        logger.warning("IHSG: no data after fetch")
+    return df
