@@ -4,8 +4,7 @@ __pycache__/
 .venv/
 venv/
 
-# Fetched/generated data — not source, regenerate via scripts/
-data/raw/
-data/features/
-data/fundamentals/
-data/published/
+# data/raw, data/features, data/fundamentals, data/published are committed
+# as a point-in-time snapshot so the Streamlit Cloud deploy has something to
+# show. Re-run scripts/run_daily_scan.py + scripts/build_universe_snapshot.py
+# and commit again to refresh.
