@@ -1,8 +1,9 @@
-pandas>=2.2
-numpy>=1.26
-yfinance>=1.4
-ta>=0.11
-loguru>=0.7
-streamlit>=1.38
-plotly>=5.24
-pyarrow>=16.1
+pandas>=2.2,<3.0
+numpy>=1.26,<2.3
+yfinance>=1.4,<2.0
+ta>=0.11,<0.12
+loguru>=0.7,<0.8
+streamlit>=1.38,<2.0
+plotly>=5.24,<6.0
+pyarrow>=16.1,<19.0
+tzdata>=2024.1

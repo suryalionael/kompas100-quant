@@ -4,8 +4,11 @@ Session-1 scope (COMPETITION_PLAN.md §10, Days 1-2): universe overview,
 per-stock technical detail, and a data-health panel over real OHLCV data.
 Ranking/portfolio views are placeholders until those modules exist.
 """
+import json
 import sys
+from datetime import datetime, timezone
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
@@ -13,6 +16,8 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 from plotly.subplots import make_subplots
+
+WIB = ZoneInfo("Asia/Jakarta")
 
 ROOT = Path(__file__).resolve().parents[1]
 RAW_DIR = ROOT / "data" / "raw"
@@ -126,6 +131,25 @@ def inject_css() -> None:
             font-weight: 600;
             border: 1px solid {BORDER};
         }}
+
+        .k100-status {{
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.82rem;
+            color: {INK_MUTED};
+            background: {CARD};
+            border: 1px solid {BORDER};
+            border-radius: 8px;
+            padding: 0.5rem 0.9rem;
+            margin-bottom: 1.3rem;
+        }}
+        .k100-status .dot {{
+            width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+        }}
+        .k100-status .dot.up {{ background: {TEAL}; }}
+        .k100-status .dot.warn {{ background: {AMBER}; }}
+        .k100-status .dot.down {{ background: {MUTED_RED}; }}
         </style>
         """,
         unsafe_allow_html=True,
@@ -189,6 +213,14 @@ def load_universe_snapshot() -> pd.DataFrame:
     return pd.read_parquet(path)
 
 
+@st.cache_data(ttl=300)
+def load_scan_meta() -> dict | None:
+    path = PUBLISHED_DIR / "scan_meta.json"
+    if not path.exists():
+        return None
+    return json.loads(path.read_text())
+
+
 def liquidity_tier(avg_value_traded_idr: float) -> str:
     if pd.isna(avg_value_traded_idr):
         return "Unknown"
@@ -236,7 +268,7 @@ def style_universe_table(df: pd.DataFrame):
             return f"color: {INK_MUTED}"
         return f"color: {TEAL}; font-weight: 600" if val >= 0 else f"color: {MUTED_RED}; font-weight: 600"
 
-    styler = df.style.applymap(color_pct, subset=["pct_change"])
+    styler = df.style.map(color_pct, subset=["pct_change"])
     return styler.format({
         "last_close": "{:,.0f}",
         "pct_change": "{:+.2f}%",
@@ -328,6 +360,51 @@ def render_header() -> None:
     st.markdown('<h1 class="k100-title">Kompas100 Quant</h1>', unsafe_allow_html=True)
     st.markdown(
         '<p class="k100-subtitle">Competition data dashboard — universe overview, per-stock technicals, and data health.</p>',
+        unsafe_allow_html=True,
+    )
+
+
+def render_status_strip() -> None:
+    """Data-freshness strip, driven by data/published/scan_meta.json —
+    written by scripts/run_daily_scan.py, refreshed daily via the
+    scheduled GitHub Actions workflow (.github/workflows/daily_data_refresh.yml).
+    """
+    meta = load_scan_meta()
+    if meta is None:
+        st.markdown(
+            '<div class="k100-status"><span class="dot warn"></span>'
+            'No scan metadata found — run scripts/run_daily_scan.py to generate data/published/scan_meta.json.</div>',
+            unsafe_allow_html=True,
+        )
+        return
+
+    market_date = meta.get("market_date")
+    scanned_at_utc = meta.get("scanned_at_utc")
+    tickers_fetched = meta.get("tickers_fetched", 0)
+    tickers_total = meta.get("tickers_total", 0)
+
+    scanned_wib = "—"
+    staleness_days = None
+    if scanned_at_utc:
+        scanned_dt = datetime.fromisoformat(scanned_at_utc)
+        scanned_wib = scanned_dt.astimezone(WIB).strftime("%Y-%m-%d %H:%M WIB")
+        staleness_days = (datetime.now(timezone.utc) - scanned_dt).days
+
+    if staleness_days is not None and staleness_days > 3:
+        tone = "warn"
+        freshness_note = f" — stale, last run {staleness_days}d ago"
+    elif tickers_fetched < tickers_total:
+        tone = "warn"
+        freshness_note = ""
+    else:
+        tone = "up"
+        freshness_note = ""
+
+    st.markdown(
+        f'<div class="k100-status"><span class="dot {tone}"></span>'
+        f"Market date <strong>{market_date}</strong> &nbsp;·&nbsp; "
+        f"Last scan {scanned_wib} &nbsp;·&nbsp; "
+        f"{tickers_fetched}/{tickers_total} tickers fetched{freshness_note}</div>",
         unsafe_allow_html=True,
     )
 
@@ -477,6 +554,7 @@ def render_rankings_tab() -> None:
 def main() -> None:
     inject_css()
     render_header()
+    render_status_strip()
 
     tickers = load_universe_list()
 
