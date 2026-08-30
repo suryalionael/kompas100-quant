@@ -51,6 +51,9 @@ def main() -> None:
     logger.info("Fetching OHLCV for Kompas100 universe...")
     fetched = fetch_yfinance.fetch_universe(UNIVERSE_CSV, RAW_DIR)
 
+    logger.info("Fetching IHSG (^JKSE) for relative-strength features...")
+    ihsg = fetch_yfinance.fetch_ihsg(RAW_DIR)
+
     logger.info("Validating raw OHLCV...")
     clean, reports = validator.validate_batch(fetched)
     failed = [r["ticker"] for r in reports if r["ticker"] not in clean]
@@ -58,7 +61,7 @@ def main() -> None:
         logger.warning(f"{len(failed)} tickers failed validation: {failed}")
 
     logger.info("Building technical features...")
-    features_df = feature_builder.build_features_batch(clean)
+    features_df = feature_builder.build_features_batch(clean, ihsg=ihsg if not ihsg.empty else None)
     if not features_df.empty:
         feature_builder.save_features(features_df, FEATURES_DIR)
 

@@ -1,0 +1,369 @@
+{
+  "buy_and_hold": {
+    "n_folds": 3,
+    "mean_return": 0.4922301227210797,
+    "std_return": 0.9397229775244578,
+    "ci_low": -0.5711665327922681,
+    "ci_high": 1.5556267782344275,
+    "mean_ic": NaN,
+    "compounded_return": 1.3091426988164176,
+    "max_drawdown": -0.14468300905649345
+  },
+  "horizons": {
+    "3": {
+      "valid_start": "2024-07-23",
+      "n_folds_overlapping": 505,
+      "n_folds_non_overlapping": 169,
+      "random": {
+        "overlapping": {
+          "n_folds": 495,
+          "mean_return": -0.005561455409999093,
+          "std_return": 0.03279941343867833,
+          "ci_low": -0.008450934453818733,
+          "ci_high": -0.002671976366179452,
+          "mean_ic": NaN,
+          "compounded_return": NaN,
+          "max_drawdown": NaN
+        },
+        "non_overlapping": {
+          "n_folds": 165,
+          "mean_return": -0.005650222345601406,
+          "std_return": 0.030839525082726495,
+          "ci_low": -0.0103558957378091,
+          "ci_high": -0.0009445489533937111,
+          "mean_ic": NaN,
+          "compounded_return": -0.6376248947487952,
+          "max_drawdown": -0.6964571397954571
+        }
+      },
+      "momentum": {
+        "overlapping": {
+          "n_folds": 505,
+          "mean_return": 0.002524410989392135,
+          "std_return": 0.058753437228688234,
+          "ci_low": -0.002599996548286495,
+          "ci_high": 0.0076488185270707654,
+          "mean_ic": -0.01339349612954593,
+          "compounded_return": NaN,
+          "max_drawdown": NaN
+        },
+        "non_overlapping": {
+          "n_folds": 169,
+          "mean_return": 0.002985213779784771,
+          "std_return": 0.055824271411860096,
+          "ci_low": -0.005431368679234136,
+          "ci_high": 0.011401796238803677,
+          "mean_ic": -0.008500888156254395,
+          "compounded_return": 0.2755485980006984,
+          "max_drawdown": -0.749018845605602
+        }
+      },
+      "ranking_model": {
+        "overlapping": {
+          "n_folds": 505,
+          "mean_return": 1.2703070589440721e-05,
+          "std_return": 0.06261538328363458,
+          "ci_low": -0.005448538981077626,
+          "ci_high": 0.005473945122256508,
+          "mean_ic": 0.004520911939787763,
+          "compounded_return": NaN,
+          "max_drawdown": NaN
+        },
+        "non_overlapping": {
+          "n_folds": 169,
+          "mean_return": 0.0015380693741162885,
+          "std_return": 0.059425934522539234,
+          "ci_low": -0.007421533061589628,
+          "ci_high": 0.010497671809822204,
+          "mean_ic": 0.004028621786706822,
+          "compounded_return": -0.03712312801172868,
+          "max_drawdown": -0.7546309328842784
+        }
+      }
+    },
+    "5": {
+      "valid_start": "2024-07-23",
+      "n_folds_overlapping": 503,
+      "n_folds_non_overlapping": 101,
+      "random": {
+        "overlapping": {
+          "n_folds": 494,
+          "mean_return": -0.0026484999040556254,
+          "std_return": 0.04107854905535535,
+          "ci_low": -0.006270994049722213,
+          "ci_high": 0.0009739942416109614,
+          "mean_ic": NaN,
+          "compounded_return": NaN,
+          "max_drawdown": NaN
+        },
+        "non_overlapping": {
+          "n_folds": 101,
+          "mean_return": -0.004023859376017055,
+          "std_return": 0.04211819939227675,
+          "ci_low": -0.0122380576328961,
+          "ci_high": 0.00419033888086199,
+          "mean_ic": NaN,
+          "compounded_return": -0.3922504455924932,
+          "max_drawdown": -0.5284959967117451
+        }
+      },
+      "momentum": {
+        "overlapping": {
+          "n_folds": 503,
+          "mean_return": 0.010323934736463604,
+          "std_return": 0.07945531207244878,
+          "ci_low": 0.0033801697024893997,
+          "ci_high": 0.017267699770437808,
+          "mean_ic": -0.008330388401150727,
+          "compounded_return": NaN,
+          "max_drawdown": NaN
+        },
+        "non_overlapping": {
+          "n_folds": 101,
+          "mean_return": 0.007420089634887449,
+          "std_return": 0.07741166879531791,
+          "ci_low": -0.007677298288994199,
+          "ci_high": 0.022517477558769098,
+          "mean_ic": -0.0032791675709077173,
+          "compounded_return": 0.5614350905674304,
+          "max_drawdown": -0.7287277039613926
+        }
+      },
+      "ranking_model": {
+        "overlapping": {
+          "n_folds": 503,
+          "mean_return": 0.007158956442814646,
+          "std_return": 0.0882383498186858,
+          "ci_low": -0.00055237653348652,
+          "ci_high": 0.014870289419115813,
+          "mean_ic": 0.011295332124850331,
+          "compounded_return": NaN,
+          "max_drawdown": NaN
+        },
+        "non_overlapping": {
+          "n_folds": 101,
+          "mean_return": 0.0032353467629481314,
+          "std_return": 0.08790921914671526,
+          "ci_low": -0.013909349950059009,
+          "ci_high": 0.020380043475955272,
+          "mean_ic": -0.003074244813445148,
+          "compounded_return": -0.06328855491721097,
+          "max_drawdown": -0.8144642583078294
+        }
+      }
+    },
+    "7": {
+      "valid_start": "2024-07-23",
+      "n_folds_overlapping": 501,
+      "n_folds_non_overlapping": 72,
+      "random": {
+        "overlapping": {
+          "n_folds": 492,
+          "mean_return": 0.00024981812683214425,
+          "std_return": 0.05019956108944849,
+          "ci_low": -0.004185997024150725,
+          "ci_high": 0.004685633277815014,
+          "mean_ic": NaN,
+          "compounded_return": NaN,
+          "max_drawdown": NaN
+        },
+        "non_overlapping": {
+          "n_folds": 71,
+          "mean_return": -0.0025086471940813956,
+          "std_return": 0.054818805500254336,
+          "ci_low": -0.015260005960873835,
+          "ci_high": 0.010242711572711043,
+          "mean_ic": NaN,
+          "compounded_return": -0.24884559111375826,
+          "max_drawdown": -0.508237904330606
+        }
+      },
+      "momentum": {
+        "overlapping": {
+          "n_folds": 501,
+          "mean_return": 0.017526381408277607,
+          "std_return": 0.09070808081389224,
+          "ci_low": 0.00958340657110432,
+          "ci_high": 0.025469356245450894,
+          "mean_ic": -0.005562519618698355,
+          "compounded_return": NaN,
+          "max_drawdown": NaN
+        },
+        "non_overlapping": {
+          "n_folds": 72,
+          "mean_return": 0.01735945439420916,
+          "std_return": 0.10274652299368427,
+          "ci_low": -0.006373781568834242,
+          "ci_high": 0.04109269035725256,
+          "mean_ic": -0.012604842193320562,
+          "compounded_return": 1.3836332925785042,
+          "max_drawdown": -0.7453676218998482
+        }
+      },
+      "ranking_model": {
+        "overlapping": {
+          "n_folds": 501,
+          "mean_return": 0.013382333922559303,
+          "std_return": 0.10132801348136158,
+          "ci_low": 0.004509410428184743,
+          "ci_high": 0.022255257416933863,
+          "mean_ic": 0.01575346028207072,
+          "compounded_return": NaN,
+          "max_drawdown": NaN
+        },
+        "non_overlapping": {
+          "n_folds": 72,
+          "mean_return": 0.013081469315678045,
+          "std_return": 0.10781035223940816,
+          "ci_low": -0.011821451526849918,
+          "ci_high": 0.03798439015820601,
+          "mean_ic": 0.006950577378229136,
+          "compounded_return": 0.685368583652642,
+          "max_drawdown": -0.7207627354611192
+        }
+      }
+    },
+    "10": {
+      "valid_start": "2024-08-06",
+      "n_folds_overlapping": 488,
+      "n_folds_non_overlapping": 49,
+      "random": {
+        "overlapping": {
+          "n_folds": 480,
+          "mean_return": 0.0045251314835482665,
+          "std_return": 0.05982205134414033,
+          "ci_low": -0.0008266300528299905,
+          "ci_high": 0.009876893019926523,
+          "mean_ic": NaN,
+          "compounded_return": NaN,
+          "max_drawdown": NaN
+        },
+        "non_overlapping": {
+          "n_folds": 49,
+          "mean_return": 0.001748246971871446,
+          "std_return": 0.061842446360366184,
+          "ci_low": -0.015567638009031087,
+          "ci_high": 0.01906413195277398,
+          "mean_ic": NaN,
+          "compounded_return": -0.007688641374364202,
+          "max_drawdown": -0.4153045637709788
+        }
+      },
+      "momentum": {
+        "overlapping": {
+          "n_folds": 488,
+          "mean_return": 0.028234366877946553,
+          "std_return": 0.11013017408467572,
+          "ci_low": 0.01846306375484897,
+          "ci_high": 0.038005670001044135,
+          "mean_ic": -0.008988644604251835,
+          "compounded_return": NaN,
+          "max_drawdown": NaN
+        },
+        "non_overlapping": {
+          "n_folds": 49,
+          "mean_return": 0.025615474245136365,
+          "std_return": 0.1086233798469084,
+          "ci_low": -0.004799072111997985,
+          "ci_high": 0.05603002060227072,
+          "mean_ic": -0.015524326249544978,
+          "compounded_return": 1.6070848658899592,
+          "max_drawdown": -0.6177643251521032
+        }
+      },
+      "ranking_model": {
+        "overlapping": {
+          "n_folds": 488,
+          "mean_return": 0.02829316881666871,
+          "std_return": 0.12313526430820795,
+          "ci_low": 0.017367988658748126,
+          "ci_high": 0.03921834897458929,
+          "mean_ic": 0.02223545344340799,
+          "compounded_return": NaN,
+          "max_drawdown": NaN
+        },
+        "non_overlapping": {
+          "n_folds": 49,
+          "mean_return": 0.018861927699968816,
+          "std_return": 0.12376363176761356,
+          "ci_low": -0.015791889194962976,
+          "ci_high": 0.053515744594900605,
+          "mean_ic": 0.011521240641978446,
+          "compounded_return": 0.6966318693207862,
+          "max_drawdown": -0.6448791039114009
+        }
+      }
+    },
+    "15": {
+      "valid_start": "2024-08-06",
+      "n_folds_overlapping": 483,
+      "n_folds_non_overlapping": 32,
+      "random": {
+        "overlapping": {
+          "n_folds": 475,
+          "mean_return": 0.011403710230061374,
+          "std_return": 0.07395850592345975,
+          "ci_low": 0.004752550224400257,
+          "ci_high": 0.01805487023572249,
+          "mean_ic": NaN,
+          "compounded_return": NaN,
+          "max_drawdown": NaN
+        },
+        "non_overlapping": {
+          "n_folds": 32,
+          "mean_return": 0.012589156665270917,
+          "std_return": 0.07568117345335781,
+          "ci_low": -0.01363303210367115,
+          "ci_high": 0.03881134543421298,
+          "mean_ic": NaN,
+          "compounded_return": 0.3672861974336856,
+          "max_drawdown": -0.36399201244639345
+        }
+      },
+      "momentum": {
+        "overlapping": {
+          "n_folds": 483,
+          "mean_return": 0.04953546377874909,
+          "std_return": 0.1393892572281345,
+          "ci_low": 0.03710429938262477,
+          "ci_high": 0.0619666281748734,
+          "mean_ic": -0.0014313503325642288,
+          "compounded_return": NaN,
+          "max_drawdown": NaN
+        },
+        "non_overlapping": {
+          "n_folds": 32,
+          "mean_return": 0.055743625586102255,
+          "std_return": 0.1326544655690749,
+          "ci_low": 0.009781198228402843,
+          "ci_high": 0.10170605294380167,
+          "mean_ic": 0.0084334122071031,
+          "compounded_return": 3.438544109881734,
+          "max_drawdown": -0.5053175699254937
+        }
+      },
+      "ranking_model": {
+        "overlapping": {
+          "n_folds": 483,
+          "mean_return": 0.0506849034633573,
+          "std_return": 0.15799736068240539,
+          "ci_low": 0.03659421093902484,
+          "ci_high": 0.06477559598768975,
+          "mean_ic": 0.028244639291211814,
+          "compounded_return": NaN,
+          "max_drawdown": NaN
+        },
+        "non_overlapping": {
+          "n_folds": 32,
+          "mean_return": 0.04869091448703865,
+          "std_return": 0.15069232455934842,
+          "ci_low": -0.0035213121516142476,
+          "ci_high": 0.10090314112569154,
+          "mean_ic": 0.02386281315193197,
+          "compounded_return": 2.3118103712313065,
+          "max_drawdown": -0.5567989162765323
+        }
+      }
+    }
+  }
+}

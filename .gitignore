@@ -3,6 +3,7 @@ __pycache__/
 .DS_Store
 .venv/
 venv/
+.claude/
 
 # data/raw, data/features, data/fundamentals, data/published are committed
 # as a point-in-time snapshot so the Streamlit Cloud deploy has something to
