@@ -1,0 +1,8 @@
+# TODO (COMPETITION_PLAN.md §2): point-in-time Kompas100 membership calendar.
+#
+# This is a stub. Backtests must NEVER use kompas100_live.csv retroactively —
+# they need a step function of membership per historical rebalance cycle
+# (Kompas100 rebalances roughly every 6 months), each period flagged as
+# either a verified snapshot or a fallback to the current list.
+#
+# Planned columns: period_start,period_end,ticker,is_active,source_verified

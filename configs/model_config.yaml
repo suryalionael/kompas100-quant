@@ -1,0 +1,16 @@
+# Ranking model hyperparams + feature list.
+# TODO (COMPETITION_PLAN.md §4): populated once ranking/ranking_model.py exists
+# and the horizon ablation (3D/5D/7D/10D/15D) has been run. Do not hardcode a
+# default horizon here without a logged ablation result.
+
+data:
+  universe_csv: configs/kompas100_live.csv
+  raw_dir: data/raw
+  lookback_years: 3
+
+quality_filters:
+  der_max: 4.0
+  pbv_max: 3.5
+  float_hard_min_pct: 5.0
+  float_watch_min_pct: 10.0
+  float_warn_max_pct: 70.0

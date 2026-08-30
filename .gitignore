@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+.DS_Store
+.venv/
+venv/
+
+# Fetched/generated data — not source, regenerate via scripts/
+data/raw/
+data/features/
+data/fundamentals/
+data/published/
