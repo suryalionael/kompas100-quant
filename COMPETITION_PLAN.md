@@ -228,6 +228,51 @@ that as a real edge.
       circular rule-score features. Tier 1/2 character features (§5)
       still not built.
 
+### Robustness protocol — frozen-snapshot verification (added 2026-08-31)
+
+The 3D flip above proved a single live/latest-file ablation run is not
+trustworthy evidence on its own. **New rule: no horizon may be reported
+as "beats momentum" until that verdict agrees across >= 2 data snapshots
+frozen on different calendar days.** One live run is a data point, not a
+result.
+
+Tooling: `scripts/freeze_snapshot.py --tag <name>` copies the current
+`data/raw/*.parquet` + latest `data/features/*.parquet` + the PIT CSV into
+an immutable `data/snapshots/<tag>/` with a manifest (per-file SHA-256).
+`backtest/ablation.py --snapshot <tag>` runs against that frozen copy
+instead of live data, writing to a separate
+`data/published/ablation_results__<tag>.json` so runs don't clobber each
+other. `scripts/compare_snapshots.py <tag1> <tag2> ...` diffs verdicts
+across snapshots and flags any horizon that flips as "not robust."
+
+**Snapshot 1 of >= 2 — `20260831_1719Z`** (frozen 2026-08-31, features
+file `2026-08-31.parquet`, 110 tickers):
+
+| Horizon | Model (non-ov) | Momentum (non-ov) | Both views agree? | Verdict |
+|---|---|---|---|---|
+| 3D | +0.63% | +0.30% | yes (both YES) | marginal win — **not yet confirmed** |
+| 5D | +0.82% | +0.81% | yes (both YES) | razor-thin (0.01pp) — **not yet confirmed** |
+| 7D | +1.44% | +1.86% | yes (both no) | no |
+| 10D | +2.43% | +2.68% | **no** (overlap YES, non-overlap no) | not robust |
+| 15D | +4.32% | +5.59% | **no** (overlap YES, non-overlap no) | not robust |
+
+Buy-and-hold this snapshot: +132.36% compounded, -14.47% max drawdown
+(drifted slightly from the +130.91% logged 2026-08-30 above — normal
+data-revision movement, not a bug, and itself more evidence for why this
+protocol exists).
+
+**These numbers are already different from the 2026-08-30 table above**
+(e.g. 3D momentum was +0.30% then too, but the model side moved from
++0.37% to +0.63%; 5D model moved from +0.41% to +0.82%) despite no code
+change — same conclusion as the earlier 3D flip, now visible on every
+horizon, not just one. **Do not report 3D or 5D as a real edge yet** —
+freeze a second snapshot on a different day (after the next scheduled or
+manual data refresh actually lands new rows) and run
+`scripts/compare_snapshots.py 20260831_1719Z <new_tag>` before believing
+either one. If they still both say YES after that, that's one real data
+point toward "robust"; the protocol calls for >= 2 agreeing snapshots
+minimum, ideally 3.
+
 ## 5. Stock character — personalized screener (ablation-gated)
 
 - [ ] Build rolling (60–120d) character features per stock: breakout
@@ -285,7 +330,42 @@ that as a real edge.
 
 Implemented as a **scheduled Cowork task**, not a custom Python + LLM API
 integration in this repo. This project's job is to publish clean data for
-Cowork to read — not to build its own LLM client.
+Cowork to read — not to build its own LLM client. Cowork's own scheduled
+task (below) reads `daily_brief.json`, so it's only as fresh as the daily
+data refresh that produces it — see the fallback procedure right below.
+
+### Manual fallback — daily data refresh
+
+**2026-08-31 finding:** the `daily_data_refresh.yml` cron (10:30 UTC /
+17:30 WIB) had not fired on its own schedule as of its first scheduled
+slot after being added to `main`. Checked: workflow `state` is `active`
+(not disabled), repo Actions permissions allow all actions, the job
+declares its own `permissions: contents: write` (so the repo-level
+default of "read" doesn't block the commit step), and githubstatus.com
+showed no Actions incidents in that window. No misconfiguration found —
+most likely a one-off missed/delayed first scheduled run, a known GitHub
+Actions behavior. Two more scheduled slots need to pass cleanly before
+concluding it's fixed; see the Data Health tab's "Hours Since Last
+Scheduled Success" panel, which will flag red if a slot is ever missed
+again (>30h since the last confirmed scheduled success).
+
+**Until the schedule is confirmed reliable (or any time it silently
+misses a day), the fallback is a one-tap manual run — no local setup, no
+laptop required:**
+
+1. GitHub mobile app (or github.com) → this repo → **Actions** tab.
+2. Select **"Daily data refresh"** in the left sidebar.
+3. Tap **"Run workflow"** → confirm. No inputs to fill in
+   (`workflow_dispatch: {}` takes none) — it's one tap plus one confirm.
+4. Takes 2-4 minutes; commits new data to `main` automatically if the
+   fetch produced changes. Check the Data Health tab afterward to confirm
+   `Latest Run Trigger` shows the new run and data looks current.
+
+This is deliberately **not** backed by a second independent scheduler
+(e.g. cron on another free host) — for a 14-day competition window, a
+documented one-tap human fallback plus the red-flag staleness panel is
+enough insurance. Revisit only if the schedule proves fundamentally
+unreliable (multiple missed days, not just the one slot above).
 
 - [x] Daily scan (`scripts/run_daily_scan.py`) commits
       `data/published/daily_brief.json` — ranked shortlist + scores +

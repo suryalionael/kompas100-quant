@@ -26,6 +26,7 @@ from ranking import ranking_model as rm
 ROOT = Path(__file__).resolve().parents[1]
 FEATURES_DIR = ROOT / "data" / "features"
 PUBLISHED_DIR = ROOT / "data" / "published"
+SNAPSHOTS_DIR = ROOT / "data" / "snapshots"
 
 HORIZONS = [3, 5, 7, 10, 15]
 TOP_K = 8
@@ -44,6 +45,22 @@ def latest_features_path() -> Path:
     if not files:
         raise FileNotFoundError(f"No feature files in {FEATURES_DIR} — run scripts/run_daily_scan.py first")
     return files[-1]
+
+
+def snapshot_paths(tag: str) -> tuple[Path, Path, Path]:
+    """Returns (raw_dir, features_path, pit_csv) for a frozen snapshot —
+    see scripts/freeze_snapshot.py. Used by --snapshot to make an ablation
+    run reproducible against a fixed data pull, instead of whatever
+    data/raw + data/features happen to contain right now (which yfinance's
+    auto_adjust=True can silently revise between runs — see
+    COMPETITION_PLAN.md §4's robustness-protocol note)."""
+    snap_dir = SNAPSHOTS_DIR / tag
+    manifest_path = snap_dir / "manifest.json"
+    if not manifest_path.exists():
+        raise FileNotFoundError(f"No snapshot '{tag}' at {snap_dir} — run scripts/freeze_snapshot.py --tag {tag} first")
+    manifest = json.loads(manifest_path.read_text())
+    features_path = snap_dir / "features" / manifest["source_features_file"]
+    return snap_dir / "raw", features_path, snap_dir / "kompas100_pit.csv"
 
 
 def _fmt_pct(x: float) -> str:
@@ -122,16 +139,22 @@ def run_one_horizon(horizon: int, panel: bt.PricePanel, features_df: pd.DataFram
     return horizon_result
 
 
-def _load_results() -> dict:
-    out_path = PUBLISHED_DIR / "ablation_results.json"
+def _results_path(snapshot_tag: str | None) -> Path:
+    if snapshot_tag:
+        return PUBLISHED_DIR / f"ablation_results__{snapshot_tag}.json"
+    return PUBLISHED_DIR / "ablation_results.json"
+
+
+def _load_results(snapshot_tag: str | None = None) -> dict:
+    out_path = _results_path(snapshot_tag)
     if out_path.exists():
         return json.loads(out_path.read_text())
     return {"buy_and_hold": None, "horizons": {}}
 
 
-def _save_results(results: dict) -> None:
+def _save_results(results: dict, snapshot_tag: str | None = None) -> None:
     PUBLISHED_DIR.mkdir(parents=True, exist_ok=True)
-    out_path = PUBLISHED_DIR / "ablation_results.json"
+    out_path = _results_path(snapshot_tag)
     out_path.write_text(json.dumps(results, indent=2, default=str))
     logger.info(f"Results checkpointed → {out_path}")
 
@@ -143,26 +166,41 @@ def main() -> None:
     parser.add_argument("--horizon", type=int, default=None, help="Run only this horizon and checkpoint to disk")
     parser.add_argument("--buy-hold-only", action="store_true", help="Run only the Level 1 buy-and-hold benchmark")
     parser.add_argument("--report", action="store_true", help="Just print the report from whatever's checkpointed so far")
+    parser.add_argument(
+        "--snapshot", default=None,
+        help="Run against a frozen snapshot (data/snapshots/<tag>, see scripts/freeze_snapshot.py) "
+             "instead of live data/raw + data/features. Results go to a separate "
+             "ablation_results__<tag>.json so they don't clobber the live-data results — "
+             "compare two snapshot runs with scripts/compare_snapshots.py before trusting "
+             "a 'beats momentum' verdict (COMPETITION_PLAN.md §4).",
+    )
     args = parser.parse_args()
 
-    results = _load_results()
+    results = _load_results(args.snapshot)
 
     if args.report:
         print_report(results)
         return
 
-    pit_df = bt.load_pit_universe()
+    if args.snapshot:
+        raw_dir, features_path, pit_csv = snapshot_paths(args.snapshot)
+        pit_df = bt.load_pit_universe(pit_csv)
+        logger.info(f"Using snapshot '{args.snapshot}': raw={raw_dir}, features={features_path.name}")
+    else:
+        raw_dir = bt.RAW_DIR
+        pit_df = bt.load_pit_universe()
+        features_path = latest_features_path()
+        logger.info(f"Using features file: {features_path}")
+
     all_tickers = sorted(pit_df["ticker"].unique())
-    panel = bt.PricePanel(bt.load_price_panel(bt.RAW_DIR, all_tickers))
-    features_path = latest_features_path()
-    logger.info(f"Using features file: {features_path}")
+    panel = bt.PricePanel(bt.load_price_panel(raw_dir, all_tickers))
     features_df = pd.read_parquet(features_path)
 
     if args.buy_hold_only or results.get("buy_and_hold") is None:
         logger.info("Running Level 1: Kompas100 buy-and-hold (full window, real PIT boundaries)...")
         buy_hold = bt.run_index_buy_and_hold(panel, pit_df)
         results["buy_and_hold"] = bt.summarize(buy_hold, sequential=True)
-        _save_results(results)
+        _save_results(results, args.snapshot)
         if args.buy_hold_only:
             return
 
@@ -170,14 +208,14 @@ def main() -> None:
         horizon_result = run_one_horizon(args.horizon, panel, features_df, pit_df)
         if horizon_result is not None:
             results["horizons"][str(args.horizon)] = horizon_result
-            _save_results(results)
+            _save_results(results, args.snapshot)
         return
 
     for horizon in HORIZONS:
         horizon_result = run_one_horizon(horizon, panel, features_df, pit_df)
         if horizon_result is not None:
             results["horizons"][str(horizon)] = horizon_result
-            _save_results(results)
+            _save_results(results, args.snapshot)
 
     print_report(results)
 
