@@ -17,7 +17,7 @@ import pandas as pd
 from loguru import logger
 
 from data_pipeline import feature_builder, fetch_yfinance, quality_filters, validator
-from portfolio import daily_brief
+from portfolio import daily_brief, rationale_log
 
 ROOT = Path(__file__).resolve().parents[1]
 UNIVERSE_CSV = ROOT / "configs" / "kompas100_live.csv"
@@ -74,6 +74,13 @@ def main() -> None:
     universe = fetch_yfinance.load_universe(UNIVERSE_CSV)
     brief = daily_brief.build_daily_brief(features_df, universe, raw_dir=RAW_DIR)
     daily_brief.save_daily_brief(brief)
+
+    logger.info("Building rationale log (open/hold/close + technical/fundamental/macro/risk notes)...")
+    rationale_entries = rationale_log.build_rationale_log(brief, features_df, raw_dir=RAW_DIR)
+    if rationale_entries:
+        entry_date = rationale_entries[0]["date"]
+        rationale_log.save_rationale_log(entry_date, rationale_entries)
+        rationale_log.save_manual_flow_template(entry_date, [e["ticker"] for e in rationale_entries])
 
     logger.info(
         f"Done: fetched={len(fetched)} validated={len(clean)} "

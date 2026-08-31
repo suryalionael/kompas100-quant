@@ -1,10 +1,10 @@
 # Kompas100 Competition Build Plan
 
 Working spec for a **new, standalone project** (`kompas100-quant` or
-whatever you name it) built for the Kompas100 trading competition,
-mid-September 2026. This is inspired by, and reuses select parts of,
-`idx-stock-scanner-agent` — but it is its own repository. Do not build
-this inside the old repo or treat the old repo as a dependency.
+whatever you name it) built for **ISTC 2026** (the Kompas100 trading
+competition this project targets). This is inspired by, and reuses select
+parts of, `idx-stock-scanner-agent` — but it is its own repository. Do not
+build this inside the old repo or treat the old repo as a dependency.
 
 Check items off as they're done; log ablation results inline rather than
 in a separate untracked spreadsheet, so a fresh Claude Code session can
@@ -12,7 +12,32 @@ see exactly what's been tried.
 
 ## 0. Hard constraints (do not relitigate these mid-build)
 
-- Competition window: mid-September 2026, ~10 trading days.
+**Official ISTC 2026 rules** (corrected 2026-08-31 — this is not a "most
+money wins" contest, and it isn't "mid-September":
+
+- **Live trading window: 21 Sept – 8 Oct 2026, exactly 14 working days.**
+  One virtual account, **Rp100,000,000** starting capital, **Kompas100
+  stocks only** — trading anything else is disqualification, not a
+  penalty. All positions **manually closed by the team on 8 Oct** — this
+  is a platform rule, not a strategy choice (see §12).
+- **Winner = 60% Preliminary Stage + 40% Final Stage:**
+  - Preliminary (60%): pure asset balance (cash + realized + unrealized
+    P&L) at the end of the 14 days. Ranks everyone; only the **top 7**
+    advance.
+  - Final Stage (40%, top-7 only): a **live pitch**, not more trading —
+    graded on Strategy & Analysis 40% (Fundamental 10% / Technical 10% /
+    **Money Flow Analysis 20%**), Risk Management 20% (diversification
+    10% / risk-reward 10%), Macro linkage 10%, Presentation & QnA 30%.
+  - Implication that changes priorities: **a great ranking model that
+    can't be explained is a losing model.** Money Flow Analysis alone
+    outweighs technical or fundamental analysis individually. The system
+    has to leave a paper trail good enough to win a judged pitch two
+    months after the trading window closes, not just pick good stocks —
+    see §12/§13, built alongside the trading engine from day one, not
+    bolted on after 8 Oct.
+- **Model frozen by ~18–19 Sept 2026**, before the 21 Sept open. No
+  exceptions, no "just one more tweak" after that date (see §4's
+  ablation table for what's actually validated so far).
 - Universe: Kompas100, current list effective **3 Aug 2026 – 29 Jan 2027**.
 - Budget: $0 incremental cost. Claude Pro/Cowork already available and does
   not count. No paid data providers.
@@ -224,21 +249,126 @@ doesn't beat the one below it gets cut, even if already built.
 | 6 | + Research/Catalyst (shadow-tested, §7) | |
 | 7 | + Full portfolio construction + strategist (§6) | |
 
-## 10. Roadmap (3 weeks, 28 Aug → mid-Sept)
+## 10. Roadmap (real ISTC 2026 dates — corrected 2026-08-31)
 
-- [ ] Days 1–2 — Phase 0 (§8) + repo scaffolding + port the §1 files
-- [ ] Days 2–5 — Universe + data foundation (§2)
-- [ ] Days 4–9 — Backtest engine (§3)
-- [ ] Days 7–12 — Ranking model + horizon ablation + character (§4, §5)
-- [ ] Days 11–14 — Regime, portfolio, strategist (§6)
-- [ ] Days 13–17 — Research layer + shadow test (§7)
-- [ ] Days 15–19 — Paper trading, full system dry run
-- [ ] Mid-Sept — Competition. Model frozen, no mid-contest changes.
+- [x] Days 1–2 (28–30 Aug) — repo scaffolding + port the §1 files +
+      Streamlit dashboard
+- [x] Days 3 (31 Aug) — backtest engine (§3), ranking model + horizon
+      ablation (§4, result: no horizon beats momentum yet), price levels
+      + honest daily_brief fallback (§7), rationale log + hard-rules
+      enforcement (§12, §13)
+- [ ] By ~13 Sept — stock character (§5), sector-aware relative strength,
+      regime-conditioned ablation (does §12's regime_classifier.py
+      actually improve realized return when wired into ranking/sizing? —
+      not yet tested, see §6)
+- [ ] By ~18 Sept — portfolio construction + strategist (§6), research
+      layer + shadow test (§7), paper trading dry run
+- [ ] **~18–19 Sept — model frozen.** No exceptions.
+- [ ] **21 Sept – 8 Oct — ISTC 2026 live trading window (14 working
+      days).** Daily rationale log entries accumulate every trading day
+      (§12) — this is not optional bookkeeping, it's the only real-time
+      record the Final Stage pitch will have.
+- [ ] **8 Oct — all positions manually closed, end of day.** Hard
+      platform rule (§13), not a strategy choice.
+- [ ] ~14 Oct — top-7 (Preliminary Stage) announced.
+- [ ] If top 7: build the pitch deck from
+      `scripts/build_pitch_deck_source.py`'s output — raw material, not
+      slides; the deck and live presentation are a human/team task (§12).
+- [ ] Final Stage pitch — Strategy & Analysis 40% (Fundamental 10% /
+      Technical 10% / Money Flow 20%), Risk Management 20%, Macro linkage
+      10%, Presentation & QnA 30%.
 
 ## 11. Explicitly out of scope for this project
 
-`ai_lab/*`, `challenger_score.py`/`promote_challenger.py`, foreign/broker
-flow (no viable free source found), bull/bear adversarial LLM agents, any
-new database beyond SQLite/Parquet, any paid data provider, any
-dependency on the old repo at runtime, any hard-coded horizon assumption
-that skipped the §4 ablation.
+`ai_lab/*`, `challenger_score.py`/`promote_challenger.py`, a live-automated
+money-flow *trading signal* (no free reliable source found — §12's proxies
+are narrative support only, never a ranking model input), bull/bear
+adversarial LLM agents, any new database beyond SQLite/Parquet, any paid
+data provider, any dependency on the old repo at runtime, any hard-coded
+horizon assumption that skipped the §4 ablation, automating the Final
+Stage pitch deck itself (§12's `build_pitch_deck_source.py` produces raw
+material, not slides).
+
+## 12. Rationale log — a contemporaneous record for the Final Stage pitch
+
+**Done 2026-08-31.** The single biggest gap versus the actual grading
+rubric (§0) was that nothing captured *why* a pick was made, day by day —
+built now, alongside the trading engine, rather than reconstructed from
+memory in October.
+
+- [x] `data_pipeline/money_flow_proxies.py` — cheap OHLCV-derived proxies
+      (volume-spike-without-price-follow-through, price-up-on-declining-
+      volume, a volume z-score), explicitly flagged as proxies, never real
+      flow data (no free reliable source exists — that conclusion from the
+      original free-data audit hasn't changed). Talking points for the
+      pitch's Money Flow Analysis (20% of the Final Stage score), never
+      fed into `ranking/ranking_model.py` — deliberately kept out of
+      `feature_builder.py` so they can't end up in `RANKING_FEATURES` by
+      accident.
+- [x] `ranking/regime_classifier.py` — deterministic, 5 states (Strong
+      Bull → Strong Bear) from IHSG trend/momentum/breadth/volume, built
+      now so there's a real macro state to log daily. **Not yet
+      ablation-tested** for whether conditioning ranking/sizing on it
+      improves realized return (§6's own requirement) — not wired into
+      the ranking model or backtest engine; exists purely to produce a
+      loggable state today.
+- [x] `data_pipeline/fundamental.py` extended to capture `sector`/
+      `industry` from the same yfinance `.info` call it already makes —
+      chosen over porting the old repo's `issuers.csv` (§1), which only
+      covered 52/100 current tickers and was missing several Aug-2026
+      rebalance entrants (COIN, EMAS, MINA among them). 100/100 coverage
+      now, no manual research, no static file to keep in sync.
+- [x] `portfolio/rationale_log.py` writes
+      `data/published/rationale_log/{date}.json`, one entry per ticker
+      that's open/held/closed that day — a genuine day-over-day diff
+      against `data/published/positions_state.json`, not invented.
+      `technical_notes`/`fundamental_notes`/`macro_notes`/`risk_notes`
+      are auto-populated plain-language summaries of real numbers already
+      computed elsewhere (feature_builder, fundamental.py,
+      regime_classifier.py, level_calculator.py, daily_brief.py's
+      position sizing). `money_flow_proxies` is the auto-computed talking
+      points above. `money_flow_notes` is the one field left `null` —
+      manual research the team does themselves (broker summaries,
+      bandarmology write-ups) — paired with a `{date}_manual_flow_notes.md`
+      template (`save_manual_flow_template()`, never overwrites a file the
+      team has already filled in). Wired additively into
+      `scripts/run_daily_scan.py` right after `daily_brief.json`.
+- [x] `scripts/build_pitch_deck_source.py` — concatenates a date range of
+      rationale log entries (plus their paired manual-notes files) into
+      one readable Markdown timeline. Raw material for October, not the
+      deck itself — building slides and presenting is a human/team task.
+
+## 13. Hard rules — enforced structurally, not just documented
+
+**Done 2026-08-31.**
+
+- [x] Kompas100-only universe: `portfolio/daily_brief.py`'s
+      `assert_kompas100_only()` raises (`Kompas100ViolationError`) before
+      any shortlist with an out-of-universe ticker can be published —
+      verified with a direct test. The dashboard's shortlist view
+      (§ dashboard) re-checks and refuses to display, too, in case
+      `daily_brief.json` is ever hand-edited or stale. Disqualification
+      for one bad name is worse than a mediocre portfolio.
+- [x] Trading-days-remaining countdown: the dashboard shows a banner
+      derived from the real ISTC 2026 dates (freeze target 18–19 Sept,
+      open 21 Sept, close 8 Oct) at every stage — pre-freeze, pre-open,
+      during the window (escalating tone inside the last 3 trading days),
+      and post-close. "All positions must be manually closed by end of
+      day 8 Oct 2026" is a platform rule, not a strategy choice — the
+      system should make it impossible to forget, not just documented
+      here.
+- [x] Real position sizing: `portfolio/daily_brief.py`'s
+      `_naive_position_size()` sizes against the actual **Rp100,000,000**
+      starting capital, equal-weight across the shortlist capped at 25%
+      per name — a placeholder pending the real, ablated
+      `portfolio/portfolio_optimizer.py` (§6), not itself validated, but
+      real Rupiah numbers instead of an abstract weight.
+- [x] Sector concentration made visible: the dashboard's shortlist view
+      aggregates current shortlist exposure per sector against a 30%
+      placeholder cap — what "diversification" (10% of the Final Stage
+      Risk Management score) gets pointed at in the pitch. Real sector
+      labels now that `fundamental.py` captures them (see §12).
+- [x] R:R surfaced plainly: every shortlist row and rationale log entry
+      shows the reward:risk ratio from `level_calculator.py` directly,
+      not buried in a nested field — the "risk-reward" talking point
+      (10% of the Final Stage Risk Management score).

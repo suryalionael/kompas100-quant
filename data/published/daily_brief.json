@@ -1,19 +1,27 @@
 {
-  "generated_at_utc": "2026-08-31T03:50:08+00:00",
+  "generated_at_utc": "2026-08-31T15:05:07+00:00",
   "strategy_status": "naive_momentum_interim",
+  "base_capital_idr": 100000000,
   "shortlist": [
     {
       "ticker": "KIJA",
+      "sector": "Real Estate",
       "score": 69.35,
-      "levels": null
+      "levels": null,
+      "position_pct": 10.0,
+      "position_idr": 10000000.0
     },
     {
       "ticker": "INET",
+      "sector": "Communication Services",
       "score": 58.88,
-      "levels": null
+      "levels": null,
+      "position_pct": 10.0,
+      "position_idr": 10000000.0
     },
     {
       "ticker": "EMAS",
+      "sector": "Basic Materials",
       "score": 50.0,
       "levels": {
         "ticker": "EMAS",
@@ -24,15 +32,21 @@
         "stop": 8718.75,
         "target": 10462.5,
         "rr_ratio": 2.0
-      }
+      },
+      "position_pct": 10.0,
+      "position_idr": 10000000.0
     },
     {
       "ticker": "PSAB",
+      "sector": "Basic Materials",
       "score": 46.43,
-      "levels": null
+      "levels": null,
+      "position_pct": 10.0,
+      "position_idr": 10000000.0
     },
     {
       "ticker": "SGER",
+      "sector": "Energy",
       "score": 38.25,
       "levels": {
         "ticker": "SGER",
@@ -43,32 +57,49 @@
         "stop": 561.43,
         "target": 677.14,
         "rr_ratio": 2.0
-      }
+      },
+      "position_pct": 10.0,
+      "position_idr": 10000000.0
     },
     {
       "ticker": "BRMS",
+      "sector": "Basic Materials",
       "score": 37.61,
-      "levels": null
+      "levels": null,
+      "position_pct": 10.0,
+      "position_idr": 10000000.0
     },
     {
       "ticker": "TOBA",
+      "sector": "Energy",
       "score": 34.44,
-      "levels": null
+      "levels": null,
+      "position_pct": 10.0,
+      "position_idr": 10000000.0
     },
     {
       "ticker": "ISAT",
+      "sector": "Communication Services",
       "score": 33.16,
-      "levels": null
+      "levels": null,
+      "position_pct": 10.0,
+      "position_idr": 10000000.0
     },
     {
       "ticker": "ARCI",
+      "sector": "Basic Materials",
       "score": 33.01,
-      "levels": null
+      "levels": null,
+      "position_pct": 10.0,
+      "position_idr": 10000000.0
     },
     {
       "ticker": "WIRG",
+      "sector": "Technology",
       "score": 30.36,
-      "levels": null
+      "levels": null,
+      "position_pct": 10.0,
+      "position_idr": 10000000.0
     }
   ]
 }

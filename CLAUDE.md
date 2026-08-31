@@ -34,13 +34,19 @@ configs/
 data_pipeline/
   fetch_yfinance.py        → PORTED from old repo, trimmed to Kompas100 scope
   validator.py             → PORTED as-is
-  feature_builder.py       → PORTED as-is, extended with IHSG/sector relative strength
+  feature_builder.py       → PORTED as-is, extended with IHSG relative strength
   news_sentiment.py        → PORTED as-is
-  fundamental.py           → PORTED as-is
+  fundamental.py           → PORTED as-is, extended to capture sector/industry from the
+                             same yfinance .info call (full 100/100 coverage, replacing
+                             the old repo's issuers.csv which only covered 52/100)
+  money_flow_proxies.py    → NEW: OHLCV-derived volume/price divergence proxies — Final
+                             Stage pitch talking points only, never a ranking feature
 ranking/
   ranking_model.py         → NEW: cross-sectional relative-return regressor, per horizon
   stock_character.py       → NEW: rolling per-stock behavioral features + personalized screener
-  regime_classifier.py     → NEW: deterministic market regime, no LLM
+  regime_classifier.py     → NEW: deterministic market regime, no LLM. Not yet wired into
+                             ranking/sizing or ablation-tested — exists to produce a
+                             loggable macro state for the rationale log
 portfolio/
   portfolio_optimizer.py   → NEW: expected-return-weighted sizing, sector/name caps
   competition_strategist.py → NEW: chase/defend/neutral as a function of leaderboard state
@@ -48,15 +54,26 @@ portfolio/
                              modeled on old repo's alerts/level_calculator.py — feeds
                              daily_brief.json; the Cowork report explains these numbers,
                              never invents or adjusts them
+  daily_brief.py           → NEW: builds daily_brief.json — strategy_status
+                             (validated/naive_momentum_interim/no_picks), real Rp100M-based
+                             position sizing, hard Kompas100-only guard (raises, never
+                             silently drops a bad ticker)
+  rationale_log.py         → NEW: data/published/rationale_log/{date}.json — day-over-day
+                             open/hold/close diff with auto-populated technical/
+                             fundamental/macro/risk notes; money_flow_notes is the one
+                             field left for the team's own manual research
 backtest/
   engine.py                → NEW: walk-forward simulator, point-in-time universe, benchmarks, costs
   ablation.py               → NEW: runs the Level 0-7 experiment matrix, logs results
 scripts/
-  run_daily_scan.py         → NEW orchestrator: fetch → features → rank → portfolio → publish
+  run_daily_scan.py         → NEW orchestrator: fetch → features → daily brief → rationale log
   build_universe.py         → NEW: builds/updates kompas100_live.csv and kompas100_pit.csv
+  build_pitch_deck_source.py → NEW: concatenates rationale_log/ into one Markdown timeline
+                             for the ISTC 2026 Final Stage pitch — raw material, not slides
 data/
   raw/                      → per-ticker OHLCV parquet (own copy, not shared with old repo)
-  published/                → daily_brief.json — what the Cowork research/report layer reads
+  published/                → daily_brief.json, rationale_log/ — what the Cowork
+                             research/report layer and (if top 7) the pitch deck read
 ```
 
 Adjust freely as the build progresses — this is a starting map, not a
