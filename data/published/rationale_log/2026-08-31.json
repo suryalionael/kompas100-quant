@@ -1,42 +1,8 @@
 [
   {
     "date": "2026-08-31",
-    "ticker": "ARCI",
-    "action": "close",
-    "technical_notes": "RSI14 58.6; 20D momentum +27.5%; -2.6% vs MA200; -35.5% from 52w high; 20D relative strength vs IHSG +22.0pp",
-    "fundamental_notes": "P/E 12.8x; P/BV 84062.49x; ROE 41.2%; DER 1.19x; quality flag: excluded_fundamental",
-    "macro_notes": "IHSG regime: Bull (score +2); IHSG close 6525.48; 20D annualized volatility 16.95%",
-    "risk_notes": "position closed \u2014 dropped out of today's shortlist",
-    "money_flow_proxies": {
-      "date": "2026-08-31",
-      "volume_zscore": 0.66,
-      "today_return_pct": -3.24,
-      "volume_spike_no_followthrough": false,
-      "price_up_declining_volume": false
-    },
-    "money_flow_notes": null
-  },
-  {
-    "date": "2026-08-31",
-    "ticker": "BRMS",
-    "action": "close",
-    "technical_notes": "RSI14 70.1; 20D momentum +35.1%; -10.0% vs MA200; -45.8% from 52w high; 20D relative strength vs IHSG +29.7pp",
-    "fundamental_notes": "P/E 151.5x; P/BV 83333.34x; ROE 4.0%; DER 0.28x; quality flag: excluded_fundamental",
-    "macro_notes": "IHSG regime: Bull (score +2); IHSG close 6525.48; 20D annualized volatility 16.95%",
-    "risk_notes": "position closed \u2014 dropped out of today's shortlist",
-    "money_flow_proxies": {
-      "date": "2026-08-31",
-      "volume_zscore": 2.67,
-      "today_return_pct": 0.0,
-      "volume_spike_no_followthrough": true,
-      "price_up_declining_volume": false
-    },
-    "money_flow_notes": null
-  },
-  {
-    "date": "2026-08-31",
     "ticker": "DSNG",
-    "action": "open",
+    "action": "hold",
     "technical_notes": "RSI14 74.4; 20D momentum +17.6%; +13.4% vs MA200; -18.7% from 52w high; 20D relative strength vs IHSG +12.2pp",
     "fundamental_notes": "P/E 8.8x; P/BV 1.42x; ROE 16.8%; DER 0.28x",
     "macro_notes": "IHSG regime: Bull (score +2); IHSG close 6525.48; 20D annualized volatility 16.95%",
@@ -52,25 +18,8 @@
   },
   {
     "date": "2026-08-31",
-    "ticker": "EMAS",
-    "action": "close",
-    "technical_notes": "RSI14 88.2; 20D momentum +52.4%; +43.3% vs MA200; -5.7% from 52w high; full MA bullish alignment (MA20>MA50>MA200); 20D relative strength vs IHSG +46.9pp",
-    "fundamental_notes": "P/BV 384000.00x; ROE -8.5%; DER 1.26x; quality flag: excluded_fundamental",
-    "macro_notes": "IHSG regime: Bull (score +2); IHSG close 6525.48; 20D annualized volatility 16.95%",
-    "risk_notes": "position closed \u2014 dropped out of today's shortlist",
-    "money_flow_proxies": {
-      "date": "2026-08-31",
-      "volume_zscore": 4.53,
-      "today_return_pct": 3.23,
-      "volume_spike_no_followthrough": false,
-      "price_up_declining_volume": false
-    },
-    "money_flow_notes": null
-  },
-  {
-    "date": "2026-08-31",
     "ticker": "ERAA",
-    "action": "open",
+    "action": "hold",
     "technical_notes": "RSI14 73.9; 20D momentum +20.5%; +29.9% vs MA200; -0.8% from 52w high; full MA bullish alignment (MA20>MA50>MA200); 20D relative strength vs IHSG +15.0pp",
     "fundamental_notes": "P/E 5.5x; P/BV 0.82x; ROE 15.5%; DER 0.73x",
     "macro_notes": "IHSG regime: Bull (score +2); IHSG close 6525.48; 20D annualized volatility 16.95%",
@@ -87,7 +36,7 @@
   {
     "date": "2026-08-31",
     "ticker": "HRTA",
-    "action": "open",
+    "action": "hold",
     "technical_notes": "RSI14 53.9; 20D momentum +18.5%; +3.2% vs MA200; -34.3% from 52w high; 20D relative strength vs IHSG +13.0pp",
     "fundamental_notes": "P/E 7.7x; P/BV 2.72x; ROE 42.0%; DER 1.12x",
     "macro_notes": "IHSG regime: Bull (score +2); IHSG close 6525.48; 20D annualized volatility 16.95%",
@@ -137,25 +86,8 @@
   },
   {
     "date": "2026-08-31",
-    "ticker": "KIJA",
-    "action": "close",
-    "technical_notes": "RSI14 70.5; 20D momentum +72.8%; +20.2% vs MA200; -40.7% from 52w high; 20D relative strength vs IHSG +67.3pp",
-    "fundamental_notes": "P/BV 0.74x; ROE 2.9%; DER 0.63x; quality flag: watch_with_risk",
-    "macro_notes": "IHSG regime: Bull (score +2); IHSG close 6525.48; 20D annualized volatility 16.95%",
-    "risk_notes": "position closed \u2014 dropped out of today's shortlist",
-    "money_flow_proxies": {
-      "date": "2026-08-31",
-      "volume_zscore": 0.02,
-      "today_return_pct": 2.86,
-      "volume_spike_no_followthrough": false,
-      "price_up_declining_volume": false
-    },
-    "money_flow_notes": null
-  },
-  {
-    "date": "2026-08-31",
     "ticker": "KLBF",
-    "action": "open",
+    "action": "hold",
     "technical_notes": "RSI14 51.7; 20D momentum +12.9%; -17.7% vs MA200; -43.4% from 52w high; 20D relative strength vs IHSG +7.5pp",
     "fundamental_notes": "P/E 9.9x; P/BV 1.46x; ROE 14.8%; DER 0.03x",
     "macro_notes": "IHSG regime: Bull (score +2); IHSG close 6525.48; 20D annualized volatility 16.95%",
@@ -172,7 +104,7 @@
   {
     "date": "2026-08-31",
     "ticker": "MAPA",
-    "action": "open",
+    "action": "hold",
     "technical_notes": "RSI14 64.9; 20D momentum +13.4%; +10.1% vs MA200; -11.6% from 52w high; 20D relative strength vs IHSG +7.9pp",
     "fundamental_notes": "P/E 10.6x; P/BV 2.14x; ROE 21.9%; DER 0.26x",
     "macro_notes": "IHSG regime: Bull (score +2); IHSG close 6525.48; 20D annualized volatility 16.95%",
@@ -188,42 +120,8 @@
   },
   {
     "date": "2026-08-31",
-    "ticker": "PSAB",
-    "action": "close",
-    "technical_notes": "RSI14 65.7; 20D momentum +39.7%; +34.2% vs MA200; -10.5% from 52w high; full MA bullish alignment (MA20>MA50>MA200); 20D relative strength vs IHSG +34.2pp",
-    "fundamental_notes": "P/E 3.0x; P/BV 25869.56x; ROE 53.9%; DER 0.12x; quality flag: excluded_fundamental",
-    "macro_notes": "IHSG regime: Bull (score +2); IHSG close 6525.48; 20D annualized volatility 16.95%",
-    "risk_notes": "position closed \u2014 dropped out of today's shortlist",
-    "money_flow_proxies": {
-      "date": "2026-08-31",
-      "volume_zscore": -0.48,
-      "today_return_pct": -3.25,
-      "volume_spike_no_followthrough": false,
-      "price_up_declining_volume": false
-    },
-    "money_flow_notes": null
-  },
-  {
-    "date": "2026-08-31",
-    "ticker": "SGER",
-    "action": "close",
-    "technical_notes": "RSI14 81.8; 20D momentum +28.8%; +36.7% vs MA200; -15.0% from 52w high; full MA bullish alignment (MA20>MA50>MA200); 20D relative strength vs IHSG +23.3pp",
-    "fundamental_notes": "P/E 41.3x; P/BV 3.79x; ROE 9.1%; DER 0.95x; quality flag: excluded_fundamental",
-    "macro_notes": "IHSG regime: Bull (score +2); IHSG close 6525.48; 20D annualized volatility 16.95%",
-    "risk_notes": "position closed \u2014 dropped out of today's shortlist",
-    "money_flow_proxies": {
-      "date": "2026-08-31",
-      "volume_zscore": 0.93,
-      "today_return_pct": -0.83,
-      "volume_spike_no_followthrough": false,
-      "price_up_declining_volume": false
-    },
-    "money_flow_notes": null
-  },
-  {
-    "date": "2026-08-31",
     "ticker": "SSIA",
-    "action": "open",
+    "action": "hold",
     "technical_notes": "RSI14 68.9; 20D momentum +20.5%; +21.3% vs MA200; -23.7% from 52w high; full MA bullish alignment (MA20>MA50>MA200); 20D relative strength vs IHSG +15.0pp",
     "fundamental_notes": "P/E 44.5x; P/BV 1.58x; ROE 6.0%; DER 0.29x",
     "macro_notes": "IHSG regime: Bull (score +2); IHSG close 6525.48; 20D annualized volatility 16.95%",
@@ -240,7 +138,7 @@
   {
     "date": "2026-08-31",
     "ticker": "TINS",
-    "action": "open",
+    "action": "hold",
     "technical_notes": "RSI14 60.0; 20D momentum +13.5%; +17.5% vs MA200; -12.3% from 52w high; full MA bullish alignment (MA20>MA50>MA200); 20D relative strength vs IHSG +8.0pp",
     "fundamental_notes": "P/E 8.1x; P/BV 2.85x; ROE 41.8%; DER 0.12x",
     "macro_notes": "IHSG regime: Bull (score +2); IHSG close 6525.48; 20D annualized volatility 16.95%",
@@ -256,25 +154,8 @@
   },
   {
     "date": "2026-08-31",
-    "ticker": "TOBA",
-    "action": "close",
-    "technical_notes": "RSI14 70.2; 20D momentum +36.6%; +1.7% vs MA200; -59.4% from 52w high; 20D relative strength vs IHSG +31.1pp",
-    "fundamental_notes": "P/BV 28181.82x; ROE -43.1%; DER 1.98x; quality flag: excluded_fundamental",
-    "macro_notes": "IHSG regime: Bull (score +2); IHSG close 6525.48; 20D annualized volatility 16.95%",
-    "risk_notes": "position closed \u2014 dropped out of today's shortlist",
-    "money_flow_proxies": {
-      "date": "2026-08-31",
-      "volume_zscore": 0.04,
-      "today_return_pct": 2.48,
-      "volume_spike_no_followthrough": false,
-      "price_up_declining_volume": false
-    },
-    "money_flow_notes": null
-  },
-  {
-    "date": "2026-08-31",
     "ticker": "TOWR",
-    "action": "open",
+    "action": "hold",
     "technical_notes": "RSI14 66.1; 20D momentum +12.4%; -3.4% vs MA200; -33.1% from 52w high; 20D relative strength vs IHSG +6.9pp",
     "fundamental_notes": "P/E 6.7x; P/BV 0.92x; ROE 16.1%; DER 1.57x",
     "macro_notes": "IHSG regime: Bull (score +2); IHSG close 6525.48; 20D annualized volatility 16.95%",
@@ -285,23 +166,6 @@
       "today_return_pct": -0.44,
       "volume_spike_no_followthrough": false,
       "price_up_declining_volume": false
-    },
-    "money_flow_notes": null
-  },
-  {
-    "date": "2026-08-31",
-    "ticker": "WIRG",
-    "action": "close",
-    "technical_notes": "RSI14 65.1; 20D momentum +35.7%; -5.4% vs MA200; -68.6% from 52w high; 20D relative strength vs IHSG +30.2pp",
-    "fundamental_notes": "P/E 11.8x; P/BV 1.07x; ROE 7.5%; DER 0.15x; quality flag: watch_with_risk",
-    "macro_notes": "IHSG regime: Bull (score +2); IHSG close 6525.48; 20D annualized volatility 16.95%",
-    "risk_notes": "position closed \u2014 dropped out of today's shortlist",
-    "money_flow_proxies": {
-      "date": "2026-08-31",
-      "volume_zscore": -0.0,
-      "today_return_pct": 4.11,
-      "volume_spike_no_followthrough": false,
-      "price_up_declining_volume": true
     },
     "money_flow_notes": null
   }
