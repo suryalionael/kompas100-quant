@@ -492,6 +492,37 @@ def render_stock_detail_tab(tickers: list[str]) -> None:
     st.plotly_chart(price_detail_chart(chart_df, selected), use_container_width=True)
 
 
+def render_staleness_banner(latest_bar_date: str | None) -> None:
+    """Flags when the daily GitHub Actions refresh (.github/workflows/
+    daily_data_refresh.yml) has stopped running. Expected trading day only
+    skips weekends, not IDX holidays — a holiday will show a harmless
+    1-trading-day gap, which is within tolerance (not flagged).
+    """
+    if not latest_bar_date:
+        st.error("**No data at all** — nothing to check for staleness.")
+        return
+
+    last_bar = pd.Timestamp(latest_bar_date)
+    today_wib = pd.Timestamp(datetime.now(WIB).date())
+    expected_last_trading_day = pd.bdate_range(end=today_wib, periods=1)[0]
+
+    if last_bar >= expected_last_trading_day:
+        gap = 0
+    else:
+        gap = len(pd.bdate_range(last_bar + pd.Timedelta(days=1), expected_last_trading_day))
+
+    if gap > 1:
+        st.error(
+            f"**Data may be stale — last bar is {gap}d old.** Expected daily refresh via "
+            f"GitHub Actions may have failed or been delayed. Check the Actions tab."
+        )
+    else:
+        st.success(
+            f"Data is current — last bar ({last_bar.strftime('%Y-%m-%d')}) matches the "
+            f"expected last trading day ({expected_last_trading_day.strftime('%Y-%m-%d')})."
+        )
+
+
 def render_data_health_tab(tickers: list[str]) -> None:
     st.markdown('<h2 class="k100-section">Data Health</h2>', unsafe_allow_html=True)
 
@@ -519,6 +550,8 @@ def render_data_health_tab(tickers: list[str]) -> None:
     with c3:
         latest_dt = health.loc[health["Status"] == "OK", "Last Update"].max() if n_ok else "—"
         st.markdown(kpi_card("Most Recent Bar", f"{latest_dt}"), unsafe_allow_html=True)
+
+    render_staleness_banner(latest_dt if n_ok else None)
 
     st.markdown('<h3 class="k100-subsection">Fetch Status by Ticker</h3>', unsafe_allow_html=True)
     st.dataframe(health, use_container_width=True, height=380, hide_index=True)
@@ -551,7 +584,7 @@ def render_data_health_tab(tickers: list[str]) -> None:
             st.success("All tickers passed quality filters.")
 
 
-def render_rankings_tab() -> None:
+def render_rankings_tab(tickers: list[str]) -> None:
     st.markdown('<h2 class="k100-section">Rankings</h2>', unsafe_allow_html=True)
 
     results = load_ablation_results()
@@ -626,6 +659,53 @@ def render_rankings_tab() -> None:
         "COMPETITION_PLAN.md §4 for both."
     )
 
+    if not any_horizon_wins:
+        render_current_best_strategy(tickers)
+
+
+def render_current_best_strategy(tickers: list[str]) -> None:
+    """Naive momentum (rank by roc20) is what backtest/ablation.py's Level 2
+    baseline actually is — this mirrors that exact definition against
+    today's data, purely as a "what's actually working right now" view.
+    Not a recommendation and not the ranking model; the ablation gate and
+    ranking_model.py are untouched by this.
+    """
+    st.markdown('<h3 class="k100-subsection">Current Best Strategy</h3>', unsafe_allow_html=True)
+    st.caption(
+        "Naive momentum — currently beats every ML horizon in backtest, shown here because "
+        "it's the strategy actually winning today, not because it's proven great."
+    )
+
+    features = load_features_latest()
+    if features.empty:
+        st.info("No features available yet.")
+        return
+
+    latest = (
+        features[features["ticker"].isin(tickers)]
+        .dropna(subset=["roc20"])
+        .sort_values("date")
+        .groupby("ticker")
+        .tail(1)
+        .sort_values("roc20", ascending=False)
+        .head(15)
+        .reset_index(drop=True)
+    )
+    if latest.empty:
+        st.info("No momentum data available yet.")
+        return
+
+    display = latest[["ticker", "roc20", "close"]].copy()
+    display.insert(0, "Rank", range(1, len(display) + 1))
+    display = display.rename(columns={"ticker": "Ticker", "roc20": "20D Momentum", "close": "Last Close"})
+
+    def _color_momentum(val):
+        return f"color: {TEAL}; font-weight: 600" if val >= 0 else f"color: {MUTED_RED}; font-weight: 600"
+
+    styler = display.style.map(_color_momentum, subset=["20D Momentum"])
+    styler = styler.format({"20D Momentum": "{:+.2f}%".format, "Last Close": "{:,.0f}".format})
+    st.dataframe(styler, use_container_width=True, hide_index=True)
+
 
 def _pct(x: float | None) -> str:
     if x is None or pd.isna(x):
@@ -650,7 +730,7 @@ def main() -> None:
     with tab_health:
         render_data_health_tab(tickers)
     with tab_rankings:
-        render_rankings_tab()
+        render_rankings_tab(tickers)
 
 
 if __name__ == "__main__":
