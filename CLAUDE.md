@@ -44,6 +44,10 @@ ranking/
 portfolio/
   portfolio_optimizer.py   → NEW: expected-return-weighted sizing, sector/name caps
   competition_strategist.py → NEW: chase/defend/neutral as a function of leaderboard state
+  level_calculator.py      → NEW: deterministic buy/sell/stop levels (ATR stop, R:R target),
+                             modeled on old repo's alerts/level_calculator.py — feeds
+                             daily_brief.json; the Cowork report explains these numbers,
+                             never invents or adjusts them
 backtest/
   engine.py                → NEW: walk-forward simulator, point-in-time universe, benchmarks, costs
   ablation.py               → NEW: runs the Level 0-7 experiment matrix, logs results
@@ -119,3 +123,6 @@ logger.info(f"{ticker}: 3 rows skipped for NaN")
   don't change "the" default horizon without that logged comparison.
 - Adjust portfolio concentration → `portfolio/portfolio_optimizer.py`,
   re-run the relevant ablation level.
+- Add/adjust price-level logic → `portfolio/level_calculator.py`. Output
+  must land in `daily_brief.json` as plain numbers (entry/stop/target);
+  never let the Cowork research layer compute or override these.

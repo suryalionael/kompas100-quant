@@ -47,108 +47,52 @@ see exactly what's been tried.
       an official IDX factsheet before trusting it for real money.**
       Rebalance: **out** BREN, BTPS, DSSA, FILM, HMSP, INTP, MTEL, SIDO,
       TCPI · **in** BFIN, BIPI, BNBR, COIN, EMAS, GGRM, LSIP, MINA, RMKE.
-- [x] Build `configs/kompas100_pit.csv` — point-in-time membership
+- [ ] Build `configs/kompas100_pit.csv` — point-in-time membership
       calendar (6-month step function per historical rebalance cycle).
       Flag which periods have a verified snapshot vs. fall back to
-      current list. **Done 2026-08-30** via `scripts/build_universe.py`:
-      3 periods — 2026-08-03→2027-01-29 and 2026-02-02→2026-08-02 are
-      **verified** (the Aug-2026 in/out list cross-checked against
-      money.kompas.com's coverage of BEI's evaluation announcement);
-      everything before 2026-02-02 falls back to the current list,
-      flagged `source_verified=False`. Backtest folds before 2026-02
-      are testing the engine's mechanics, not a faithful historical
-      universe — upgrade before trusting them for real money.
+      current list.
 - [ ] Confirm with the competition organizer: is scoring actually against
       this exact Kompas100 list, or an organizer-curated subset? (Phase 0
       — see §8; blocks nothing technical but blocks trusting the result.)
 
 ## 3. Backtest engine (build before trusting any model)
 
-- [x] `backtest/engine.py` — walk-forward simulator over the point-in-time
+- [ ] `backtest/engine.py` — walk-forward simulator over the point-in-time
       universe. Many historical start dates, ~10-day hold, realistic entry
       (T+1 open), IDX-typical costs (~0.15–0.25% buy / 0.25–0.35% sell,
       10–20bps slippage) as placeholders pending real platform figures.
-      **Done 2026-08-30.**
-- [x] Benchmarks wired in for every run: random portfolio (many draws),
-      Kompas100 equal-weight buy-and-hold, naive momentum. Old scanner's
-      rule-based signal (Level 3) intentionally **not** included —
-      `signal_engine.py` is reference-only per §1, not meant to be ported
-      and benchmarked as-is; would need to be rewritten first, which is
-      §5's job (stock_character.py), not this one.
-      **Pitfall caught while building this:** a "buy-and-hold" that
-      rebalances every fold (same cadence as an active strategy) pays
-      round-trip costs dozens of times over and is not buy-and-hold at
-      all — `run_index_buy_and_hold()` rebalances only at real PIT
-      boundaries (~twice a year) instead.
-- [x] Report both overlapping and non-overlapping window results with
+- [ ] Benchmarks wired in for every run: random portfolio (many draws),
+      Kompas100 equal-weight buy-and-hold, naive momentum, and (once
+      ported) the old scanner's rule-based signal for comparison.
+- [ ] Report both overlapping and non-overlapping window results with
       confidence intervals — ~50–70 independent folds is the honest
-      sample size across ~3 years. **Turned out to matter a lot** — see
-      §4's result table; the overlapping view alone would have given a
-      false positive.
-- [x] IC (Spearman rank correlation) logged per fold as a diagnostic only.
+      sample size across ~3 years.
+- [ ] IC (Spearman rank correlation) logged per fold as a diagnostic only.
       **Realized portfolio return is the pass/fail metric, not IC.**
 
 ## 4. Ranking model — horizon ablation (empirical, not assumed)
 
-- [x] Train 5 independent cross-sectional relative-return regressors:
+- [ ] Train 5 independent cross-sectional relative-return regressors:
       **3D / 5D / 7D / 10D / 15D**. Target = forward return z-scored
-      against the Kompas100 cross-section that date. **Done 2026-08-30**
-      — `ranking/ranking_model.py`, a from-scratch numpy Ridge regression
-      (no scikit-learn — closed-form, easy to audit, no new heavy dep).
-      Retrained every 10 trading days, walk-forward: only training rows
-      whose target was already resolvable by the decision date are used.
-- [x] Run all 5 through `backtest/engine.py`, score on: realized portfolio
+      against the Kompas100 cross-section that date.
+- [ ] Run all 5 through `backtest/engine.py`, score on: realized portfolio
       performance, stability across regimes, IC (diagnostic), drawdown,
-      transaction costs. **Regime stability not yet broken out** —
-      `ranking/regime_classifier.py` (§6) doesn't exist yet; this run
-      reports the aggregate across the full backtest window only.
-- [x] Log the result table once run (`backtest/ablation.py`, results in
-      `data/published/ablation_results.json`; overlapping folds = every
-      trading day, ~500-700 per horizon; non-overlapping = every
-      `horizon` days, independent, 32-169 per horizon — **the
-      non-overlapping numbers are the ones that matter**, per §3):
+      transaction costs.
+- [ ] Log the result table once run:
 
-  | Horizon | Model return/fold (non-overlap) | 95% CI | Momentum return/fold (non-overlap) | IC (non-overlap) | Model beats momentum (non-overlap)? |
+  | Horizon | Portfolio return | Stability | IC | Max drawdown | Cost-adjusted |
   |---|---|---|---|---|---|
-  | 3D | +0.15% | [-0.74%, +1.05%] | +0.30% | 0.004 | **no** |
-  | 5D | +0.32% | [-1.39%, +2.04%] | +0.74% | -0.003 | **no** |
-  | 7D | +1.31% | [-1.18%, +3.80%] | +1.74% | 0.007 | **no** |
-  | 10D | +1.89% | [-1.58%, +5.35%] | +2.56% | 0.012 | **no** |
-  | 15D | +4.87% | [-0.35%, +10.09%] | +5.57% | 0.024 | **no** |
+  | 3D | | | | | |
+  | 5D | | | | | |
+  | 7D | | | | | |
+  | 10D | | | | | |
+  | 15D | | | | | |
 
-  (The overlapping-fold view's IC — 0.005/0.011/0.016/0.022/0.028 — rises
-  more smoothly with horizon and looks marginally better; that's the same
-  autocorrelation-inflation effect as the return comparison above, not a
-  different or more favorable result.)
-
-  Kompas100 buy-and-hold over the same full window (real PIT rebalance
-  dates, cost-adjusted): **+130.91%** compounded, -14.47% max drawdown,
-  3 periods (2023-08-31→2026-08-28).
-
-  **Verdict: no horizon beats naive momentum on the honest
-  (non-overlapping) fold set — the model does not clear the ablation
-  gate as built.** Every horizon's overlapping-fold view looked closer
-  (10D/15D even appeared to win there), which is exactly the false
-  positive §3's dual-reporting requirement exists to catch: overlapping
-  folds sharing most of their trading days inflate apparent skill.
-  Non-overlap IC is small, roughly rising with horizon, and negative at
-  5D — not a clean signal yet, though it's not obviously nothing either
-  (7D/10D/15D all positive). Not enough to beat a one-line momentum rule
-  after costs. Per COMPETITION_PLAN's own
-  ablation-gate rule, **this model is not wired into the dashboard's
-  Rankings tab** — that stays honest about not having a shippable model
-  yet rather than showing picks from something that lost the ablation.
-- [ ] Select winning horizon(s) — **blocked**: none qualify yet. Next
-      moves before re-running this ablation: (a) §5's character features
-      might give the model something momentum doesn't have, (b) sector
-      relative strength (needs `issuers.py` port, §1) is still missing
-      from the feature set, (c) Ridge's lambda=1.0 and the 10-day retrain
-      cadence were reasonable defaults, not tuned — a small hyperparameter
-      sweep is cheap to try before concluding the approach itself is wrong.
-- [x] Features: ported `feature_builder` set + IHSG relative strength
-      (new — `rel_strength_5d`/`rel_strength_20d`, added 2026-08-30).
-      Sector relative strength and Tier 1/2 character features (§5) still
-      TODO. No circular rule-score features.
+- [ ] Select winning horizon(s); only build a rank-average ensemble if the
+      winner leaves an obvious gap to the runner-up.
+- [ ] Features: ported `feature_builder` set + IHSG/sector relative
+      strength (new) + Tier 1/2 character features (§5). No circular
+      rule-score features.
 
 ## 5. Stock character — personalized screener (ablation-gated)
 
@@ -186,6 +130,22 @@ see exactly what's been tried.
       `days_remaining`, `portfolio_volatility` → concentration/cash
       policy. **Only build the live-leaderboard-reactive version if
       Phase 0 confirms leaderboard visibility exists during the contest.**
+- [x] `portfolio/level_calculator.py` — deterministic buy/sell/stop price
+      levels for every shortlisted name. Modeled on the old repo's
+      `alerts/level_calculator.py`: entry near breakout/support level,
+      stop-loss from ATR (e.g. 1.5–2x ATR below entry), target from a
+      fixed reward:risk multiple (e.g. 2:1) off the stop distance. Output
+      feeds straight into `daily_brief.json` — **this is what the Cowork
+      daily report explains, never what it invents.** No LLM call may
+      produce a price number; it may only narrate one already computed
+      here. Needed before the daily-report Cowork task (§7) can show real
+      levels instead of "not yet available." **Done 2026-08-30**: uses
+      1.5x ATR (simple rolling-mean True Range, not Wilder's — chosen
+      specifically so unit-test fixtures are hand-verifiable) for the
+      stop and a 2:1 reward:risk target; a setup only exists (breakout or
+      pullback) when close is within 3% (placeholder, like the backtest
+      engine's cost assumptions) of the rolling 20-day high/low — no
+      setup, no level, rather than forcing one on every ticker.
 
 ## 7. Research/Catalyst layer — Cowork-based, not custom code
 
@@ -193,17 +153,43 @@ Implemented as a **scheduled Cowork task**, not a custom Python + LLM API
 integration in this repo. This project's job is to publish clean data for
 Cowork to read — not to build its own LLM client.
 
-- [ ] Daily scan (`scripts/run_daily_scan.py`) commits
+- [x] Daily scan (`scripts/run_daily_scan.py`) commits
       `data/published/daily_brief.json` — ranked shortlist + scores +
-      suggested position sizes.
-- [ ] Confirm an email-sending connector (Gmail/Outlook) is available and
-      connected before relying on this for delivery.
-- [ ] Set up the scheduled task (`create_trigger`, weekday cron, timed
-      after the scan completes and before IDX market open — ~1hr buffer).
-      The task reads this project's repo/output, not the old one.
+      suggested position sizes + buy/sell/stop levels from
+      `portfolio/level_calculator.py` (§6). If the ranking model's
+      ablation gate isn't cleared yet, publish an honestly-labeled
+      fallback (e.g. `"strategy": "naive_momentum_interim"`) instead of
+      an empty or fabricated shortlist — the Cowork report (below) must
+      be able to say what it's actually showing. **Done 2026-08-30.**
+      `portfolio/level_calculator.py` computes breakout/pullback entry +
+      ATR-based stop + fixed-2:1-R:R target, pure OHLCV arithmetic, no
+      ML/LLM — 6 hand-computed unit tests in `tests/test_level_calculator.py`.
+      `portfolio/daily_brief.py` sets `strategy_status` to one of
+      `validated` / `naive_momentum_interim` / `no_picks`; since no live
+      ranking-model inference path exists yet (only the backtest-oriented
+      training/scoring functions in `ranking/ranking_model.py` do), it
+      structurally can never emit `validated` today, by design — current
+      real output is `naive_momentum_interim` (10-ticker momentum
+      shortlist), matching the dashboard Rankings tab's own verdict.
+- [x] Email delivery: **Gmail connector** — connect via claude.ai →
+      Settings → Connectors before the scheduled task can send mail.
+      Not yet connected as of 31 Aug 2026.
+- [ ] Set up the scheduled task (`create_trigger`, daily ~07:00–07:30 WIB,
+      after the previous evening's scan and before IDX market open).
+      Initial recipient: user's own email only, for the first few days;
+      add the partner's email once output quality is confirmed. The task
+      reads this project's `daily_brief.json`, never the old repo and
+      never the live dashboard UI directly.
 - [ ] Cowork's job is explain + research + deliver, **never** decide — the
-      prompt hands it an already-ranked shortlist with numbers, never raw
-      data to rank itself.
+      prompt hands it an already-ranked shortlist with numbers and
+      pipeline-calculated price levels, never raw data to rank or price
+      itself. The AI may narrate *why* a level is where it is (e.g. "stop
+      sits below the recent swing low"), never invent or adjust the
+      number.
+- [ ] Report format: PDF, per stock in the shortlist — chart, key
+      fundamentals, quant score explanation, catalyst/news research, and
+      the pipeline-calculated entry/stop/target — plus a short market
+      overview (IHSG, regime, breadth) at the top.
 - [ ] Log Cowork's structured catalyst tags (direction/strength/
       confidence), not just the prose email, so the shadow test below has
       something to grade.
@@ -229,14 +215,14 @@ doesn't beat the one below it gets cut, even if already built.
 
 | # | Level | Result (fill in once run) |
 |---|---|---|
-| 0 | Random portfolio | 2026-08-30: ~flat to slightly negative per non-overlapping fold across horizons (e.g. 10D: +0.45%/fold) — see `data/published/ablation_results.json` |
-| 1 | Kompas100 benchmark (buy-and-hold) | 2026-08-30: **+130.91%** compounded, -14.47% max drawdown, full window 2023-08-31→2026-08-28, real PIT rebalance dates, cost-adjusted |
-| 2 | Simple momentum | 2026-08-30: beats Level 0 and Level 1 (per-fold) at every horizon on the non-overlapping set — current best baseline, see §4's table |
-| 3 | Old scanner's rule-based signal, for reference | Not run — `signal_engine.py` is reference-only (§1), deliberately not ported/benchmarked as-is |
-| 4 | This project's quant model (best horizon from §4) | 2026-08-30: **does not beat Level 2** at any of the 5 horizons on the non-overlapping set — **cut, not shipped** (§4 has the full table + IC + next moves) |
-| 5 | + Stock character (winning variant from §5) | Not built |
-| 6 | + Research/Catalyst (shadow-tested, §7) | Not built |
-| 7 | + Full portfolio construction + strategist (§6) | Not built |
+| 0 | Random portfolio | |
+| 1 | Kompas100 benchmark (buy-and-hold) | |
+| 2 | Simple momentum | |
+| 3 | Old scanner's rule-based signal, for reference | |
+| 4 | This project's quant model (best horizon from §4) | |
+| 5 | + Stock character (winning variant from §5) | |
+| 6 | + Research/Catalyst (shadow-tested, §7) | |
+| 7 | + Full portfolio construction + strategist (§6) | |
 
 ## 10. Roadmap (3 weeks, 28 Aug → mid-Sept)
 

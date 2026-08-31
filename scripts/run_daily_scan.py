@@ -1,8 +1,10 @@
-"""Orchestrator: fetch -> validate -> features -> quality filters.
+"""Orchestrator: fetch -> validate -> features -> quality filters -> daily brief.
 
-This session only wires up the data-layer stages (per COMPETITION_PLAN.md
-§10, Days 1-2). Ranking, portfolio construction, and daily_brief.json
-publishing are TODO for later sessions once ranking/ and portfolio/ exist.
+This session wires up the data-layer stages (per COMPETITION_PLAN.md §10,
+Days 1-2) plus daily_brief.json publishing (§7) via portfolio/daily_brief.py.
+Ranking model training/backtesting and full portfolio construction (§6)
+are still TODO — see portfolio/daily_brief.py's module docstring for why
+it deliberately never emits a "validated" shortlist yet.
 """
 import json
 import sys
@@ -15,6 +17,7 @@ import pandas as pd
 from loguru import logger
 
 from data_pipeline import feature_builder, fetch_yfinance, quality_filters, validator
+from portfolio import daily_brief
 
 ROOT = Path(__file__).resolve().parents[1]
 UNIVERSE_CSV = ROOT / "configs" / "kompas100_live.csv"
@@ -66,6 +69,11 @@ def main() -> None:
         feature_builder.save_features(features_df, FEATURES_DIR)
 
     write_scan_meta(fetched, clean, features_df)
+
+    logger.info("Building daily brief (shortlist + price levels)...")
+    universe = fetch_yfinance.load_universe(UNIVERSE_CSV)
+    brief = daily_brief.build_daily_brief(features_df, universe, raw_dir=RAW_DIR)
+    daily_brief.save_daily_brief(brief)
 
     logger.info(
         f"Done: fetched={len(fetched)} validated={len(clean)} "
