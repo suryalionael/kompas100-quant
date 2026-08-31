@@ -1,0 +1,369 @@
+{
+  "buy_and_hold": {
+    "n_folds": 3,
+    "mean_return": 0.4944186902291774,
+    "std_return": 0.9381840262422273,
+    "ci_low": -0.5672364779675221,
+    "ci_high": 1.5560738584258769,
+    "mean_ic": NaN,
+    "compounded_return": 1.3235836126843195,
+    "max_drawdown": -0.14468300905649345
+  },
+  "horizons": {
+    "3": {
+      "valid_start": "2024-07-23",
+      "n_folds_overlapping": 506,
+      "n_folds_non_overlapping": 169,
+      "random": {
+        "overlapping": {
+          "n_folds": 496,
+          "mean_return": -0.005562196058532346,
+          "std_return": 0.03276627012034349,
+          "ci_low": -0.008445844020747386,
+          "ci_high": -0.002678548096317306,
+          "mean_ic": NaN,
+          "compounded_return": NaN,
+          "max_drawdown": NaN
+        },
+        "non_overlapping": {
+          "n_folds": 165,
+          "mean_return": -0.005650222345601406,
+          "std_return": 0.030839525082726495,
+          "ci_low": -0.0103558957378091,
+          "ci_high": -0.0009445489533937111,
+          "mean_ic": NaN,
+          "compounded_return": -0.6376248947487952,
+          "max_drawdown": -0.6964571397954571
+        }
+      },
+      "momentum": {
+        "overlapping": {
+          "n_folds": 506,
+          "mean_return": 0.0027387868820960533,
+          "std_return": 0.058866329699533086,
+          "ci_low": -0.0023903911251609306,
+          "ci_high": 0.007867964889353037,
+          "mean_ic": -0.0201463346736977,
+          "compounded_return": NaN,
+          "max_drawdown": NaN
+        },
+        "non_overlapping": {
+          "n_folds": 169,
+          "mean_return": 0.003012670836685126,
+          "std_return": 0.055980777547917304,
+          "ci_low": -0.0054275079320777915,
+          "ci_high": 0.011452849605448043,
+          "mean_ic": -0.014874338550837017,
+          "compounded_return": 0.279578803310468,
+          "max_drawdown": -0.7482258490998805
+        }
+      },
+      "ranking_model": {
+        "overlapping": {
+          "n_folds": 506,
+          "mean_return": 0.0033914436139374955,
+          "std_return": 0.05928319597114123,
+          "ci_low": -0.0017740570470880079,
+          "ci_high": 0.008556944274962999,
+          "mean_ic": 0.011225309124819163,
+          "compounded_return": NaN,
+          "max_drawdown": NaN
+        },
+        "non_overlapping": {
+          "n_folds": 169,
+          "mean_return": 0.006346016859912899,
+          "std_return": 0.056214855160571967,
+          "ci_low": -0.0021294536104502597,
+          "ci_high": 0.014821487330276058,
+          "mean_ic": 0.009944888048017216,
+          "compounded_return": 1.2382318311847396,
+          "max_drawdown": -0.5874979047054475
+        }
+      }
+    },
+    "5": {
+      "valid_start": "2024-07-23",
+      "n_folds_overlapping": 504,
+      "n_folds_non_overlapping": 101,
+      "random": {
+        "overlapping": {
+          "n_folds": 495,
+          "mean_return": -0.0026636051031653364,
+          "std_return": 0.0410383266005457,
+          "ci_low": -0.006278894898740447,
+          "ci_high": 0.0009516846924097744,
+          "mean_ic": NaN,
+          "compounded_return": NaN,
+          "max_drawdown": NaN
+        },
+        "non_overlapping": {
+          "n_folds": 101,
+          "mean_return": -0.004023859376017055,
+          "std_return": 0.04211819939227675,
+          "ci_low": -0.0122380576328961,
+          "ci_high": 0.00419033888086199,
+          "mean_ic": NaN,
+          "compounded_return": -0.3922504455924932,
+          "max_drawdown": -0.5284959967117451
+        }
+      },
+      "momentum": {
+        "overlapping": {
+          "n_folds": 504,
+          "mean_return": 0.010697183663639993,
+          "std_return": 0.07924174351038608,
+          "ci_low": 0.0037789563815554096,
+          "ci_high": 0.017615410945724577,
+          "mean_ic": -0.014827855635141439,
+          "compounded_return": NaN,
+          "max_drawdown": NaN
+        },
+        "non_overlapping": {
+          "n_folds": 101,
+          "mean_return": 0.008070849510549922,
+          "std_return": 0.07716488351306947,
+          "ci_low": -0.006978408548700327,
+          "ci_high": 0.02312010756980017,
+          "mean_ic": -0.009256299487828908,
+          "compounded_return": 0.6702025599052586,
+          "max_drawdown": -0.7142859862127751
+        }
+      },
+      "ranking_model": {
+        "overlapping": {
+          "n_folds": 504,
+          "mean_return": 0.010929329304104576,
+          "std_return": 0.08247359518850828,
+          "ci_low": 0.0037289441155839084,
+          "ci_high": 0.018129714492625244,
+          "mean_ic": 0.019186950330673736,
+          "compounded_return": NaN,
+          "max_drawdown": NaN
+        },
+        "non_overlapping": {
+          "n_folds": 101,
+          "mean_return": 0.008202061680836783,
+          "std_return": 0.0809907210408062,
+          "ci_low": -0.007593339100678085,
+          "ci_high": 0.02399746246235165,
+          "mean_ic": 0.005309001890646588,
+          "compounded_return": 0.6480464037347586,
+          "max_drawdown": -0.6611696159368536
+        }
+      }
+    },
+    "7": {
+      "valid_start": "2024-07-23",
+      "n_folds_overlapping": 502,
+      "n_folds_non_overlapping": 72,
+      "random": {
+        "overlapping": {
+          "n_folds": 493,
+          "mean_return": 0.00027727651811474004,
+          "std_return": 0.05015222521984447,
+          "ci_low": -0.004149859026205855,
+          "ci_high": 0.004704412062435335,
+          "mean_ic": NaN,
+          "compounded_return": NaN,
+          "max_drawdown": NaN
+        },
+        "non_overlapping": {
+          "n_folds": 71,
+          "mean_return": -0.0025086471940813956,
+          "std_return": 0.054818805500254336,
+          "ci_low": -0.015260005960873835,
+          "ci_high": 0.010242711572711043,
+          "mean_ic": NaN,
+          "compounded_return": -0.24884559111375826,
+          "max_drawdown": -0.508237904330606
+        }
+      },
+      "momentum": {
+        "overlapping": {
+          "n_folds": 502,
+          "mean_return": 0.018156307912676063,
+          "std_return": 0.0903430954186678,
+          "ci_low": 0.01025317693586891,
+          "ci_high": 0.026059438889483217,
+          "mean_ic": -0.012698258933081383,
+          "compounded_return": NaN,
+          "max_drawdown": NaN
+        },
+        "non_overlapping": {
+          "n_folds": 72,
+          "mean_return": 0.018551830164835546,
+          "std_return": 0.10163763243866943,
+          "ci_low": -0.004925265148066585,
+          "ci_high": 0.04202892547773768,
+          "mean_ic": -0.01968630059236116,
+          "compounded_return": 1.6191791950336571,
+          "max_drawdown": -0.7222421576757582
+        }
+      },
+      "ranking_model": {
+        "overlapping": {
+          "n_folds": 502,
+          "mean_return": 0.01716933790640726,
+          "std_return": 0.09646444251259527,
+          "ci_low": 0.008730717110332633,
+          "ci_high": 0.025607958702481892,
+          "mean_ic": 0.0228066661693507,
+          "compounded_return": NaN,
+          "max_drawdown": NaN
+        },
+        "non_overlapping": {
+          "n_folds": 72,
+          "mean_return": 0.014405422492719998,
+          "std_return": 0.09954318600570687,
+          "ci_low": -0.008587880376826066,
+          "ci_high": 0.03739872536226606,
+          "mean_ic": 0.017361676101118082,
+          "compounded_return": 0.9680686760705388,
+          "max_drawdown": -0.6523695232416278
+        }
+      }
+    },
+    "10": {
+      "valid_start": "2024-08-06",
+      "n_folds_overlapping": 489,
+      "n_folds_non_overlapping": 49,
+      "random": {
+        "overlapping": {
+          "n_folds": 480,
+          "mean_return": 0.0045251314835482665,
+          "std_return": 0.05982205134414033,
+          "ci_low": -0.0008266300528299905,
+          "ci_high": 0.009876893019926523,
+          "mean_ic": NaN,
+          "compounded_return": NaN,
+          "max_drawdown": NaN
+        },
+        "non_overlapping": {
+          "n_folds": 49,
+          "mean_return": 0.001748246971871446,
+          "std_return": 0.061842446360366184,
+          "ci_low": -0.015567638009031087,
+          "ci_high": 0.01906413195277398,
+          "mean_ic": NaN,
+          "compounded_return": -0.007688641374364202,
+          "max_drawdown": -0.4153045637709788
+        }
+      },
+      "momentum": {
+        "overlapping": {
+          "n_folds": 489,
+          "mean_return": 0.028525553847653505,
+          "std_return": 0.10964378208287469,
+          "ci_low": 0.018807357942200557,
+          "ci_high": 0.03824374975310645,
+          "mean_ic": -0.01759552349482057,
+          "compounded_return": NaN,
+          "max_drawdown": NaN
+        },
+        "non_overlapping": {
+          "n_folds": 49,
+          "mean_return": 0.026779390513194317,
+          "std_return": 0.10693947892961952,
+          "ci_low": -0.0031636635870991477,
+          "ci_high": 0.056722444613487785,
+          "mean_ic": -0.0226887956429468,
+          "compounded_return": 1.7819734764805477,
+          "max_drawdown": -0.5943045421527613
+        }
+      },
+      "ranking_model": {
+        "overlapping": {
+          "n_folds": 489,
+          "mean_return": 0.03154453865734211,
+          "std_return": 0.1212767416760069,
+          "ci_low": 0.020795263942506,
+          "ci_high": 0.04229381337217822,
+          "mean_ic": 0.028148008740536443,
+          "compounded_return": NaN,
+          "max_drawdown": NaN
+        },
+        "non_overlapping": {
+          "n_folds": 49,
+          "mean_return": 0.024257336925720935,
+          "std_return": 0.12344858076716761,
+          "ci_low": -0.010308265689086,
+          "ci_high": 0.05882293954052787,
+          "mean_ic": 0.02344482181760329,
+          "compounded_return": 1.1978083163142017,
+          "max_drawdown": -0.5848621812641901
+        }
+      }
+    },
+    "15": {
+      "valid_start": "2024-08-06",
+      "n_folds_overlapping": 484,
+      "n_folds_non_overlapping": 32,
+      "random": {
+        "overlapping": {
+          "n_folds": 476,
+          "mean_return": 0.011416939069543015,
+          "std_return": 0.07388117759942713,
+          "ci_low": 0.004779716152064233,
+          "ci_high": 0.018054161987021797,
+          "mean_ic": NaN,
+          "compounded_return": NaN,
+          "max_drawdown": NaN
+        },
+        "non_overlapping": {
+          "n_folds": 32,
+          "mean_return": 0.012589156665270917,
+          "std_return": 0.07568117345335781,
+          "ci_low": -0.01363303210367115,
+          "ci_high": 0.03881134543421298,
+          "mean_ic": NaN,
+          "compounded_return": 0.3672861974336856,
+          "max_drawdown": -0.36399201244639345
+        }
+      },
+      "momentum": {
+        "overlapping": {
+          "n_folds": 484,
+          "mean_return": 0.05001280868070139,
+          "std_return": 0.13859257481517773,
+          "ci_low": 0.03766547019716737,
+          "ci_high": 0.06236014716423541,
+          "mean_ic": -0.011341451362369318,
+          "compounded_return": NaN,
+          "max_drawdown": NaN
+        },
+        "non_overlapping": {
+          "n_folds": 32,
+          "mean_return": 0.05591095882946784,
+          "std_return": 0.1321493244851819,
+          "ci_low": 0.010123553927847986,
+          "ci_high": 0.10169836373108769,
+          "mean_ic": -0.0020527490434349184,
+          "compounded_return": 3.4703137154429875,
+          "max_drawdown": -0.4957918469654292
+        }
+      },
+      "ranking_model": {
+        "overlapping": {
+          "n_folds": 484,
+          "mean_return": 0.05052172507655667,
+          "std_return": 0.15315569008165777,
+          "ci_low": 0.03687694541473625,
+          "ci_high": 0.06416650473837708,
+          "mean_ic": 0.03256825576933439,
+          "compounded_return": NaN,
+          "max_drawdown": NaN
+        },
+        "non_overlapping": {
+          "n_folds": 32,
+          "mean_return": 0.04315554428304966,
+          "std_return": 0.1449519088954737,
+          "ci_low": -0.007067729802653154,
+          "ci_high": 0.09337881836875248,
+          "mean_ic": 0.03526366016589452,
+          "compounded_return": 1.839771698833308,
+          "max_drawdown": -0.5252748046398
+        }
+      }
+    }
+  }
+}
