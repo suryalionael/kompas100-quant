@@ -446,11 +446,14 @@ def render_universe_tab(tickers: list[str]) -> None:
 
     display = table[["ticker", "last_close", "pct_change", "avg_volume_20d", "liquidity_tier"]]
 
-    st.dataframe(
+    event = st.dataframe(
         style_universe_table(display),
         use_container_width=True,
         height=560,
         hide_index=True,
+        on_select="rerun",
+        selection_mode="single-row",
+        key="universe_table",
         column_config={
             "ticker": st.column_config.TextColumn(label="Ticker"),
             "last_close": st.column_config.TextColumn(label="Last Close"),
@@ -460,15 +463,87 @@ def render_universe_tab(tickers: list[str]) -> None:
         },
     )
 
+    selected_rows = event.selection.rows if event and event.selection else []
+    if selected_rows:
+        selected_ticker = display.iloc[selected_rows[0]]["ticker"]
+        st.session_state["selected_ticker"] = selected_ticker
+        st.markdown(f'<h3 class="k100-subsection">Detail: {selected_ticker}</h3>', unsafe_allow_html=True)
+        render_ticker_detail(selected_ticker, key_prefix="universe")
+    else:
+        st.caption("Select the checkbox next to a ticker to see its fundamentals and chart.")
+
 
 def render_stock_detail_tab(tickers: list[str]) -> None:
     st.markdown('<h2 class="k100-section">Per-Stock Detail</h2>', unsafe_allow_html=True)
 
-    selected = st.selectbox("Ticker", tickers, index=0)
-    df = load_ticker_chart_data(selected)
+    default_ticker = st.session_state.get("selected_ticker")
+    default_index = tickers.index(default_ticker) if default_ticker in tickers else 0
+    selected = st.selectbox("Ticker", tickers, index=default_index)
+    render_ticker_detail(selected, key_prefix="detail")
 
+
+def render_fundamentals_panel(ticker: str) -> None:
+    """Fundamentals + quality/risk status from data/published/universe_snapshot_latest.parquet
+    (built by scripts/build_universe_snapshot.py — data_pipeline/fundamental.py +
+    quality_filters.py). Shows "—" for anything not fetched rather than a fake number.
+    """
+    st.markdown('<h4 style="margin:0.8rem 0 0.5rem;font-size:0.95rem;font-weight:600;">Fundamentals</h4>', unsafe_allow_html=True)
+
+    snapshot = load_universe_snapshot()
+    row = snapshot[snapshot["ticker"] == ticker] if not snapshot.empty else pd.DataFrame()
+    if row.empty:
+        st.info("No fundamentals snapshot yet — run `scripts/build_universe_snapshot.py`.")
+        return
+    r = row.iloc[0]
+
+    def _fmt(val, suffix="", decimals=2):
+        return "—" if pd.isna(val) else f"{val:.{decimals}f}{suffix}"
+
+    def _fmt_cap(val):
+        if pd.isna(val):
+            return "—"
+        if val >= 1e12:
+            return f"Rp {val / 1e12:.1f}T"
+        if val >= 1e9:
+            return f"Rp {val / 1e9:.1f}B"
+        return f"Rp {val:,.0f}"
+
+    fields = [
+        ("P/E", _fmt(r.get("pe_ratio"), "x")),
+        ("P/BV", _fmt(r.get("pbv"), "x")),
+        ("ROE", _fmt(r.get("roe_pct"), "%")),
+        ("DER", _fmt(r.get("der"), "x")),
+        ("Div Yield", _fmt(r.get("div_yield_pct"), "%")),
+        ("Market Cap", _fmt_cap(r.get("market_cap"))),
+    ]
+    cols = st.columns(len(fields))
+    for col, (label, value) in zip(cols, fields):
+        with col:
+            st.markdown(kpi_card(label, value), unsafe_allow_html=True)
+
+    final_status = r.get("final_status")
+    status_label = str(final_status).replace("_", " ").title() if pd.notna(final_status) else "Unknown"
+    tone = "up" if final_status == "eligible" else ("warn" if final_status == "watch_with_risk" else "down")
+    fund_status = r.get("fundamental_status", "unknown")
+    risk_flags = str(r.get("risk_flags", "") or "").strip()
+
+    detail_line = f'Quality status: <span class="k100-badge {tone}">{status_label}</span> &nbsp; Fundamental data: {fund_status}'
+    if risk_flags:
+        detail_line += f" &nbsp; Risk: {risk_flags}"
+    st.markdown(
+        f'<p style="margin-top:0.6rem;font-size:0.85rem;color:{INK_MUTED};">{detail_line}</p>',
+        unsafe_allow_html=True,
+    )
+
+
+def render_ticker_detail(ticker: str, key_prefix: str) -> None:
+    """Full per-ticker detail — price/volume KPIs, fundamentals, quality
+    status, and the technical chart. Shared by the Stock Detail tab and the
+    inline "click a ticker to see detail" panels on Universe/Rankings.
+    """
+    df = load_ticker_chart_data(ticker)
     if df.empty:
-        st.warning(f"No data available for {selected}.")
+        st.warning(f"No data available for {ticker}.")
         return
 
     last = df.iloc[-1]
@@ -486,10 +561,20 @@ def render_stock_detail_tab(tickers: list[str]) -> None:
     with c4:
         st.markdown(kpi_card("History", f"{len(df)} days"), unsafe_allow_html=True)
 
-    lookback = st.slider("Lookback (trading days)", min_value=60, max_value=min(len(df), 750), value=min(250, len(df)), step=10)
+    render_fundamentals_panel(ticker)
+
+    lookback = st.slider(
+        "Lookback (trading days)", min_value=60, max_value=min(len(df), 750),
+        value=min(250, len(df)), step=10, key=f"{key_prefix}_lookback_{ticker}",
+    )
     chart_df = df.tail(lookback)
 
-    st.plotly_chart(price_detail_chart(chart_df, selected), use_container_width=True)
+    st.plotly_chart(
+        price_detail_chart(chart_df, ticker), use_container_width=True,
+        key=f"{key_prefix}_chart_{ticker}",
+    )
+
+
 
 
 def render_staleness_banner(latest_bar_date: str | None) -> None:
@@ -704,7 +789,19 @@ def render_current_best_strategy(tickers: list[str]) -> None:
 
     styler = display.style.map(_color_momentum, subset=["20D Momentum"])
     styler = styler.format({"20D Momentum": "{:+.2f}%".format, "Last Close": "{:,.0f}".format})
-    st.dataframe(styler, use_container_width=True, hide_index=True)
+    event = st.dataframe(
+        styler, use_container_width=True, hide_index=True,
+        on_select="rerun", selection_mode="single-row", key="rankings_momentum_table",
+    )
+
+    selected_rows = event.selection.rows if event and event.selection else []
+    if selected_rows:
+        selected_ticker = display.iloc[selected_rows[0]]["Ticker"]
+        st.session_state["selected_ticker"] = selected_ticker
+        st.markdown(f'<h3 class="k100-subsection">Detail: {selected_ticker}</h3>', unsafe_allow_html=True)
+        render_ticker_detail(selected_ticker, key_prefix="rankings")
+    else:
+        st.caption("Select the checkbox next to a ticker to see its fundamentals and chart.")
 
 
 def _pct(x: float | None) -> str:
