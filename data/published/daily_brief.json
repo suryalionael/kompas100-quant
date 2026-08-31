@@ -1,0 +1,74 @@
+{
+  "generated_at_utc": "2026-08-31T03:50:08+00:00",
+  "strategy_status": "naive_momentum_interim",
+  "shortlist": [
+    {
+      "ticker": "KIJA",
+      "score": 69.35,
+      "levels": null
+    },
+    {
+      "ticker": "INET",
+      "score": 58.88,
+      "levels": null
+    },
+    {
+      "ticker": "EMAS",
+      "score": 50.0,
+      "levels": {
+        "ticker": "EMAS",
+        "as_of_date": "2026-08-28",
+        "setup": "breakout",
+        "entry": 9300.0,
+        "atr": 387.5,
+        "stop": 8718.75,
+        "target": 10462.5,
+        "rr_ratio": 2.0
+      }
+    },
+    {
+      "ticker": "PSAB",
+      "score": 46.43,
+      "levels": null
+    },
+    {
+      "ticker": "SGER",
+      "score": 38.25,
+      "levels": {
+        "ticker": "SGER",
+        "as_of_date": "2026-08-28",
+        "setup": "breakout",
+        "entry": 600.0,
+        "atr": 25.71,
+        "stop": 561.43,
+        "target": 677.14,
+        "rr_ratio": 2.0
+      }
+    },
+    {
+      "ticker": "BRMS",
+      "score": 37.61,
+      "levels": null
+    },
+    {
+      "ticker": "TOBA",
+      "score": 34.44,
+      "levels": null
+    },
+    {
+      "ticker": "ISAT",
+      "score": 33.16,
+      "levels": null
+    },
+    {
+      "ticker": "ARCI",
+      "score": 33.01,
+      "levels": null
+    },
+    {
+      "ticker": "WIRG",
+      "score": 30.36,
+      "levels": null
+    }
+  ]
+}
