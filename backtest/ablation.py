@@ -24,12 +24,26 @@ from backtest import engine as bt
 from ranking import ranking_model as rm
 
 ROOT = Path(__file__).resolve().parents[1]
-FEATURES_PATH = ROOT / "data" / "features" / "2026-08-30.parquet"
+FEATURES_DIR = ROOT / "data" / "features"
 PUBLISHED_DIR = ROOT / "data" / "published"
 
 HORIZONS = [3, 5, 7, 10, 15]
 TOP_K = 8
 RETRAIN_EVERY = 10
+
+
+def latest_features_path() -> Path:
+    """Found as a real bug 2026-08-31: this used to be a hardcoded dated
+    filename (data/features/2026-08-30.parquet), which silently went
+    stale the moment a newer features file existed — every ablation run
+    since was training on yesterday's features regardless of what
+    scripts/run_daily_scan.py had actually produced since. Same
+    latest-file pattern as scripts/dashboard.py's load_features_latest().
+    """
+    files = sorted(FEATURES_DIR.glob("*.parquet"))
+    if not files:
+        raise FileNotFoundError(f"No feature files in {FEATURES_DIR} — run scripts/run_daily_scan.py first")
+    return files[-1]
 
 
 def _fmt_pct(x: float) -> str:
@@ -69,7 +83,7 @@ def run_one_horizon(horizon: int, panel: bt.PricePanel, features_df: pd.DataFram
         )
         return dict(zip(latest["ticker"], latest["roc20"]))
 
-    train_ds = rm.build_training_dataset(features_df, panel, horizon)
+    train_ds = rm.build_training_dataset(features_df, panel, horizon, pit_df)
     score_fn = rm.make_ranking_score_fn(train_ds, panel, retrain_every=RETRAIN_EVERY)
 
     model_ov = bt.run_backtest(score_fn, panel, features_df, pit_df, horizon, TOP_K, spacing=1)
@@ -140,7 +154,9 @@ def main() -> None:
     pit_df = bt.load_pit_universe()
     all_tickers = sorted(pit_df["ticker"].unique())
     panel = bt.PricePanel(bt.load_price_panel(bt.RAW_DIR, all_tickers))
-    features_df = pd.read_parquet(FEATURES_PATH)
+    features_path = latest_features_path()
+    logger.info(f"Using features file: {features_path}")
+    features_df = pd.read_parquet(features_path)
 
     if args.buy_hold_only or results.get("buy_and_hold") is None:
         logger.info("Running Level 1: Kompas100 buy-and-hold (full window, real PIT boundaries)...")

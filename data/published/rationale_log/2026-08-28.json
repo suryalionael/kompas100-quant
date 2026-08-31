@@ -2,7 +2,7 @@
   {
     "date": "2026-08-28",
     "ticker": "ARCI",
-    "action": "hold",
+    "action": "open",
     "technical_notes": "RSI14 63.4; 20D momentum +33.0%; +0.7% vs MA200; -33.3% from 52w high; 20D relative strength vs IHSG +26.0pp",
     "fundamental_notes": "P/E 12.8x; P/BV 84062.49x; ROE 41.2%; DER 1.19x; quality flag: excluded_fundamental",
     "macro_notes": "IHSG regime: Bull (score +2); IHSG close 6518.12; 20D annualized volatility 17.53%",
@@ -19,7 +19,7 @@
   {
     "date": "2026-08-28",
     "ticker": "BRMS",
-    "action": "hold",
+    "action": "open",
     "technical_notes": "RSI14 70.1; 20D momentum +37.6%; -10.1% vs MA200; -45.8% from 52w high; 20D relative strength vs IHSG +30.6pp",
     "fundamental_notes": "P/E 151.5x; P/BV 83333.34x; ROE 4.0%; DER 0.28x; quality flag: excluded_fundamental",
     "macro_notes": "IHSG regime: Bull (score +2); IHSG close 6518.12; 20D annualized volatility 17.53%",
@@ -36,7 +36,7 @@
   {
     "date": "2026-08-28",
     "ticker": "EMAS",
-    "action": "hold",
+    "action": "open",
     "technical_notes": "RSI14 86.7; 20D momentum +50.0%; +39.4% vs MA200; -8.6% from 52w high; full MA bullish alignment (MA20>MA50>MA200); 20D relative strength vs IHSG +43.0pp",
     "fundamental_notes": "P/BV 384000.00x; ROE -8.5%; DER 1.26x; quality flag: excluded_fundamental",
     "macro_notes": "IHSG regime: Bull (score +2); IHSG close 6518.12; 20D annualized volatility 17.53%",
@@ -53,7 +53,7 @@
   {
     "date": "2026-08-28",
     "ticker": "INET",
-    "action": "hold",
+    "action": "open",
     "technical_notes": "RSI14 70.1; 20D momentum +58.9%; -6.4% vs MA200; -63.6% from 52w high; 20D relative strength vs IHSG +51.9pp",
     "fundamental_notes": "P/E 148.9x; P/BV 2.15x; ROE 1.9%; DER 0.41x",
     "macro_notes": "IHSG regime: Bull (score +2); IHSG close 6518.12; 20D annualized volatility 17.53%",
@@ -70,7 +70,7 @@
   {
     "date": "2026-08-28",
     "ticker": "ISAT",
-    "action": "hold",
+    "action": "open",
     "technical_notes": "RSI14 61.1; 20D momentum +33.2%; +22.3% vs MA200; -11.2% from 52w high; 20D relative strength vs IHSG +26.2pp",
     "fundamental_notes": "P/E 10.8x; P/BV 2.18x; ROE 20.2%; DER 1.76x",
     "macro_notes": "IHSG regime: Bull (score +2); IHSG close 6518.12; 20D annualized volatility 17.53%",
@@ -87,7 +87,7 @@
   {
     "date": "2026-08-28",
     "ticker": "KIJA",
-    "action": "hold",
+    "action": "open",
     "technical_notes": "RSI14 69.2; 20D momentum +69.4%; +17.0% vs MA200; -42.3% from 52w high; 20D relative strength vs IHSG +62.3pp",
     "fundamental_notes": "P/BV 0.74x; ROE 2.9%; DER 0.63x; quality flag: watch_with_risk",
     "macro_notes": "IHSG regime: Bull (score +2); IHSG close 6518.12; 20D annualized volatility 17.53%",
@@ -104,7 +104,7 @@
   {
     "date": "2026-08-28",
     "ticker": "PSAB",
-    "action": "hold",
+    "action": "open",
     "technical_notes": "RSI14 72.1; 20D momentum +46.4%; +38.9% vs MA200; -7.5% from 52w high; full MA bullish alignment (MA20>MA50>MA200); 20D relative strength vs IHSG +39.4pp",
     "fundamental_notes": "P/E 3.0x; P/BV 25869.56x; ROE 53.9%; DER 0.12x; quality flag: excluded_fundamental",
     "macro_notes": "IHSG regime: Bull (score +2); IHSG close 6518.12; 20D annualized volatility 17.53%",
@@ -121,7 +121,7 @@
   {
     "date": "2026-08-28",
     "ticker": "SGER",
-    "action": "hold",
+    "action": "open",
     "technical_notes": "RSI14 84.4; 20D momentum +38.2%; +38.0% vs MA200; -14.3% from 52w high; full MA bullish alignment (MA20>MA50>MA200); 20D relative strength vs IHSG +31.2pp",
     "fundamental_notes": "P/E 41.3x; P/BV 3.79x; ROE 9.1%; DER 0.95x; quality flag: excluded_fundamental",
     "macro_notes": "IHSG regime: Bull (score +2); IHSG close 6518.12; 20D annualized volatility 17.53%",
@@ -138,7 +138,7 @@
   {
     "date": "2026-08-28",
     "ticker": "TOBA",
-    "action": "hold",
+    "action": "open",
     "technical_notes": "RSI14 68.4; 20D momentum +34.4%; -0.9% vs MA200; -60.4% from 52w high; 20D relative strength vs IHSG +27.4pp",
     "fundamental_notes": "P/BV 28181.82x; ROE -43.1%; DER 1.98x; quality flag: excluded_fundamental",
     "macro_notes": "IHSG regime: Bull (score +2); IHSG close 6518.12; 20D annualized volatility 17.53%",
@@ -155,7 +155,7 @@
   {
     "date": "2026-08-28",
     "ticker": "WIRG",
-    "action": "hold",
+    "action": "open",
     "technical_notes": "RSI14 61.7; 20D momentum +30.4%; -9.3% vs MA200; -69.8% from 52w high; 20D relative strength vs IHSG +23.4pp",
     "fundamental_notes": "P/E 11.8x; P/BV 1.07x; ROE 7.5%; DER 0.15x; quality flag: watch_with_risk",
     "macro_notes": "IHSG regime: Bull (score +2); IHSG close 6518.12; 20D annualized volatility 17.53%",

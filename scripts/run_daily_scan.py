@@ -7,6 +7,7 @@ are still TODO — see portfolio/daily_brief.py's module docstring for why
 it deliberately never emits a "validated" shortlist yet.
 """
 import json
+import os
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -25,29 +26,92 @@ RAW_DIR = ROOT / "data" / "raw"
 FEATURES_DIR = ROOT / "data" / "features"
 PUBLISHED_DIR = ROOT / "data" / "published"
 
+# How many business days a ticker's own last-trade date can lag the
+# market's (IHSG's) before it's flagged stale in the freshness audit —
+# 1 tolerates IDX-wide holidays that only affect that name's own gap
+# calculation slightly differently than IHSG's; anything more likely means
+# a fetch problem specific to that ticker (suspension, delisting, a
+# yfinance hiccup), not a market-wide non-trading day.
+STALE_TICKER_TOLERANCE_DAYS = 1
 
-def write_scan_meta(fetched: dict, clean: dict, features_df: pd.DataFrame) -> None:
+
+def audit_ticker_freshness(fetched: dict[str, pd.DataFrame], ihsg: pd.DataFrame) -> dict:
+    """Per-ticker actual last-trade date — from the fetched data itself,
+    not assumed from 'last row in the parquet file'. Flags any ticker
+    whose own last trade lags the market's last trading day by more than
+    STALE_TICKER_TOLERANCE_DAYS, which the market-wide gap (weekends,
+    IDX holidays) doesn't explain.
+    """
+    market_last_date = pd.to_datetime(ihsg["date"]).max() if not ihsg.empty else None
+    per_ticker = {}
+    stale = []
+    for ticker, df in fetched.items():
+        if df.empty:
+            per_ticker[ticker] = None
+            stale.append(ticker)
+            continue
+        last_date = pd.to_datetime(df["date"]).max()
+        per_ticker[ticker] = str(last_date.date())
+        if market_last_date is not None:
+            lag_days = len(pd.bdate_range(last_date + pd.Timedelta(days=1), market_last_date)) \
+                if last_date < market_last_date else 0
+            if lag_days > STALE_TICKER_TOLERANCE_DAYS:
+                stale.append(ticker)
+
+    return {
+        "market_last_trade_date": str(market_last_date.date()) if market_last_date is not None else None,
+        "per_ticker_last_trade_date": per_ticker,
+        "stale_tickers": sorted(stale),
+    }
+
+
+def write_scan_meta(fetched: dict, clean: dict, features_df: pd.DataFrame, freshness_audit: dict) -> None:
     """Record what this run actually did, for the dashboard's freshness panel.
 
     market_date is the newest date present in the successfully fetched OHLCV —
     on a non-trading day (weekend/holiday) yfinance returns no new rows, so
     this naturally reports the last real trading day instead of today.
+
+    trigger comes from GITHUB_EVENT_NAME (set by GitHub Actions —
+    "schedule" for the automated daily cron, "workflow_dispatch" for a
+    manual run) or "local" outside CI. Kept distinct from a separate
+    scheduled_run_state.json (updated only on trigger=="schedule") so the
+    dashboard can tell "did the automation actually run on its own
+    schedule" apart from "someone ran it by hand," which a single
+    latest-run snapshot can't distinguish once a manual run overwrites it.
     """
     market_date = None
     if not features_df.empty:
         market_date = pd.to_datetime(features_df["date"]).max().strftime("%Y-%m-%d")
 
+    trigger = os.environ.get("GITHUB_EVENT_NAME", "local")
+    scanned_at_utc = datetime.now(timezone.utc).isoformat(timespec="seconds")
+
     meta = {
-        "scanned_at_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "scanned_at_utc": scanned_at_utc,
+        "trigger": trigger,
         "market_date": market_date,
         "tickers_total": len(fetch_yfinance.load_universe(UNIVERSE_CSV)),
         "tickers_fetched": len(fetched),
         "tickers_validated": len(clean),
         "features_rows": len(features_df),
+        "stale_tickers": freshness_audit["stale_tickers"],
     }
     PUBLISHED_DIR.mkdir(parents=True, exist_ok=True)
     (PUBLISHED_DIR / "scan_meta.json").write_text(json.dumps(meta, indent=2))
+    (PUBLISHED_DIR / "data_freshness_audit.json").write_text(json.dumps(freshness_audit, indent=2))
     logger.info(f"Scan metadata written: {meta}")
+    if freshness_audit["stale_tickers"]:
+        logger.warning(
+            f"{len(freshness_audit['stale_tickers'])} ticker(s) lag the market's last "
+            f"trade date by more than {STALE_TICKER_TOLERANCE_DAYS}d: {freshness_audit['stale_tickers']}"
+        )
+
+    if trigger == "schedule":
+        (PUBLISHED_DIR / "scheduled_run_state.json").write_text(
+            json.dumps({"last_scheduled_run_utc": scanned_at_utc}, indent=2)
+        )
+        logger.info("Recorded successful scheduled run.")
 
 
 def main() -> None:
@@ -68,7 +132,8 @@ def main() -> None:
     if not features_df.empty:
         feature_builder.save_features(features_df, FEATURES_DIR)
 
-    write_scan_meta(fetched, clean, features_df)
+    freshness_audit = audit_ticker_freshness(fetched, ihsg)
+    write_scan_meta(fetched, clean, features_df, freshness_audit)
 
     logger.info("Building daily brief (shortlist + price levels)...")
     universe = fetch_yfinance.load_universe(UNIVERSE_CSV)

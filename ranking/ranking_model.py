@@ -22,7 +22,7 @@ import numpy as np
 import pandas as pd
 from loguru import logger
 
-from backtest.engine import PricePanel
+from backtest.engine import PricePanel, get_pit_universe
 
 # Ratios/percentages/booleans only — no raw price levels (ma5/ma20/close/...),
 # no composite rule-based score.
@@ -40,6 +40,45 @@ RANKING_FEATURES = [
     "atr_breakout", "vol_spike", "obv_trend",
 ]
 
+# One plain-English sentence per feature — a non-quant teammate should be
+# able to read this and recognize a real market behavior, not just a
+# column name. Surfaced in the dashboard's Rankings tab (COMPETITION_PLAN.md
+# §0's Final Stage note: a model nobody on the team can explain is a
+# liability even if it backtests well). Keep every RANKING_FEATURES entry
+# covered here — the dashboard flags any that drift out of sync.
+FEATURE_DESCRIPTIONS: dict[str, str] = {
+    "rsi14": "14-day Relative Strength Index — how overbought or oversold the stock is versus its own recent swings",
+    "stoch_rsi_k": "Stochastic RSI (%K) — how extreme RSI itself is versus its own recent range; faster and more sensitive than RSI",
+    "stoch_rsi_d": "Stochastic RSI (%D) — a smoothed version of Stochastic RSI %K",
+    "adx": "Average Directional Index — how strong the current trend is, regardless of direction",
+    "adx_pos": "+DI — strength of upward price movement (the bullish half of ADX)",
+    "adx_neg": "-DI — strength of downward price movement (the bearish half of ADX)",
+    "roc3": "3-day price momentum — % return over the last 3 trading days",
+    "roc5": "5-day price momentum — % return over the last 5 trading days",
+    "roc20": "20-day price momentum — % return over the last 20 trading days",
+    "sharpe_mom_20d": "20-day return per unit of 20-day volatility — an efficient trend, not just a noisy/volatile one",
+    "mom_vol_confirmed_20d": "20-day momentum weighted by volume activity — a move backed by real trading interest, not thin volume",
+    "pct_from_52w_high": "% below the 52-week high — how far the stock has pulled back from its own recent peak",
+    "atr_pct": "Average True Range as a % of price — typical daily move size, scaled so it's comparable across stocks",
+    "bb_width": "Bollinger Band width — how compressed or expanded the stock's recent volatility band is",
+    "hist_vol_20d": "20-day historical volatility (annualized) — how choppy the stock has been recently",
+    "vol_ratio_20d": "Today's volume vs. its own 20-day average — is trading activity unusually high or low",
+    "price_vs_ma200": "% above/below the 200-day moving average — long-term trend position",
+    "price_vs_vwap": "% above/below the 20-day volume-weighted average price — short-term fair-value position",
+    "rel_strength_5d": "5-day return relative to IHSG — outperforming or underperforming the broader market",
+    "rel_strength_20d": "20-day return relative to IHSG — same comparison over a longer window",
+    "sector_rel_strength_20d": "20-day return relative to same-sector peers — outperforming its own industry, not just the whole market",
+    "ma_full_alignment": "MA20 > MA50 > MA200 all stacked bullishly — a textbook uptrend structure",
+    "ma_partial_alignment": "MA20 > MA50 — a shorter-term uptrend signal, weaker than full alignment",
+    "golden_cross": "MA50 just crossed above MA200 — a classic, if lagging, bullish trend-change signal",
+    "supertrend_bullish": "Supertrend indicator currently reads bullish (price above its trailing stop line)",
+    "squeeze_on": "Bollinger Bands are inside the Keltner Channel — volatility is compressed, often precedes a big move",
+    "squeeze_release": "The volatility squeeze just ended — a big move may be starting",
+    "atr_breakout": "Today's move exceeded 1.5x yesterday's ATR — an unusually large single-day price swing",
+    "vol_spike": "Volume is more than 2.5x its 20-day average — unusually heavy trading interest",
+    "obv_trend": "On-Balance Volume has trended up over the last 10 days — buying pressure accumulating",
+}
+
 RIDGE_LAMBDA = 1.0
 MIN_TRAIN_ROWS = 200
 MIN_CROSS_SECTION = 10
@@ -49,13 +88,25 @@ def _to_numeric_matrix(df: pd.DataFrame, cols: list[str]) -> np.ndarray:
     return df[cols].astype(float).values
 
 
-def build_training_dataset(features_df: pd.DataFrame, panel: PricePanel, horizon: int) -> pd.DataFrame:
+def build_training_dataset(features_df: pd.DataFrame, panel: PricePanel, horizon: int, pit_df: pd.DataFrame) -> pd.DataFrame:
     """One row per (date, ticker) with RANKING_FEATURES + a resolved,
     cross-sectionally z-scored forward-`horizon`-day-return target.
 
     resolved_date is when that target became knowable (entry + horizon
     trading days later) — the walk-forward trainer only ever uses rows
     with resolved_date <= the current decision date.
+
+    pit_df is required, not optional: found 2026-08-31 that this function
+    was z-scoring the target against *every ticker with a feature row on
+    that date* — including several fetched only because they were in the
+    current Kompas100 list, not because they belonged in that historical
+    date's cross-section — rather than backtest.engine.get_pit_universe()'s
+    actual point-in-time membership. That's the exact thing
+    CLAUDE.md's non-negotiables ban ("kompas100_pit.csv, never
+    kompas100_live.csv applied retroactively") and it's a real train/
+    inference mismatch: make_ranking_score_fn() scores against the correct
+    PIT universe at inference time, so training against a different,
+    wrong cross-section adds pure noise to the learned target.
     """
     calendar = panel.calendar
     date_to_idx = {d: i for i, d in enumerate(calendar)}
@@ -71,6 +122,8 @@ def build_training_dataset(features_df: pd.DataFrame, panel: PricePanel, horizon
         entry_date = calendar[i + 1]
         exit_date = calendar[i + 1 + horizon]
 
+        pit_universe = set(get_pit_universe(pit_df, date))
+        group = group[group["ticker"].isin(pit_universe)]
         group = group.dropna(subset=feature_cols)
         tickers = group["ticker"].tolist()
         tradeable = panel.tradeable(tickers, entry_date, exit_date)

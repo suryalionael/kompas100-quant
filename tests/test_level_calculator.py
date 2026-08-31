@@ -123,22 +123,47 @@ class TestPullbackSetup(unittest.TestCase):
         self.assertEqual(result["rr_ratio"], 2.0)
 
 
-class TestNoSetup(unittest.TestCase):
-    def test_flat_price_in_middle_of_range_returns_none(self):
+class TestAtrBandFallback(unittest.TestCase):
+    def test_flat_price_in_middle_of_range_falls_back_to_atr_band(self):
         """Flat market: high=105, low=95, close=100 for every row. Close
         sits dead in the middle — 4.76% from the rolling high and 5.26%
         from the rolling low, both outside the 3% proximity band — so
-        there's no breakout or pullback setup and the function must not
-        invent one."""
+        there's no breakout or pullback setup. Found 2026-08-31: this used
+        to return None here, which a momentum-ranked shortlist hits most
+        of the time (extended names aren't freshly at a 20-day extreme),
+        leaving 8 of 10 shortlisted names with no level at all — read as
+        "no risk here," which is false. Must fall back to a real,
+        distinctly-labeled atr_band level instead of no level.
+
+        TR = max(high-low, |high-prevclose|, |low-prevclose|)
+           = max(10, |105-100|=5, |95-100|=5) = 10, constant every row
+           (row 0 has no prevclose; max() skips the resulting NaNs, so its
+           TR is also just high-low=10 — same value either way).
+        atr = rolling(14).mean() of a constant 10 = 10.0
+
+        entry = 100, atr = 10.0
+        stop  = 100 - 1.5*10.0 = 85.0
+        risk  = 100 - 85.0 = 15.0
+        target = 100 + 2.0*15.0 = 130.0
+        rr_ratio = (130.0 - 100) / 15.0 = 2.0
+        """
         dates = pd.bdate_range(start="2026-01-01", periods=21)
         df = pd.DataFrame({
             "date": dates, "open": 100.0, "high": 105.0, "low": 95.0,
             "close": 100.0, "volume": 1_000_000,
         })
         result = lc.compute_levels_from_df(df, "TEST")
-        self.assertIsNone(result)
+        self.assertIsNotNone(result)
+        self.assertEqual(result["setup"], "atr_band")
+        self.assertEqual(result["entry"], 100.0)
+        self.assertEqual(result["atr"], 10.0)
+        self.assertEqual(result["stop"], 85.0)
+        self.assertEqual(result["target"], 130.0)
+        self.assertEqual(result["rr_ratio"], 2.0)
 
-    def test_insufficient_history_returns_none(self):
+    def test_insufficient_history_still_returns_none(self):
+        """Not enough history to compute ATR/rolling levels at all is a
+        genuine data problem — the one case that still returns None."""
         df = _make_df([100 + t for t in range(10)])  # needs 21 rows minimum
         result = lc.compute_levels_from_df(df, "TEST")
         self.assertIsNone(result)

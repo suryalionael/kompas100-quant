@@ -82,42 +82,151 @@ money wins" contest, and it isn't "mid-September":
 
 ## 3. Backtest engine (build before trusting any model)
 
-- [ ] `backtest/engine.py` — walk-forward simulator over the point-in-time
+- [x] `backtest/engine.py` — walk-forward simulator over the point-in-time
       universe. Many historical start dates, ~10-day hold, realistic entry
       (T+1 open), IDX-typical costs (~0.15–0.25% buy / 0.25–0.35% sell,
       10–20bps slippage) as placeholders pending real platform figures.
-- [ ] Benchmarks wired in for every run: random portfolio (many draws),
-      Kompas100 equal-weight buy-and-hold, naive momentum, and (once
-      ported) the old scanner's rule-based signal for comparison.
-- [ ] Report both overlapping and non-overlapping window results with
+- [x] Benchmarks wired in for every run: random portfolio (many draws),
+      Kompas100 equal-weight buy-and-hold, naive momentum. Old scanner's
+      rule-based signal (Level 3) intentionally not included —
+      `signal_engine.py` is reference-only per §1.
+- [x] Report both overlapping and non-overlapping window results with
       confidence intervals — ~50–70 independent folds is the honest
-      sample size across ~3 years.
-- [ ] IC (Spearman rank correlation) logged per fold as a diagnostic only.
+      sample size across ~3 years. **This distinction mattered in
+      practice** — see §4's 2026-08-31 entry: the overlapping view
+      showed an apparent edge that the non-overlapping view didn't
+      confirm, exactly the false-positive this dual reporting exists to
+      catch.
+- [x] IC (Spearman rank correlation) logged per fold as a diagnostic only.
       **Realized portfolio return is the pass/fail metric, not IC.**
 
 ## 4. Ranking model — horizon ablation (empirical, not assumed)
 
-- [ ] Train 5 independent cross-sectional relative-return regressors:
+- [x] Train 5 independent cross-sectional relative-return regressors:
       **3D / 5D / 7D / 10D / 15D**. Target = forward return z-scored
-      against the Kompas100 cross-section that date.
-- [ ] Run all 5 through `backtest/engine.py`, score on: realized portfolio
-      performance, stability across regimes, IC (diagnostic), drawdown,
-      transaction costs.
-- [ ] Log the result table once run:
+      against the Kompas100 cross-section that date. `ranking/
+      ranking_model.py` — a from-scratch numpy Ridge regression, not
+      scikit-learn (closed-form, no new heavy dep, easy to audit).
+- [x] Run all 5 through `backtest/engine.py`, score on: realized portfolio
+      performance, IC (diagnostic), drawdown, transaction costs.
+      Stability-across-regimes is not yet broken out —
+      `ranking/regime_classifier.py` (§6/§12) isn't wired into the
+      ablation, only used for narrative logging so far.
 
-  | Horizon | Portfolio return | Stability | IC | Max drawdown | Cost-adjusted |
+### 2026-08-31 — ground-truth audit + real bugs found and fixed, before any model changes
+
+Three real, confirmed bugs, all fixed and verified independently before
+touching the model at all (see git history for each):
+
+1. **`data_pipeline/fetch_yfinance.py`'s `default_end_date()` returned
+   today's date, but yfinance's `end` parameter is EXCLUSIVE** —
+   confirmed directly (`yf.download(..., end="2026-08-31")` returns
+   nothing for 2026-08-31 itself; `end="2026-09-01"` does). The daily
+   scan could never pick up the same day's close no matter when it ran
+   after market close — permanently one trading day behind. Fixed:
+   `default_end_date()` now returns tomorrow.
+2. **`ranking/ranking_model.py`'s `build_training_dataset()` z-scored the
+   forward-return target against every ticker with a feature row on a
+   date — not `backtest.engine.get_pit_universe()`'s actual point-in-time
+   Kompas100 membership.** A direct violation of CLAUDE.md's non-
+   negotiable ("kompas100_pit.csv, never kompas100_live.csv applied
+   retroactively") and a real train/inference mismatch: the model scores
+   against the correct PIT universe at inference time
+   (`make_ranking_score_fn`) but was trained against a different, wrong
+   cross-section. Fixed: `build_training_dataset()` now requires a
+   `pit_df` argument and filters to `get_pit_universe(pit_df, date)`
+   before computing the target.
+3. **`backtest/ablation.py` had a hardcoded, dated features-file path**
+   (`data/features/2026-08-30.parquet`) that silently went stale the
+   moment a newer file existed — every ablation run was training on
+   yesterday's features regardless of what `run_daily_scan.py` had
+   actually produced since. Fixed: reads the latest file in
+   `data/features/` (same pattern as `scripts/dashboard.py`'s
+   `load_features_latest()`).
+
+Also verified and found correct (no bug): forward-return z-scoring's
+entry/exit prices (`backtest.engine.PricePanel.forward_returns` — T+1
+open entry, close exit) exactly match what `run_backtest()`'s own trade
+simulation uses, so the training target and the backtest's realized
+returns are computed the same way. Walk-forward training correctly only
+uses rows with `resolved_date <= decision_date` (`make_ranking_score_fn`).
+
+**Isolated effect of the PIT-universe fix alone** (before any feature
+changes, non-overlapping/honest folds): every horizon's IC improved
+(3D: 0.005→0.010, 5D: -0.003→0.005, 7D: 0.007→0.017, 10D: 0.012→0.023,
+15D: 0.024→0.035) and 3D/5D briefly cleared the "beats momentum" bar on
+one data snapshot — but see the robustness caveat below before reading
+that as a real edge.
+
+### 2026-08-31 — feature widening, tested additively, both reverted
+
+- **Refined momentum** (`roc3`, `sharpe_mom_20d` = roc20/hist_vol_20d,
+  `mom_vol_confirmed_20d` = roc20 × vol_ratio_20d) — added to
+  `data_pipeline/feature_builder.py` (kept, still computed) and briefly
+  to `RANKING_FEATURES`. Result: **every horizon got worse** — lower
+  model return AND lower IC across the board; 5D lost its "beats
+  momentum" result entirely. Likely cause: these are multiplicative
+  recombinations of features already in the model (roc20, hist_vol_20d,
+  vol_ratio_20d), adding collinearity without new information, diluting
+  the Ridge fit. **Reverted from `RANKING_FEATURES`.**
+- **Sector-relative strength** (`sector_rel_strength_20d` — 20D return
+  vs. same-sector peers, not just vs. IHSG; added to `feature_builder.py`
+  as `add_sector_relative_strength()`, kept, still computed) — a priori
+  the more promising addition (genuinely different comparison group from
+  the market-relative feature already in the model). Result: roughly a
+  wash to slightly worse — 5D again lost its "beats momentum" result,
+  IC flat-to-down on most horizons. **Reverted from `RANKING_FEATURES`.**
+
+### 2026-08-31 — final honest result (current `RANKING_FEATURES`, freshest data)
+
+  | Horizon | Model return/fold (non-overlap) | 95% CI | Momentum return/fold | IC | Beats momentum? |
   |---|---|---|---|---|---|
-  | 3D | | | | | |
-  | 5D | | | | | |
-  | 7D | | | | | |
-  | 10D | | | | | |
-  | 15D | | | | | |
+  | 3D | +0.37% | [-0.48%, +1.21%] | +0.30% | 0.003 | barely, not robust (see below) |
+  | 5D | +0.41% | [-1.23%, +2.04%] | +0.74% | -0.003 | no |
+  | 7D | +1.22% | [-1.08%, +3.52%] | +1.74% | 0.005 | no |
+  | 10D | +1.73% | [-1.64%, +5.10%] | +2.56% | 0.012 | no |
+  | 15D | +3.93% | [-0.99%, +8.85%] | +5.57% | 0.024 | no |
 
-- [ ] Select winning horizon(s); only build a rank-average ensemble if the
-      winner leaves an obvious gap to the runner-up.
-- [ ] Features: ported `feature_builder` set + IHSG/sector relative
-      strength (new) + Tier 1/2 character features (§5). No circular
-      rule-score features.
+  Overlapping view (reference only): **nothing beats momentum on any
+  horizon** — 3D's overlapping model return (+0.14%) is below momentum's
+  (+0.25%).
+
+  **Robustness check, not a cherry-pick:** re-running 3D twice — once
+  right after the PIT fix (still against a slightly older, cached
+  features file) and once against a freshly re-fetched file (yfinance's
+  `auto_adjust=True` retroactively revises historical adjusted-close
+  values on every refetch, e.g. for dividends) — gave visibly different
+  results (+0.34%/IC 0.011 vs. the +0.37%/IC 0.003 logged above,
+  overlapping went from "wins" to "loses"). **A signal that flips
+  between beating and losing to momentum from routine dividend-
+  adjustment noise on 3-year-old prices is not a robust, demonstrated
+  edge — it's noise-level.** Per this project's own gate rule, honest
+  read: 3D does not clear it either, despite the point estimate.
+
+  **Verdict: no horizon has a demonstrated, robust edge over naive
+  momentum.** `portfolio/daily_brief.py` cannot emit `"validated"`
+  regardless (no live inference path exists — deliberate, see §7), so
+  this doesn't change anything about what ships; the honest
+  `naive_momentum_interim` state (already dashboard-visible, already
+  gated by `quality_filters.py`'s eligible set, already has a real level
+  and sizing on every name — see §13/`daily_brief.py`'s 2026-08-31 bug
+  fixes) remains correct.
+
+- [ ] Select winning horizon(s) — **still blocked**: none robustly clear
+      the bar after real effort (leakage/misalignment fix + two
+      feature-widening attempts, this session). Candidate next moves, not
+      yet tried: (a) §5's character features, (b) a rank-based objective
+      (top-quartile classification) instead of exact z-score regression —
+      allowed to change model type per this session's brief, but not
+      attempted due to time; a genuinely separate build, not a quick
+      addition, (c) regularization/robustness tuning given the fragility
+      finding above, (d) more training data (currently ~3yr lookback).
+- [x] Features: ported `feature_builder` set + IHSG relative strength.
+      Sector-relative strength and refined-momentum interactions
+      **tried and reverted** (see above — both computed and available in
+      `feature_builder.py` output, just not in `RANKING_FEATURES`). No
+      circular rule-score features. Tier 1/2 character features (§5)
+      still not built.
 
 ## 5. Stock character — personalized screener (ablation-gated)
 
@@ -240,14 +349,14 @@ doesn't beat the one below it gets cut, even if already built.
 
 | # | Level | Result (fill in once run) |
 |---|---|---|
-| 0 | Random portfolio | |
-| 1 | Kompas100 benchmark (buy-and-hold) | |
-| 2 | Simple momentum | |
-| 3 | Old scanner's rule-based signal, for reference | |
-| 4 | This project's quant model (best horizon from §4) | |
-| 5 | + Stock character (winning variant from §5) | |
-| 6 | + Research/Catalyst (shadow-tested, §7) | |
-| 7 | + Full portfolio construction + strategist (§6) | |
+| 0 | Random portfolio | 2026-08-31: ~flat to slightly negative per non-overlapping fold across horizons (e.g. 10D: +0.17%/fold) |
+| 1 | Kompas100 benchmark (buy-and-hold) | 2026-08-31: **+130.91%** compounded, -14.47% max drawdown, full window 2023-08-31→2026-08-28, real PIT rebalance dates, cost-adjusted |
+| 2 | Simple momentum | 2026-08-31: beats Level 0 and Level 1 (per-fold) at every horizon on the non-overlapping set — current best baseline, see §4 |
+| 3 | Old scanner's rule-based signal, for reference | Not run — `signal_engine.py` is reference-only (§1), deliberately not ported/benchmarked as-is |
+| 4 | This project's quant model (best horizon from §4) | 2026-08-31: **does not robustly beat Level 2** at any horizon after a real leakage/misalignment fix + two feature-widening attempts — **cut, not shipped**. See §4 for the full investigation, including a robustness check showing the one apparent "win" (3D) isn't stable across routine data revisions. |
+| 5 | + Stock character (winning variant from §5) | Not built |
+| 6 | + Research/Catalyst (shadow-tested, §7) | Not built |
+| 7 | + Full portfolio construction + strategist (§6) | Not built |
 
 ## 10. Roadmap (real ISTC 2026 dates — corrected 2026-08-31)
 
