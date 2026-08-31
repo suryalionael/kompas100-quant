@@ -60,6 +60,9 @@ STATUS_NO_PICKS = "no_picks"
 # expected-return-weighted, per-name/sector caps) doesn't exist yet.
 BASE_CAPITAL_IDR = 100_000_000
 MAX_POSITION_PCT = 25.0
+SECTOR_CAP_PCT = 30.0  # placeholder, like MAX_POSITION_PCT — single source of
+                       # truth for both construction-time enforcement below
+                       # and the dashboard's sector-concentration display
 
 
 class Kompas100ViolationError(ValueError):
@@ -78,33 +81,116 @@ def assert_kompas100_only(tickers: list[str], universe: list[str]) -> None:
 
 def _ablation_gate_cleared() -> bool:
     """True if at least one horizon's ranking model beats naive momentum
-    on the non-overlapping (honest) fold set — the same check
-    scripts/dashboard.py's Rankings tab uses. This tells you whether the
-    *model* has cleared the bar, not whether a live-inference path exists
-    for it (it doesn't yet — see module docstring)."""
+    on BOTH the non-overlapping (honest) and overlapping fold sets — the
+    same check scripts/dashboard.py's Rankings tab uses. Requiring both
+    to agree, not just the non-overlapping view alone, is a cheap
+    robustness check found necessary 2026-08-31: a horizon (3D) technically
+    cleared a non-overlapping-only bar but flipped between winning and
+    losing across two ordinary data refreshes (yfinance revises historical
+    adjusted-close on every refetch) and lost outright on the overlapping
+    view — noise-level, not a real edge. This tells you whether the
+    *model* has robustly cleared the bar, not whether a live-inference
+    path exists for it (it doesn't yet — see module docstring)."""
     if not ABLATION_RESULTS_PATH.exists():
         return False
     results = json.loads(ABLATION_RESULTS_PATH.read_text())
     horizons = results.get("horizons", {})
     return any(
         h["ranking_model"]["non_overlapping"]["mean_return"] > h["momentum"]["non_overlapping"]["mean_return"]
+        and h["ranking_model"]["overlapping"]["mean_return"] > h["momentum"]["overlapping"]["mean_return"]
         for h in horizons.values()
     )
 
 
-def _naive_momentum_shortlist(features_df: pd.DataFrame, universe: list[str], top_n: int) -> pd.DataFrame:
-    """Rank by trailing 20-day return — the exact Level 2 baseline
-    backtest/ablation.py compares the ranking model against."""
+def _eligible_universe(universe: list[str]) -> list[str]:
+    """Kompas100 universe intersected with quality_filters.py's
+    final_status == "eligible" set (typically ~50/100 — the other half
+    are excluded_fundamental/excluded_float_structure/excluded_regulatory
+    or watch_with_risk). Found as a real bug 2026-08-31: the momentum
+    shortlist was ranking over the full 100-ticker universe with no
+    quality gate at all, surfacing names like a stock with a PBV in the
+    tens of thousands (excluded_fundamental) as top "momentum" picks —
+    not a modeling judgment call, a straightforward quality-filter bypass.
+    Falls back to the full universe (with a loud warning, never a silent
+    fallback) only if no quality snapshot exists yet.
+    """
+    if not UNIVERSE_SNAPSHOT_PATH.exists():
+        logger.warning(
+            "No universe_snapshot_latest.parquet — quality filters can't gate the "
+            "shortlist today, falling back to the full (ungated) universe."
+        )
+        return universe
+    snapshot = pd.read_parquet(UNIVERSE_SNAPSHOT_PATH, columns=["ticker", "final_status"])
+    eligible = set(snapshot[snapshot["final_status"] == "eligible"]["ticker"])
+    result = [t for t in universe if t in eligible]
+    if not result:
+        logger.warning("Quality filter left zero eligible tickers — falling back to the full universe.")
+        return universe
+    return result
+
+
+def _momentum_ranked_candidates(features_df: pd.DataFrame, universe: list[str]) -> pd.DataFrame:
+    """Every eligible ticker ranked by trailing 20-day return — the exact
+    Level 2 baseline backtest/ablation.py compares the ranking model
+    against, minus names the quality filter would already exclude.
+    Deliberately NOT sliced to top_n here: _select_with_sector_cap() needs
+    the full ranked pool to skip over-cap candidates and still fill the
+    shortlist from the next-best names.
+    """
+    eligible = _eligible_universe(universe)
     latest = (
-        features_df[features_df["ticker"].isin(universe)]
+        features_df[features_df["ticker"].isin(eligible)]
         .dropna(subset=["roc20"])
         .sort_values("date")
         .groupby("ticker")
         .tail(1)
         .sort_values("roc20", ascending=False)
-        .head(top_n)
     )
     return latest[["ticker", "roc20"]].rename(columns={"roc20": "score"})
+
+
+def _select_with_sector_cap(
+    candidates: pd.DataFrame,
+    sector_by_ticker: dict[str, str],
+    top_n: int,
+    sector_cap_pct: float,
+) -> pd.DataFrame:
+    """Greedily fills the shortlist from the ranked candidate pool,
+    skipping any name that would push its sector over sector_cap_pct at
+    the target equal-weight allocation (100/top_n per slot) — enforced
+    at construction time. Found as a real bug 2026-08-31: the dashboard
+    computed and *reported* sector exposure after the fact ("Over Cap:
+    Yes") but nothing stopped the breach from happening — the shortlist
+    was already 40% Basic Materials against a stated 30% cap. A skipped
+    over-cap candidate is simply passed over in favor of the next-best
+    name from an under-cap sector; if too few names remain to fill top_n,
+    the shortlist is honestly shorter than top_n rather than breaching
+    the cap to pad it out.
+    """
+    if candidates.empty or top_n <= 0:
+        return candidates.head(0)
+
+    assumed_weight_per_slot = 100.0 / top_n
+    sector_totals: dict[str, float] = {}
+    selected_idx = []
+
+    for idx, row in candidates.iterrows():
+        if len(selected_idx) >= top_n:
+            break
+        sector = sector_by_ticker.get(row["ticker"], "") or "Unknown"
+        projected = sector_totals.get(sector, 0.0) + assumed_weight_per_slot
+        if projected > sector_cap_pct:
+            continue
+        sector_totals[sector] = projected
+        selected_idx.append(idx)
+
+    skipped = len(candidates) - len(selected_idx)
+    if len(selected_idx) < top_n and skipped > 0:
+        logger.info(
+            f"Sector cap ({sector_cap_pct:.0f}%) left the shortlist at "
+            f"{len(selected_idx)}/{top_n} — not padding it out with an over-cap name."
+        )
+    return candidates.loc[selected_idx]
 
 
 def _empty_brief(status: str) -> dict:
@@ -159,15 +245,20 @@ def build_daily_brief(
         logger.warning("No features or universe available — daily_brief.json will report no_picks.")
         return _empty_brief(STATUS_NO_PICKS)
 
-    momentum_df = _naive_momentum_shortlist(features_df, universe, top_n)
-    if momentum_df.empty:
+    candidates = _momentum_ranked_candidates(features_df, universe)
+    if candidates.empty:
         logger.warning("Momentum ranking produced no candidates — daily_brief.json will report no_picks.")
+        return _empty_brief(STATUS_NO_PICKS)
+
+    sector_by_ticker = _sector_lookup(universe)
+    momentum_df = _select_with_sector_cap(candidates, sector_by_ticker, top_n, SECTOR_CAP_PCT)
+    if momentum_df.empty:
+        logger.warning("Sector cap enforcement left zero candidates — daily_brief.json will report no_picks.")
         return _empty_brief(STATUS_NO_PICKS)
 
     tickers = momentum_df["ticker"].tolist()
     assert_kompas100_only(tickers, universe)  # hard guard — ISTC 2026 disqualifies for this
 
-    sector_by_ticker = _sector_lookup(universe)
     sizing = _naive_position_size(len(tickers))
 
     shortlist = []

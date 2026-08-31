@@ -111,7 +111,14 @@ def default_start_date(lookback_years: int = _DEFAULT_LOOKBACK_YEARS) -> str:
 
 
 def default_end_date() -> str:
-    return datetime.today().strftime("%Y-%m-%d")
+    """Tomorrow, not today — yfinance's `end` parameter is EXCLUSIVE, so
+    end=today silently drops today's own close no matter what time the
+    scan runs after market close. Confirmed directly: yf.download(...,
+    end="2026-08-31") returns nothing for 2026-08-31 itself, but
+    end="2026-09-01" does. Without this, the daily scan can never pick up
+    same-day data — it's permanently one trading day behind, which
+    defeats the entire point of running it after market close."""
+    return (datetime.today() + timedelta(days=1)).strftime("%Y-%m-%d")
 
 
 def load_universe(universe_csv: Path | str) -> list[str]:

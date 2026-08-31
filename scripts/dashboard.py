@@ -20,6 +20,9 @@ import plotly.graph_objects as go
 import streamlit as st
 from plotly.subplots import make_subplots
 
+from portfolio import daily_brief
+from ranking import ranking_model
+
 WIB = ZoneInfo("Asia/Jakarta")
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -220,6 +223,28 @@ def load_universe_snapshot() -> pd.DataFrame:
 @st.cache_data(ttl=300)
 def load_scan_meta() -> dict | None:
     path = PUBLISHED_DIR / "scan_meta.json"
+    if not path.exists():
+        return None
+    return json.loads(path.read_text())
+
+
+@st.cache_data(ttl=300)
+def load_scheduled_run_state() -> dict | None:
+    """Written only when scripts/run_daily_scan.py's trigger is
+    "schedule" (GITHUB_EVENT_NAME) — distinct from scan_meta.json, which
+    the most recent run of *any* trigger type overwrites. Lets the
+    dashboard tell "the automation actually ran on its own schedule"
+    apart from "someone ran it by hand," which scan_meta.json alone can't
+    once a manual run is the latest one."""
+    path = PUBLISHED_DIR / "scheduled_run_state.json"
+    if not path.exists():
+        return None
+    return json.loads(path.read_text())
+
+
+@st.cache_data(ttl=300)
+def load_data_freshness_audit() -> dict | None:
+    path = PUBLISHED_DIR / "data_freshness_audit.json"
     if not path.exists():
         return None
     return json.loads(path.read_text())
@@ -671,8 +696,59 @@ def render_staleness_banner(latest_bar_date: str | None) -> None:
         )
 
 
+def render_scheduled_run_health() -> None:
+    """Distinguishes "the automation actually fired on its own schedule"
+    from "someone ran it by hand" — found as a real gap 2026-08-31: the
+    only run in GitHub Actions history was workflow_dispatch (manual);
+    the cron's first scheduled slot after the workflow was registered had
+    already passed with nothing firing, and nothing before this would
+    have surfaced that silently-stale automation to anyone looking at the
+    dashboard.
+    """
+    meta = load_scan_meta()
+    scheduled_state = load_scheduled_run_state()
+
+    trigger = meta.get("trigger", "unknown") if meta else "unknown"
+    trigger_label = {
+        "schedule": "Scheduled (automatic)",
+        "workflow_dispatch": "Manual dispatch",
+        "local": "Local run",
+    }.get(trigger, trigger)
+
+    c1, c2 = st.columns(2)
+    with c1:
+        st.markdown(kpi_card("Latest Run Trigger", trigger_label), unsafe_allow_html=True)
+
+    if scheduled_state is None:
+        with c2:
+            st.markdown(kpi_card("Last Scheduled Success", "Never", tone="down"), unsafe_allow_html=True)
+        st.error(
+            "**No scheduled run has ever completed successfully.** Every run so far has been "
+            "triggered manually — the daily automation (.github/workflows/daily_data_refresh.yml) "
+            "has not been confirmed to work on its own. Check the Actions tab."
+        )
+        return
+
+    last_scheduled_utc = datetime.fromisoformat(scheduled_state["last_scheduled_run_utc"])
+    hours_since = (datetime.now(timezone.utc) - last_scheduled_utc).total_seconds() / 3600
+
+    with c2:
+        tone = "up" if hours_since <= 30 else "down"
+        st.markdown(kpi_card("Hours Since Last Scheduled Success", f"{hours_since:.1f}h", tone=tone), unsafe_allow_html=True)
+
+    if hours_since > 30:
+        st.error(
+            f"**Scheduled refresh may have stopped running — {hours_since:.1f}h since the last "
+            f"confirmed scheduled success** (cron fires daily). Check the Actions tab."
+        )
+    else:
+        st.success(f"Scheduled refresh confirmed working — last success {hours_since:.1f}h ago.")
+
+
 def render_data_health_tab(tickers: list[str]) -> None:
     st.markdown('<h2 class="k100-section">Data Health</h2>', unsafe_allow_html=True)
+
+    render_scheduled_run_health()
 
     rows = []
     for t in tickers:
@@ -704,6 +780,23 @@ def render_data_health_tab(tickers: list[str]) -> None:
     st.markdown('<h3 class="k100-subsection">Fetch Status by Ticker</h3>', unsafe_allow_html=True)
     st.dataframe(health, use_container_width=True, height=380, hide_index=True)
 
+    st.markdown('<h3 class="k100-subsection">Per-Ticker Freshness Audit</h3>', unsafe_allow_html=True)
+    audit = load_data_freshness_audit()
+    if audit is None:
+        st.info("No freshness audit yet — run `scripts/run_daily_scan.py` to generate one.")
+    else:
+        market_last = audit.get("market_last_trade_date")
+        stale = audit.get("stale_tickers", [])
+        st.caption(
+            f"Each ticker's own last-trade date (from the fetched OHLCV itself, not assumed "
+            f"from 'last row in the file') vs. the market's last trading day ({market_last}, "
+            f"from IHSG)."
+        )
+        if stale:
+            st.error(f"**{len(stale)} ticker(s) lag the market by more than 1 trading day:** {', '.join(stale)}")
+        else:
+            st.success("All tickers match the market's last trading day.")
+
     st.markdown('<h3 class="k100-subsection">Quality Filter Results</h3>', unsafe_allow_html=True)
     snapshot = load_universe_snapshot()
     if snapshot.empty:
@@ -732,6 +825,25 @@ def render_data_health_tab(tickers: list[str]) -> None:
             st.success("All tickers passed quality filters.")
 
 
+def render_feature_glossary() -> None:
+    """Plain-English descriptions of every feature the ranking model uses
+    (ranking/ranking_model.py's FEATURE_DESCRIPTIONS) — a non-quant
+    teammate should be able to read these and recognize a real market
+    behavior, not just a column name. A model nobody on the team can
+    explain in the ISTC 2026 Final Stage pitch is a liability even if it
+    backtests well (COMPETITION_PLAN.md §0).
+    """
+    missing = [f for f in ranking_model.RANKING_FEATURES if f not in ranking_model.FEATURE_DESCRIPTIONS]
+    with st.expander("What do these features mean? (glossary)"):
+        if missing:
+            st.warning(f"FEATURE_DESCRIPTIONS is missing an entry for: {missing} — out of sync with RANKING_FEATURES.")
+        rows = [
+            {"Feature": f, "Plain-English meaning": ranking_model.FEATURE_DESCRIPTIONS.get(f, "—")}
+            for f in ranking_model.RANKING_FEATURES
+        ]
+        st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True, height=380)
+
+
 def render_rankings_tab(tickers: list[str]) -> None:
     st.markdown('<h2 class="k100-section">Rankings</h2>', unsafe_allow_html=True)
 
@@ -747,22 +859,46 @@ def render_rankings_tab(tickers: list[str]) -> None:
         return
 
     horizons = results["horizons"]
+    # A bare non-overlapping mean_return comparison alone is fragile —
+    # found 2026-08-31: 3D's non-overlapping point estimate technically
+    # beat momentum, but flipped between two ordinary data refreshes
+    # (yfinance revises historical adjusted-close on every refetch) and
+    # lost on the overlapping view outright. Requiring agreement on BOTH
+    # views is a cheap, already-computed robustness check against exactly
+    # that kind of noise-level "win" — this is what portfolio/
+    # daily_brief.py's own no-live-inference-path guard structurally
+    # prevents from ever reaching "validated", but the dashboard message
+    # itself needs the same caution, not just the underlying system.
     any_horizon_wins = any(
+        h["ranking_model"]["non_overlapping"]["mean_return"] > h["momentum"]["non_overlapping"]["mean_return"]
+        and h["ranking_model"]["overlapping"]["mean_return"] > h["momentum"]["overlapping"]["mean_return"]
+        for h in horizons.values()
+    )
+    any_horizon_wins_fragile = not any_horizon_wins and any(
         h["ranking_model"]["non_overlapping"]["mean_return"] > h["momentum"]["non_overlapping"]["mean_return"]
         for h in horizons.values()
     )
 
     if any_horizon_wins:
         st.success(
-            "At least one horizon beats naive momentum on the honest (non-overlapping) fold set. "
-            "See the table below — still not live picks until portfolio construction (§6) exists."
+            "At least one horizon beats naive momentum on both the overlapping and honest "
+            "(non-overlapping) fold sets. See the table below — still not live picks until "
+            "portfolio construction (§6) exists."
+        )
+    elif any_horizon_wins_fragile:
+        st.warning(
+            "**A horizon's point estimate beats momentum on the non-overlapping view, but not on "
+            "the overlapping view too — not treated as a real edge.** Found 2026-08-31: this exact "
+            "pattern (3D) flipped between beating and losing to momentum across two ordinary data "
+            "refreshes (yfinance revises historical prices on every refetch) — noise-level, not a "
+            "robust result. COMPETITION_PLAN.md §4 has the full investigation. No live picks shown."
         )
     else:
         st.warning(
             "**No horizon beats naive momentum yet — the ranking model does not clear the "
             "ablation gate, so no live picks are shown.** Per COMPETITION_PLAN.md's own rule, "
             "a level that doesn't beat the one below it gets cut, even if already built. "
-            "This is the real backtest comparison, run 2026-08-30 — not a placeholder."
+            "This is the real backtest comparison, most recently run 2026-08-31 — not a placeholder."
         )
 
     bh = results.get("buy_and_hold")
@@ -774,6 +910,8 @@ def render_rankings_tab(tickers: list[str]) -> None:
             st.markdown(kpi_card("Max Drawdown", _pct(bh.get("max_drawdown")), tone="down"), unsafe_allow_html=True)
         with c3:
             st.markdown(kpi_card("Full Window", "2023-08-31 → 2026-08-28"), unsafe_allow_html=True)
+
+    render_feature_glossary()
 
     st.markdown('<h3 class="k100-subsection">Horizon Ablation — Non-Overlapping Folds (the honest view)</h3>', unsafe_allow_html=True)
     rows = []
@@ -895,14 +1033,17 @@ def render_current_shortlist(tickers: list[str]) -> None:
 
 
 def render_sector_concentration(shortlist: list[dict]) -> None:
-    """Current exposure per sector vs. a placeholder cap — the thing
-    "diversification" in the ISTC 2026 Final Stage pitch (Risk Management,
-    10% of that score) gets pointed at. SECTOR_CAP_PCT is a placeholder,
-    like level_calculator's proximity_pct — portfolio/portfolio_optimizer.py
-    doesn't exist yet to derive a real, ablated cap from.
+    """Current exposure per sector vs. daily_brief.py's SECTOR_CAP_PCT —
+    the thing "diversification" in the ISTC 2026 Final Stage pitch (Risk
+    Management, 10% of that score) gets pointed at. This cap is now
+    enforced at shortlist-construction time (portfolio/daily_brief.py's
+    _select_with_sector_cap()), not just reported here after the fact —
+    "Over Cap?" should read "No" for every row unless daily_brief.json
+    predates that fix. Still a placeholder value, like level_calculator's
+    proximity_pct — portfolio/portfolio_optimizer.py doesn't exist yet to
+    derive a real, ablated cap from; imported from daily_brief so the
+    enforcement and this display can never drift apart.
     """
-    SECTOR_CAP_PCT = 30.0
-
     by_sector: dict[str, float] = {}
     for e in shortlist:
         sector = e.get("sector") or "Unknown"
@@ -912,11 +1053,11 @@ def render_sector_concentration(shortlist: list[dict]) -> None:
         return
 
     st.markdown('<h3 class="k100-subsection">Sector Concentration</h3>', unsafe_allow_html=True)
-    st.caption(f"Current shortlist exposure per sector vs. a {SECTOR_CAP_PCT:.0f}% placeholder cap "
-               f"(portfolio/portfolio_optimizer.py's real, ablated cap doesn't exist yet).")
+    st.caption(f"Current shortlist exposure per sector vs. a {daily_brief.SECTOR_CAP_PCT:.0f}% "
+               f"placeholder cap — enforced at construction time, not just reported.")
 
     table = pd.DataFrame(
-        [{"Sector": s, "Exposure": pct, "Over Cap?": "Yes" if pct > SECTOR_CAP_PCT else "No"}
+        [{"Sector": s, "Exposure": pct, "Over Cap?": "Yes" if pct > daily_brief.SECTOR_CAP_PCT else "No"}
          for s, pct in sorted(by_sector.items(), key=lambda kv: -kv[1])]
     )
 

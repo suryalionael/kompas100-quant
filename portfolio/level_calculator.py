@@ -4,18 +4,27 @@ real money implied (COMPETITION_PLAN.md §7's Cowork layer); it needs to be
 boringly correct, not clever.
 
 This project is long-only (COMPETITION_PLAN.md §0), so every setup below
-is a long entry — the two setup types just differ in which technical
+is a long entry — the setup types just differ in which technical
 condition qualifies it, not in direction:
 
-    breakout — close is within `proximity_pct` of the rolling
-               `lookback_window`-day high (about to break resistance, or
-               just broke it)
-    pullback — close is within `proximity_pct` of the rolling
-               `lookback_window`-day low (bounced/holding at support)
+    breakout  — close is within `proximity_pct` of the rolling
+                `lookback_window`-day high (about to break resistance, or
+                just broke it)
+    pullback  — close is within `proximity_pct` of the rolling
+                `lookback_window`-day low (bounced/holding at support)
+    atr_band  — fallback when close is in neither zone (found 2026-08-31:
+                a momentum-ranked shortlist is mostly names that have
+                already run, so requiring fresh proximity to a 20-day
+                extreme left 8 of 10 shortlisted names with no level at
+                all — read by a teammate as "no risk here," which is
+                false, not "no setup here"). Same entry/stop/target
+                arithmetic, just without the breakout/pullback proximity
+                gate. Always distinguishable from a real technical setup
+                via the `setup` field — never silently presented as one.
 
-If close sits in neither zone, there's no clear setup and compute_levels()
-returns None — this module does not invent a level for every ticker every
-day, only where the pattern it looks for actually exists.
+compute_levels() only returns None when there's genuinely not enough
+price history to compute ATR/rolling levels at all — never for "no clean
+setup," which now falls through to atr_band instead.
 
 ATR here is a simple rolling mean of True Range, not Wilder's smoothing
 (which is what data_pipeline/feature_builder.py's atr14 column uses) —
@@ -90,8 +99,9 @@ def compute_levels_from_df(
     (needs date, high, low, close) — this is what the unit tests call
     directly with a fixed, hand-computable fixture.
 
-    Returns None if there's not enough history, or if close isn't near
-    either the rolling high or the rolling low (no clear setup).
+    Returns None only when there's not enough price history to compute
+    ATR/rolling levels at all. If close isn't near a rolling high or low,
+    setup falls back to "atr_band" rather than returning no level.
     """
     df = df.sort_values("date").reset_index(drop=True)
     if as_of_date is not None:
@@ -110,14 +120,11 @@ def compute_levels_from_df(
     close = float(df["close"].iloc[-1])
     resolved_date = df["date"].iloc[-1]
 
-    setup = None
+    setup = "atr_band"
     if rolling_high and abs(close - rolling_high) / rolling_high * 100 <= proximity_pct:
         setup = "breakout"
     elif rolling_low and abs(close - rolling_low) / rolling_low * 100 <= proximity_pct:
         setup = "pullback"
-
-    if setup is None:
-        return None
 
     entry = close
     stop = entry - stop_atr_mult * atr

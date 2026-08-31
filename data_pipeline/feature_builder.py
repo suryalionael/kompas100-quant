@@ -29,7 +29,11 @@ FEATURE_COLS = [
     "slope_ma20", "golden_cross", "price_vs_ma200",
     # Momentum
     "rsi14", "macd", "macd_signal", "macd_histogram",
-    "roc5", "roc20",
+    "roc3", "roc5", "roc20",
+    # Refined momentum (added 2026-08-31, kompas100-quant §4 feature-widening
+    # pass — see ranking/ranking_model.py's RANKING_FEATURES for why these
+    # exist as explicit columns rather than left for the model to infer)
+    "sharpe_mom_20d", "mom_vol_confirmed_20d",
     # Breakout
     "high_52w", "pct_from_52w_high",
     "atr14", "atr_breakout",
@@ -65,6 +69,7 @@ def build_features(df: pd.DataFrame, ihsg: pd.DataFrame | None = None) -> pd.Dat
     df = _add_volume(df)
     df = _add_volatility(df)
     df = _add_tv_indicators(df)
+    df = _add_refined_momentum(df)
     if ihsg is not None:
         df = _add_relative_strength(df, ihsg)
 
@@ -85,6 +90,46 @@ def build_features_batch(data: dict[str, pd.DataFrame], ihsg: pd.DataFrame | Non
     if not frames:
         return pd.DataFrame()
     return pd.concat(frames, ignore_index=True)
+
+
+def add_sector_relative_strength(features_df: pd.DataFrame, sector_by_ticker: dict[str, str]) -> pd.DataFrame:
+    """Stock's 20-day return minus the average 20-day return of every
+    OTHER ticker in the same GICS-style sector, on the same date — added
+    2026-08-31 as a feature-widening candidate (COMPETITION_PLAN.md §4):
+    rel_strength_20d (vs IHSG) only tells you if a stock beat the whole
+    market; this tells you if it beat its own industry peers, which is a
+    materially different comparison group (e.g. every commodity name can
+    outperform IHSG together in a commodity rally while still ranking
+    randomly against each other — sector-relative strength is what would
+    separate them).
+
+    sector_by_ticker is a current-day snapshot (data/published/
+    universe_snapshot_latest.parquet's sector column) applied across the
+    full historical window — a deliberate approximation, since sector
+    classification changes far less often than daily prices and we have
+    no historical sector-membership time series. Requires >= 2 tickers
+    with a known sector on a given date to compute a peer average;
+    unmapped tickers or thin sectors get NaN, not a fabricated 0.
+    """
+    if features_df.empty or not sector_by_ticker:
+        features_df["sector_rel_strength_20d"] = np.nan
+        return features_df
+
+    df = features_df.copy()
+    df["_sector"] = df["ticker"].map(sector_by_ticker)
+
+    def _peer_relative(group: pd.DataFrame) -> pd.Series:
+        n = group["roc20"].notna().sum()
+        if n < 2:
+            return pd.Series(np.nan, index=group.index)
+        total = group["roc20"].sum(skipna=True)
+        peer_mean = (total - group["roc20"]) / (n - 1)
+        return group["roc20"] - peer_mean
+
+    df["sector_rel_strength_20d"] = (
+        df.groupby(["date", "_sector"], group_keys=False).apply(_peer_relative)
+    )
+    return df.drop(columns=["_sector"])
 
 
 def save_features(df: pd.DataFrame, features_dir: Path, scan_date: str | None = None) -> None:
@@ -138,6 +183,7 @@ def _add_momentum(df: pd.DataFrame) -> pd.DataFrame:
     df["macd_signal"] = macd_ind.macd_signal()
     df["macd_histogram"] = macd_ind.macd_diff()
 
+    df["roc3"] = df["close"].pct_change(3) * 100
     df["roc5"] = df["close"].pct_change(5) * 100
     df["roc20"] = df["close"].pct_change(20) * 100
     return df
@@ -182,6 +228,33 @@ def _add_volatility(df: pd.DataFrame) -> pd.DataFrame:
 
     log_ret = np.log(df["close"] / df["close"].shift(1))
     df["hist_vol_20d"] = log_ret.rolling(20).std() * np.sqrt(252) * 100
+    return df
+
+
+# ---------------------------------------------------------------------------
+# Refined momentum (added 2026-08-31 — naive momentum was the only thing
+# beating the ranking model in the §4 ablation; these give the model
+# something raw roc20 doesn't already capture, per COMPETITION_PLAN.md's
+# "widen the feature set" directive. Run after _add_volume/_add_volatility
+# since both need vol_ratio_20d/hist_vol_20d, which don't exist yet inside
+# _add_momentum itself.
+# ---------------------------------------------------------------------------
+
+def _add_refined_momentum(df: pd.DataFrame) -> pd.DataFrame:
+    """sharpe_mom_20d: 20-day return per unit of 20-day volatility — a
+    Sharpe-style measure of whether a move was an efficient trend or just
+    noisy volatility, which raw roc20 can't distinguish on its own.
+
+    mom_vol_confirmed_20d: roc20 x vol_ratio_20d, an explicit interaction
+    term. A linear model (this project's Ridge regressor) only ever sees
+    a weighted sum of individual features — it cannot learn "momentum
+    matters more when volume confirms it" unless that interaction is
+    itself a feature, so this is that, not a stylistic choice.
+    """
+    if "hist_vol_20d" in df.columns:
+        df["sharpe_mom_20d"] = df["roc20"] / df["hist_vol_20d"].replace(0, np.nan)
+    if "vol_ratio_20d" in df.columns:
+        df["mom_vol_confirmed_20d"] = df["roc20"] * df["vol_ratio_20d"]
     return df
 
 
