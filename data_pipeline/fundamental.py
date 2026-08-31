@@ -134,6 +134,19 @@ class YFinanceFundamentalProvider(BaseFundamentalProvider):
                 except (TypeError, ValueError):
                     pass
 
+        # Sector/industry — GICS-style strings from yfinance, not numeric.
+        # Chosen over porting the old repo's issuers.csv (COMPETITION_PLAN.md
+        # §1) because that file only covers 52/100 current tickers, missing
+        # several Aug-2026 rebalance entrants (COIN, EMAS, MINA among them);
+        # this call already happens for every ticker's fundamentals, so
+        # capturing sector here gives full coverage for free.
+        sector = info.get("sector")
+        industry = info.get("industry")
+        if sector:
+            result["sector"] = str(sector)
+        if industry:
+            result["industry"] = str(industry)
+
         # ── Normalize percentages ──────────────────────────────────────────
 
         # roe: stored as decimal fraction (0.229 = 22.9%)
@@ -229,10 +242,12 @@ FUNDAMENTAL_COLS = [
     "revenue_growth_pct", "profit_growth_pct",
     "ebitda",               # new: EBITDA in IDR (positive = profitable operating level)
     "public_float_pct",     # new: float shares / total shares × 100
+    "sector", "industry",   # new: GICS-style strings from yfinance .info
     "fundamental_status",
 ]
 
-_EMPTY_ROW = {col: float("nan") for col in FUNDAMENTAL_COLS if col != "fundamental_status"}
+_STRING_COLS = {"sector", "industry", "fundamental_status"}
+_EMPTY_ROW = {col: ("" if col in _STRING_COLS else float("nan")) for col in FUNDAMENTAL_COLS}
 _EMPTY_ROW["fundamental_status"] = "missing"
 
 

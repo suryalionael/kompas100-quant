@@ -153,6 +153,7 @@ def inject_css() -> None:
         .k100-status .dot.up {{ background: {TEAL}; }}
         .k100-status .dot.warn {{ background: {AMBER}; }}
         .k100-status .dot.down {{ background: {MUTED_RED}; }}
+        .k100-status .dot.neutral {{ background: {INK_MUTED}; }}
         </style>
         """,
         unsafe_allow_html=True,
@@ -227,6 +228,14 @@ def load_scan_meta() -> dict | None:
 @st.cache_data(ttl=300)
 def load_ablation_results() -> dict | None:
     path = PUBLISHED_DIR / "ablation_results.json"
+    if not path.exists():
+        return None
+    return json.loads(path.read_text())
+
+
+@st.cache_data(ttl=300)
+def load_daily_brief() -> dict | None:
+    path = PUBLISHED_DIR / "daily_brief.json"
     if not path.exists():
         return None
     return json.loads(path.read_text())
@@ -418,6 +427,60 @@ def render_status_strip() -> None:
         f"{tickers_fetched}/{tickers_total} tickers fetched{freshness_note}</div>",
         unsafe_allow_html=True,
     )
+
+
+# ISTC 2026 official rules: live trading window 21 Sept - 8 Oct 2026 (14
+# working days), one virtual account, all positions manually closed by end
+# of day 8 Oct. Model freeze target ~18-19 Sept per COMPETITION_PLAN.md.
+COMPETITION_START = pd.Timestamp("2026-09-21")
+COMPETITION_END = pd.Timestamp("2026-10-08")
+FREEZE_TARGET = pd.Timestamp("2026-09-19")
+
+
+def render_countdown_banner() -> None:
+    """A rule, not a strategy choice — the ISTC 2026 platform requires all
+    positions manually closed by end of day 8 Oct 2026, and this makes it
+    impossible to lose track of that while looking at the dashboard.
+    """
+    today = pd.Timestamp(datetime.now(WIB).date())
+
+    if today < FREEZE_TARGET:
+        days_to_freeze = max(len(pd.bdate_range(today, FREEZE_TARGET)) - 1, 0)
+        st.markdown(
+            f'<div class="k100-status"><span class="dot neutral"></span>'
+            f"ISTC 2026: model freeze target {FREEZE_TARGET.strftime('%d %b %Y')} "
+            f"({days_to_freeze} trading days away) · live window "
+            f"{COMPETITION_START.strftime('%d %b')}–{COMPETITION_END.strftime('%d %b %Y')}"
+            f"</div>",
+            unsafe_allow_html=True,
+        )
+    elif today < COMPETITION_START:
+        days_to_open = max(len(pd.bdate_range(today, COMPETITION_START)) - 1, 0)
+        st.markdown(
+            f'<div class="k100-status"><span class="dot warn"></span>'
+            f"ISTC 2026 live trading opens {COMPETITION_START.strftime('%d %b %Y')} "
+            f"({days_to_open} trading days from now) — model should already be frozen."
+            f"</div>",
+            unsafe_allow_html=True,
+        )
+    elif today <= COMPETITION_END:
+        days_left = max(len(pd.bdate_range(today, COMPETITION_END)) - 1, 0)
+        tone = "down" if days_left <= 3 else "warn"
+        st.markdown(
+            f'<div class="k100-status"><span class="dot {tone}"></span>'
+            f"<strong>{days_left} trading day{'s' if days_left != 1 else ''} left</strong> — "
+            f"all positions must be manually closed by end of day "
+            f"{COMPETITION_END.strftime('%d %b %Y')}."
+            f"</div>",
+            unsafe_allow_html=True,
+        )
+    else:
+        st.markdown(
+            f'<div class="k100-status"><span class="dot up"></span>'
+            f"ISTC 2026 live trading window closed {COMPETITION_END.strftime('%d %b %Y')}."
+            f"</div>",
+            unsafe_allow_html=True,
+        )
 
 
 def render_universe_tab(tickers: list[str]) -> None:
@@ -745,53 +808,78 @@ def render_rankings_tab(tickers: list[str]) -> None:
     )
 
     if not any_horizon_wins:
-        render_current_best_strategy(tickers)
+        render_current_shortlist(tickers)
 
 
-def render_current_best_strategy(tickers: list[str]) -> None:
-    """Naive momentum (rank by roc20) is what backtest/ablation.py's Level 2
-    baseline actually is — this mirrors that exact definition against
-    today's data, purely as a "what's actually working right now" view.
-    Not a recommendation and not the ranking model; the ablation gate and
-    ranking_model.py are untouched by this.
+def render_current_shortlist(tickers: list[str]) -> None:
+    """Reads data/published/daily_brief.json — the same file
+    scripts/run_daily_scan.py publishes and Cowork's daily report will
+    read — rather than recomputing momentum here separately, so the
+    dashboard shows exactly what the pipeline actually decided, sizes,
+    and priced (portfolio/daily_brief.py, portfolio/level_calculator.py).
     """
-    st.markdown('<h3 class="k100-subsection">Current Best Strategy</h3>', unsafe_allow_html=True)
-    st.caption(
-        "Naive momentum — currently beats every ML horizon in backtest, shown here because "
-        "it's the strategy actually winning today, not because it's proven great."
-    )
+    st.markdown('<h3 class="k100-subsection">Current Shortlist</h3>', unsafe_allow_html=True)
 
-    features = load_features_latest()
-    if features.empty:
-        st.info("No features available yet.")
+    brief = load_daily_brief()
+    if brief is None:
+        st.info("No daily brief published yet — run `scripts/run_daily_scan.py`.")
         return
 
-    latest = (
-        features[features["ticker"].isin(tickers)]
-        .dropna(subset=["roc20"])
-        .sort_values("date")
-        .groupby("ticker")
-        .tail(1)
-        .sort_values("roc20", ascending=False)
-        .head(15)
-        .reset_index(drop=True)
-    )
-    if latest.empty:
-        st.info("No momentum data available yet.")
+    status = brief.get("strategy_status")
+    status_captions = {
+        "validated": "Ablation-gated ranking model — validated.",
+        "naive_momentum_interim": (
+            "Naive momentum (rank by 20D return) — currently beats every ML horizon in "
+            "backtest, shown here because it's the strategy actually winning today, not "
+            "because it's proven great."
+        ),
+        "no_picks": "No picks today — see reason below.",
+    }
+    st.caption(status_captions.get(status, f"strategy_status: {status}"))
+
+    shortlist = brief.get("shortlist", [])
+    if not shortlist:
+        st.info("**No picks today.** daily_brief.json reports an empty shortlist — "
+                 "honest zero-conviction state, not an error to ignore.")
         return
 
-    display = latest[["ticker", "roc20", "close"]].copy()
-    display.insert(0, "Rank", range(1, len(display) + 1))
-    display = display.rename(columns={"ticker": "Ticker", "roc20": "20D Momentum", "close": "Last Close"})
+    # Defense in depth: the hard Kompas100 guard already runs at publish
+    # time (portfolio/daily_brief.py's assert_kompas100_only) — this just
+    # makes sure the dashboard itself can't be the thing that shows a bad
+    # ticker if daily_brief.json was ever hand-edited or came from a stale
+    # build.
+    bad_tickers = [e["ticker"] for e in shortlist if e["ticker"] not in tickers]
+    if bad_tickers:
+        st.error(f"**Refusing to display — ticker(s) outside the live Kompas100 universe:** {bad_tickers}")
+        shortlist = [e for e in shortlist if e["ticker"] not in bad_tickers]
+        if not shortlist:
+            return
 
-    def _color_momentum(val):
-        return f"color: {TEAL}; font-weight: 600" if val >= 0 else f"color: {MUTED_RED}; font-weight: 600"
+    # Entry/Stop/Target/R:R are pre-formatted to plain strings (not left as
+    # NaN for a Styler formatter to catch) — Streamlit's interactive
+    # (on_select) dataframe grid doesn't reliably run the Styler's format
+    # callables against NaN cells, so a mixed numeric/NaN column here shows
+    # the literal word "None" no matter what the formatter says. A
+    # string column has nothing for the grid to reformat by itself.
+    rows = []
+    for e in shortlist:
+        levels = e.get("levels")
+        rows.append({
+            "Ticker": e["ticker"],
+            "Sector": e.get("sector", ""),
+            "Score": f"{e.get('score', 0):.2f}",
+            "Position": f"{e.get('position_pct', 0):.1f}%",
+            "Position (Rp)": f"Rp {e.get('position_idr', 0):,.0f}",
+            "Entry": f"{levels['entry']:,.0f}" if levels else "—",
+            "Stop": f"{levels['stop']:,.0f}" if levels else "—",
+            "Target": f"{levels['target']:,.0f}" if levels else "—",
+            "R:R": f"{levels['rr_ratio']:.1f}:1" if levels else "—",
+        })
+    display = pd.DataFrame(rows)
 
-    styler = display.style.map(_color_momentum, subset=["20D Momentum"])
-    styler = styler.format({"20D Momentum": "{:+.2f}%".format, "Last Close": "{:,.0f}".format})
     event = st.dataframe(
-        styler, use_container_width=True, hide_index=True,
-        on_select="rerun", selection_mode="single-row", key="rankings_momentum_table",
+        display, use_container_width=True, hide_index=True,
+        on_select="rerun", selection_mode="single-row", key="rankings_shortlist_table",
     )
 
     selected_rows = event.selection.rows if event and event.selection else []
@@ -802,6 +890,42 @@ def render_current_best_strategy(tickers: list[str]) -> None:
         render_ticker_detail(selected_ticker, key_prefix="rankings")
     else:
         st.caption("Select the checkbox next to a ticker to see its fundamentals and chart.")
+
+    render_sector_concentration(shortlist)
+
+
+def render_sector_concentration(shortlist: list[dict]) -> None:
+    """Current exposure per sector vs. a placeholder cap — the thing
+    "diversification" in the ISTC 2026 Final Stage pitch (Risk Management,
+    10% of that score) gets pointed at. SECTOR_CAP_PCT is a placeholder,
+    like level_calculator's proximity_pct — portfolio/portfolio_optimizer.py
+    doesn't exist yet to derive a real, ablated cap from.
+    """
+    SECTOR_CAP_PCT = 30.0
+
+    by_sector: dict[str, float] = {}
+    for e in shortlist:
+        sector = e.get("sector") or "Unknown"
+        by_sector[sector] = by_sector.get(sector, 0.0) + e.get("position_pct", 0.0)
+
+    if not by_sector:
+        return
+
+    st.markdown('<h3 class="k100-subsection">Sector Concentration</h3>', unsafe_allow_html=True)
+    st.caption(f"Current shortlist exposure per sector vs. a {SECTOR_CAP_PCT:.0f}% placeholder cap "
+               f"(portfolio/portfolio_optimizer.py's real, ablated cap doesn't exist yet).")
+
+    table = pd.DataFrame(
+        [{"Sector": s, "Exposure": pct, "Over Cap?": "Yes" if pct > SECTOR_CAP_PCT else "No"}
+         for s, pct in sorted(by_sector.items(), key=lambda kv: -kv[1])]
+    )
+
+    def _color_over(val):
+        return f"color: {MUTED_RED}; font-weight: 600" if val == "Yes" else f"color: {TEAL}"
+
+    styler = table.style.map(_color_over, subset=["Over Cap?"])
+    styler = styler.format({"Exposure": "{:.1f}%".format})
+    st.dataframe(styler, use_container_width=True, hide_index=True)
 
 
 def _pct(x: float | None) -> str:
@@ -814,6 +938,7 @@ def main() -> None:
     inject_css()
     render_header()
     render_status_strip()
+    render_countdown_banner()
 
     tickers = load_universe_list()
 
