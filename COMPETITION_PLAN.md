@@ -526,6 +526,25 @@ memory in October.
       rationale log entries (plus their paired manual-notes files) into
       one readable Markdown timeline. Raw material for October, not the
       deck itself — building slides and presenting is a human/team task.
+- [x] **Overall Health score (added 2026-08-31).** `data_pipeline/
+      quality_filters.py`'s `compute_overall_health()` re-expresses the
+      existing DER/PBV/float/regulatory pass-fail criteria as a weighted
+      0-100 composite (leverage/valuation/float/regulatory 20% each,
+      profitability 10%, distribution-risk/data-completeness 5% each) plus
+      a plain-English per-factor breakdown — pitch-deck material for the
+      Final Stage's Fundamental Analysis line (10% of that grade), not a
+      new fundamental input and not gated into ranking/sizing (confirmed:
+      no reference anywhere in `ranking/`, `portfolio/portfolio_optimizer.py`,
+      or `backtest/`). Surfaced in the dashboard (Stock Detail's
+      per-ticker breakdown expander, Data Health's sortable "Overall
+      Health by Ticker" table) and folded into `rationale_log.py`'s
+      `fundamental_notes` (`"overall health NN/100"`). One real bug caught
+      before shipping: an initial smooth linear-decay formula for the
+      Valuation sub-score scored BBCA's PBV 2.94x at 37.7 while still
+      labeling it "reasonable" — self-contradictory pitch material.
+      Replaced with a 3-tier scheme (reasonable/rich/excessive) matching
+      leverage's existing pattern, using the same 50%-of-`pbv_max` soft
+      threshold convention already used for DER's watch band.
 
 ## 13. Hard rules — enforced structurally, not just documented
 

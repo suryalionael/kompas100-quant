@@ -118,6 +118,8 @@ def _fundamental_notes(fund_row: pd.Series | None) -> str:
     status = fund_row.get("final_status")
     if status and status != "eligible":
         parts.append(f"quality flag: {status}")
+    if pd.notna(fund_row.get("overall_health_score")):
+        parts.append(f"overall health {fund_row['overall_health_score']:.0f}/100")
     return "; ".join(parts) if parts else "fundamental data unavailable"
 
 

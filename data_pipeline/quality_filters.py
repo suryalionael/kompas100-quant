@@ -33,6 +33,11 @@ Kolom yang ditambahkan ke DataFrame
     final_status           str
     is_uma                 bool  (dari uma_overrides.csv)
     is_special_monitoring  bool  (dari uma_overrides.csv)
+    overall_health_score   float (0-100, weighted composite — see
+                                  compute_overall_health(). Explainability
+                                  only, not a trading signal.)
+    health_notes           str   (plain-English per-factor breakdown, "; "-joined)
+    health_weakest_factor  str   (single lowest-scoring factor's note)
 """
 from __future__ import annotations
 
@@ -74,6 +79,170 @@ STATUS_ELIGIBLE       = "eligible"
 
 # Statuses that should NOT appear in Telegram alerts (can be filtered)
 EXCLUDED_STATUSES = {STATUS_EXCL_FUND, STATUS_EXCL_FLOAT, STATUS_EXCL_REG}
+
+# ---------------------------------------------------------------------------
+# Overall Health score — explainability only, NOT a trading signal
+# ---------------------------------------------------------------------------
+#
+# Re-expresses the exact same hard-filter/risk-flag criteria above as
+# weighted 0-100 sub-scores instead of pass/fail, for the ISTC 2026 Final
+# Stage pitch deck (Fundamental Analysis, 10% of that grade — see
+# COMPETITION_PLAN.md §0/§7). No new fundamental inputs: every sub-score
+# below reuses the same config thresholds already tested in
+# evaluate_hard_filters()/apply_quality_penalty(). This score and its
+# breakdown are never read by ranking_model.py or portfolio_optimizer.py —
+# CLAUDE.md's "quant is the only source of truth for numbers" rule means
+# eligibility/ranking/sizing must keep coming from final_status and the
+# ranking model alone, not from this score.
+#
+# Weights: leverage/valuation/float/regulatory can each independently drive
+# a hard exclusion above, so they're weighted equally and highest;
+# profitability/distribution-risk/data-completeness are risk-flag-only in
+# evaluate_hard_filters(), so they're weighted lower.
+_HEALTH_WEIGHTS: dict[str, float] = {
+    "leverage": 20.0,
+    "valuation": 20.0,
+    "float_structure": 20.0,
+    "regulatory": 20.0,
+    "profitability": 10.0,
+    "distribution_risk": 5.0,
+    "data_completeness": 5.0,
+}
+
+_HEALTH_UNKNOWN_SCORE = 50.0  # neutral — can't judge what isn't fetched
+
+
+def _score_leverage(row: dict | pd.Series, cfg: dict) -> tuple[float, str]:
+    der = _float(row, "der")
+    der_max = cfg["der_max"]
+    if der is None:
+        return _HEALTH_UNKNOWN_SCORE, "Leverage: unknown (no DER data)"
+    if der < 0:
+        return 0.0, f"Leverage: negative equity (DER {der:.2f}×) — high risk"
+    if der > der_max:
+        return 0.0, f"Leverage: excessive (DER {der:.2f}× > {der_max:.1f}× limit)"
+    if der > 2.0:
+        return 55.0, f"Leverage: elevated (DER {der:.2f}×, above 2.0× watch level)"
+    return 100.0, f"Leverage: healthy (DER {der:.2f}×)"
+
+
+def _score_valuation(row: dict | pd.Series, cfg: dict) -> tuple[float, str]:
+    # Same 3-tier shape as _score_leverage — healthy / elevated ("rich") /
+    # excessive — using a 50%-of-max soft threshold since evaluate_hard_filters
+    # itself has no coded PBV watch band to reuse (only the hard pbv_max
+    # cutoff). A smooth linear decay was tried first and rejected: it scored
+    # BBCA's PBV 2.94x at 37.7 while still labeling it "reasonable" — a
+    # richly-valued blue chip getting a low number under a "reasonable" label
+    # is exactly the kind of self-contradictory pitch-deck material this
+    # exists to avoid.
+    pbv = _float(row, "pbv")
+    pbv_max = cfg["pbv_max"]
+    if pbv is None:
+        return _HEALTH_UNKNOWN_SCORE, "Valuation: unknown (no PBV data)"
+    if pbv < 0:
+        return 0.0, f"Valuation: negative equity (PBV {pbv:.2f}) — high risk"
+    if pbv > pbv_max:
+        return 0.0, f"Valuation: rich (PBV {pbv:.2f}× > {pbv_max:.1f}× limit)"
+    watch = pbv_max * 0.5
+    if pbv > watch:
+        return 55.0, f"Valuation: rich (PBV {pbv:.2f}×, above {watch:.1f}× watch level)"
+    return 100.0, f"Valuation: reasonable (PBV {pbv:.2f}×)"
+
+
+def _score_profitability(row: dict | pd.Series, cfg: dict) -> tuple[float, str]:
+    ebitda = _float(row, "ebitda")
+    if ebitda is None:
+        return _HEALTH_UNKNOWN_SCORE, "Profitability: unknown (no EBITDA data)"
+    if ebitda < 0:
+        return 0.0, f"Profitability: negative EBITDA (Rp {ebitda / 1e9:.1f}B) — operating loss"
+    return 100.0, f"Profitability: positive EBITDA (Rp {ebitda / 1e9:.1f}B)"
+
+
+def _score_float_structure(row: dict | pd.Series, cfg: dict) -> tuple[float, str]:
+    float_pct = _float(row, "public_float_pct")
+    hard_min = cfg["float_hard_min_pct"]
+    watch_min = cfg["float_watch_min_pct"]
+    warn_max = cfg["float_warn_max_pct"]
+    if float_pct is None:
+        return _HEALTH_UNKNOWN_SCORE, "Float: unknown (no float data)"
+    if float_pct < hard_min:
+        return 0.0, f"Float: too low ({float_pct:.1f}% < {hard_min:.0f}% — bandar territory)"
+    if float_pct < watch_min:
+        return 40.0, f"Float: low ({float_pct:.1f}%, below {watch_min:.0f}% safe threshold)"
+    if float_pct > warn_max:
+        return 70.0, f"Float: very high ({float_pct:.1f}% — heavy public dominance)"
+    return 100.0, f"Float: healthy ({float_pct:.1f}%)"
+
+
+def _score_regulatory(row: dict | pd.Series, cfg: dict) -> tuple[float, str]:
+    flags = []
+    if _bool(row, "is_uma"):
+        flags.append("UMA")
+    if _bool(row, "is_special_monitoring"):
+        flags.append("Special Monitoring")
+    if flags:
+        return 0.0, f"Regulatory: flagged ({', '.join(flags)}) — high risk"
+    return 100.0, "Regulatory: no flags"
+
+
+def _score_distribution_risk(row: dict | pd.Series, cfg: dict) -> tuple[float, str]:
+    vol_ratio = _float(row, "vol_ratio_20d") or 0.0
+    market_cap = _float(row, "market_cap") or 0.0
+    vol_thresh = cfg["vol_spike_exhaustion_ratio"]
+    cap_thresh = cfg["vol_spike_cap_threshold_idr"]
+    if vol_ratio > vol_thresh and 0 < market_cap < cap_thresh:
+        return 40.0, f"Distribution risk: extreme volume spike ({vol_ratio:.1f}×) — possible distribution"
+    return 100.0, "Distribution risk: normal volume activity"
+
+
+def _score_data_completeness(row: dict | pd.Series, cfg: dict) -> tuple[float, str]:
+    status = str(_get(row, "fundamental_status", "missing")).lower()
+    if status == "ok":
+        return 100.0, "Data completeness: full fundamental coverage"
+    if status == "partial":
+        return 60.0, "Data completeness: partial fundamental coverage"
+    return 0.0, "Data completeness: no fundamental data available"
+
+
+_HEALTH_SCORERS = {
+    "leverage": _score_leverage,
+    "valuation": _score_valuation,
+    "profitability": _score_profitability,
+    "float_structure": _score_float_structure,
+    "regulatory": _score_regulatory,
+    "distribution_risk": _score_distribution_risk,
+    "data_completeness": _score_data_completeness,
+}
+
+
+def compute_overall_health(row: dict | pd.Series, config: dict | None = None) -> dict:
+    """Composite 0-100 "Overall Health" score + plain-English breakdown for
+    one ticker — pitch-deck/explainability material only (see module note
+    above). Every sub-factor's threshold matches evaluate_hard_filters().
+
+    Returns:
+        {
+            "overall_health_score": float (0-100, weighted),
+            "health_breakdown": list[{"factor", "weight", "score", "note"}],
+            "health_notes": str — breakdown notes joined "; ",
+            "health_weakest_factor": str — the single lowest-scoring note,
+        }
+    """
+    cfg = _get_cfg(config)
+    breakdown = []
+    weighted_total = 0.0
+    for factor, weight in _HEALTH_WEIGHTS.items():
+        score, note = _HEALTH_SCORERS[factor](row, cfg)
+        breakdown.append({"factor": factor, "weight": weight, "score": score, "note": note})
+        weighted_total += weight * score / 100.0
+
+    weakest = min(breakdown, key=lambda b: b["score"])
+    return {
+        "overall_health_score": round(weighted_total, 1),
+        "health_breakdown": breakdown,
+        "health_notes": "; ".join(b["note"] for b in breakdown),
+        "health_weakest_factor": weakest["note"],
+    }
 
 
 # ---------------------------------------------------------------------------
@@ -388,12 +557,15 @@ def enrich_df_with_quality_filters(
     )
 
     # ── Evaluate filters row by row ───────────────────────────────────────
-    passes_list:   list[bool]         = []
-    excl_list:     list[str]          = []
-    flags_list:    list[str]          = []
-    qa_score_list: list[float]        = []
-    qa_pen_list:   list[float]        = []
-    status_list:   list[str]          = []
+    passes_list:      list[bool]  = []
+    excl_list:        list[str]   = []
+    flags_list:       list[str]   = []
+    qa_score_list:    list[float] = []
+    qa_pen_list:      list[float] = []
+    status_list:      list[str]   = []
+    health_score_list:   list[float] = []
+    health_notes_list:   list[str]   = []
+    health_weakest_list: list[str]   = []
 
     for _, row in df.iterrows():
         row_dict = row.to_dict()
@@ -414,12 +586,19 @@ def enrich_df_with_quality_filters(
 
         status = assign_final_status(row_dict)
 
+        # Overall Health — explainability only, see compute_overall_health()'s
+        # docstring; never fed back into row_dict/status, purely additive output.
+        health = compute_overall_health(row_dict, config)
+
         passes_list.append(passes)
         excl_list.append(excl)
         flags_list.append(", ".join(rf_list))
         qa_score_list.append(qp["quality_adjusted_score"])
         qa_pen_list.append(qp["quality_penalty_total"])
         status_list.append(status)
+        health_score_list.append(health["overall_health_score"])
+        health_notes_list.append(health["health_notes"])
+        health_weakest_list.append(health["health_weakest_factor"])
 
     df["passes_hard_filters"]    = passes_list
     df["exclusion_reason"]       = excl_list
@@ -427,6 +606,9 @@ def enrich_df_with_quality_filters(
     df["quality_adjusted_score"] = qa_score_list
     df["quality_penalty_total"]  = qa_pen_list
     df["final_status"]           = status_list
+    df["overall_health_score"]   = health_score_list
+    df["health_notes"]           = health_notes_list
+    df["health_weakest_factor"]  = health_weakest_list
 
     # ── Log summary ───────────────────────────────────────────────────────
     counts = df["final_status"].value_counts().to_dict()
