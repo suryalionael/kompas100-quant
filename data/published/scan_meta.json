@@ -1,6 +1,6 @@
 {
-  "scanned_at_utc": "2026-08-31T16:47:03+00:00",
-  "trigger": "local",
+  "scanned_at_utc": "2026-08-31T17:40:52+00:00",
+  "trigger": "schedule",
   "market_date": "2026-08-31",
   "tickers_total": 100,
   "tickers_fetched": 100,
