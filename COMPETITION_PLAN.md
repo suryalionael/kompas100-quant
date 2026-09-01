@@ -344,10 +344,16 @@ declares its own `permissions: contents: write` (so the repo-level
 default of "read" doesn't block the commit step), and githubstatus.com
 showed no Actions incidents in that window. No misconfiguration found —
 most likely a one-off missed/delayed first scheduled run, a known GitHub
-Actions behavior. Two more scheduled slots need to pass cleanly before
-concluding it's fixed; see the Data Health tab's "Hours Since Last
-Scheduled Success" panel, which will flag red if a slot is ever missed
-again (>30h since the last confirmed scheduled success).
+Actions behavior.
+
+**Resolved same day, 2026-08-31 17:40 UTC:** the very next slot fired on
+its own (`gh run list` shows `event: "schedule"`, `conclusion: "success"`)
+and committed `922ff76`, including the first-ever `scheduled_run_state.json`.
+Confirms the earlier miss was the one-off first-run delay suspected above,
+not a real misconfiguration. The Data Health tab's "Hours Since Last
+Scheduled Success" panel will still flag red (>30h) if a slot is ever
+missed again — kept as the standing safety net, not removed now that
+it's working.
 
 **Until the schedule is confirmed reliable (or any time it silently
 misses a day), the fallback is a one-tap manual run — no local setup, no
