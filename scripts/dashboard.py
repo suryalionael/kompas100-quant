@@ -20,6 +20,7 @@ import plotly.graph_objects as go
 import streamlit as st
 from plotly.subplots import make_subplots
 
+from data_pipeline import quality_filters
 from portfolio import daily_brief
 from ranking import ranking_model
 
@@ -596,6 +597,8 @@ def render_fundamentals_panel(ticker: str) -> None:
             return f"Rp {val / 1e9:.1f}B"
         return f"Rp {val:,.0f}"
 
+    health_score = r.get("overall_health_score")
+
     fields = [
         ("P/E", _fmt(r.get("pe_ratio"), "x")),
         ("P/BV", _fmt(r.get("pbv"), "x")),
@@ -603,11 +606,16 @@ def render_fundamentals_panel(ticker: str) -> None:
         ("DER", _fmt(r.get("der"), "x")),
         ("Div Yield", _fmt(r.get("div_yield_pct"), "%")),
         ("Market Cap", _fmt_cap(r.get("market_cap"))),
+        ("Overall Health", "—" if pd.isna(health_score) else f"{health_score:.0f}/100"),
     ]
     cols = st.columns(len(fields))
-    for col, (label, value) in zip(cols, fields):
-        with col:
-            st.markdown(kpi_card(label, value), unsafe_allow_html=True)
+    for i, (label, value) in enumerate(fields):
+        with cols[i]:
+            if label == "Overall Health" and pd.notna(health_score):
+                tone = "up" if health_score >= 75 else ("warn" if health_score >= 50 else "down")
+                st.markdown(kpi_card(label, value, tone=tone), unsafe_allow_html=True)
+            else:
+                st.markdown(kpi_card(label, value), unsafe_allow_html=True)
 
     final_status = r.get("final_status")
     status_label = str(final_status).replace("_", " ").title() if pd.notna(final_status) else "Unknown"
@@ -622,6 +630,14 @@ def render_fundamentals_panel(ticker: str) -> None:
         f'<p style="margin-top:0.6rem;font-size:0.85rem;color:{INK_MUTED};">{detail_line}</p>',
         unsafe_allow_html=True,
     )
+
+    if pd.notna(health_score):
+        with st.expander(f"Overall Health breakdown — {health_score:.0f}/100 (pitch-deck material, not used for ranking/sizing)"):
+            health = quality_filters.compute_overall_health(r.to_dict())
+            breakdown_df = pd.DataFrame(health["health_breakdown"])[["factor", "weight", "score", "note"]]
+            breakdown_df.columns = ["Factor", "Weight %", "Score /100", "Note"]
+            breakdown_df["Factor"] = breakdown_df["Factor"].str.replace("_", " ").str.title()
+            st.dataframe(breakdown_df, use_container_width=True, hide_index=True)
 
 
 def render_ticker_detail(ticker: str, key_prefix: str) -> None:
@@ -823,6 +839,24 @@ def render_data_health_tab(tickers: list[str]) -> None:
             }), use_container_width=True, hide_index=True)
         else:
             st.success("All tickers passed quality filters.")
+
+        if "overall_health_score" in snapshot.columns:
+            st.markdown('<h3 class="k100-subsection">Overall Health by Ticker</h3>', unsafe_allow_html=True)
+            st.caption(
+                "Pitch-deck / explainability material for the ISTC 2026 Final Stage rubric "
+                "(Fundamental Analysis, 10% of that grade) — re-expresses the same DER/PBV/float/"
+                "regulatory criteria above as a weighted 0-100 score. Never used for ranking or "
+                "position sizing (quant is the only source of truth for numbers — CLAUDE.md)."
+            )
+            health_cols = [c for c in ["ticker", "overall_health_score", "final_status", "health_weakest_factor"] if c in snapshot.columns]
+            health_df = snapshot[health_cols].sort_values("overall_health_score").reset_index(drop=True)
+            health_df = health_df.rename(columns={
+                "ticker": "Ticker", "overall_health_score": "Overall Health",
+                "final_status": "Status", "health_weakest_factor": "Weakest Factor",
+            })
+            health_df["Status"] = health_df["Status"].astype(str).str.replace("_", " ").str.title()
+            health_df["Overall Health"] = health_df["Overall Health"].map(lambda v: "—" if pd.isna(v) else f"{v:.0f}/100")
+            st.dataframe(health_df, use_container_width=True, hide_index=True, height=350)
 
 
 def render_feature_glossary() -> None:
