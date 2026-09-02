@@ -1,6 +1,7 @@
 {
-  "date": "2026-09-01",
+  "date": "2026-09-02",
   "open_tickers": [
+    "BKSL",
     "BSDE",
     "DSNG",
     "ERAA",
@@ -9,7 +10,6 @@
     "ISAT",
     "PTBA",
     "SMGR",
-    "SSIA",
-    "TOWR"
+    "SSIA"
   ]
 }
