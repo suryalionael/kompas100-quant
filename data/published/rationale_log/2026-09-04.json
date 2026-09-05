@@ -38,7 +38,7 @@
     "ticker": "ERAA",
     "action": "hold",
     "technical_notes": "RSI14 85.4; 20D momentum +29.4%; +53.9% vs MA200; -7.1% from 52w high; full MA bullish alignment (MA20>MA50>MA200); 20D relative strength vs IHSG +24.9pp",
-    "fundamental_notes": "P/E 6.6x; P/BV 0.98x; ROE 15.5%; DER 0.73x; overall health 100/100",
+    "fundamental_notes": "P/E 6.6x; P/BV 0.97x; ROE 15.5%; DER 0.73x; overall health 100/100",
     "macro_notes": "IHSG regime: Bull (score +2); IHSG close 6636.48; 20D annualized volatility 17.11%",
     "risk_notes": "position size 10.0% (Rp 10,000,000); R:R 2.0:1 (entry 590, stop 550, target 671); sector: Consumer Cyclical",
     "money_flow_proxies": {
@@ -55,7 +55,7 @@
     "ticker": "HRTA",
     "action": "hold",
     "technical_notes": "RSI14 57.1; 20D momentum +14.0%; +5.5% vs MA200; -32.2% from 52w high; 20D relative strength vs IHSG +9.5pp",
-    "fundamental_notes": "P/E 8.0x; P/BV 2.85x; ROE 42.0%; DER 1.12x; overall health 91/100",
+    "fundamental_notes": "P/E 7.9x; P/BV 2.81x; ROE 42.0%; DER 1.12x; overall health 91/100",
     "macro_notes": "IHSG regime: Bull (score +2); IHSG close 6636.48; 20D annualized volatility 17.11%",
     "risk_notes": "position size 10.0% (Rp 10,000,000); R:R 2.0:1 (entry 2,280, stop 2,131, target 2,578); sector: Consumer Cyclical",
     "money_flow_proxies": {
@@ -72,7 +72,7 @@
     "ticker": "INET",
     "action": "hold",
     "technical_notes": "RSI14 73.0; 20D momentum +53.8%; +0.2% vs MA200; -60.9% from 52w high; 20D relative strength vs IHSG +49.3pp",
-    "fundamental_notes": "P/E 146.8x; P/BV 2.14x; ROE 1.9%; DER 0.41x; overall health 91/100",
+    "fundamental_notes": "P/E 154.4x; P/BV 2.25x; ROE 1.9%; DER 0.41x; overall health 91/100",
     "macro_notes": "IHSG regime: Bull (score +2); IHSG close 6636.48; 20D annualized volatility 17.11%",
     "risk_notes": "position size 10.0% (Rp 10,000,000); R:R 2.0:1 (entry 366, stop 318, target 461); sector: Communication Services",
     "money_flow_proxies": {
@@ -89,7 +89,7 @@
     "ticker": "ISAT",
     "action": "hold",
     "technical_notes": "RSI14 52.8; 20D momentum +25.8%; +14.7% vs MA200; -16.1% from 52w high; full MA bullish alignment (MA20>MA50>MA200); 20D relative strength vs IHSG +21.3pp",
-    "fundamental_notes": "P/E 10.4x; P/BV 2.11x; ROE 20.2%; DER 1.76x; overall health 91/100",
+    "fundamental_notes": "P/E 10.3x; P/BV 2.08x; ROE 20.2%; DER 1.76x; overall health 91/100",
     "macro_notes": "IHSG regime: Bull (score +2); IHSG close 6636.48; 20D annualized volatility 17.11%",
     "risk_notes": "position size 10.0% (Rp 10,000,000); R:R 2.0:1 (entry 2,390, stop 2,182, target 2,806); sector: Communication Services",
     "money_flow_proxies": {
@@ -106,7 +106,7 @@
     "ticker": "LSIP",
     "action": "hold",
     "technical_notes": "RSI14 81.3; 20D momentum +15.8%; +31.7% vs MA200; -1.7% from 52w high; full MA bullish alignment (MA20>MA50>MA200); 20D relative strength vs IHSG +11.3pp",
-    "fundamental_notes": "P/E 5.5x; P/BV 0.79x; ROE 15.2%; overall health 90/100",
+    "fundamental_notes": "P/E 5.6x; P/BV 0.80x; ROE 15.2%; overall health 90/100",
     "macro_notes": "IHSG regime: Bull (score +2); IHSG close 6636.48; 20D annualized volatility 17.11%",
     "risk_notes": "position size 10.0% (Rp 10,000,000); R:R 2.0:1 (entry 1,685, stop 1,614, target 1,826); sector: Consumer Defensive",
     "money_flow_proxies": {
@@ -140,7 +140,7 @@
     "ticker": "SMGR",
     "action": "hold",
     "technical_notes": "RSI14 68.2; 20D momentum +14.7%; -17.5% vs MA200; -44.1% from 52w high; 20D relative strength vs IHSG +10.2pp",
-    "fundamental_notes": "P/E 31.9x; P/BV 0.28x; ROE 0.4%; DER 0.21x; overall health 100/100",
+    "fundamental_notes": "P/E 32.0x; P/BV 0.28x; ROE 0.4%; DER 0.21x; overall health 100/100",
     "macro_notes": "IHSG regime: Bull (score +2); IHSG close 6636.48; 20D annualized volatility 17.11%",
     "risk_notes": "position size 10.0% (Rp 10,000,000); R:R 2.0:1 (entry 1,795, stop 1,676, target 2,033); sector: Basic Materials",
     "money_flow_proxies": {
@@ -154,27 +154,10 @@
   },
   {
     "date": "2026-09-04",
-    "ticker": "SSIA",
-    "action": "close",
-    "technical_notes": "RSI14 53.9; 20D momentum +8.4%; +12.8% vs MA200; -28.8% from 52w high; full MA bullish alignment (MA20>MA50>MA200); 20D relative strength vs IHSG +3.9pp",
-    "fundamental_notes": "P/E 43.2x; P/BV 1.53x; ROE 6.0%; DER 0.29x; overall health 100/100",
-    "macro_notes": "IHSG regime: Bull (score +2); IHSG close 6636.48; 20D annualized volatility 17.11%",
-    "risk_notes": "position closed \u2014 dropped out of today's shortlist",
-    "money_flow_proxies": {
-      "date": "2026-09-04",
-      "volume_zscore": 0.71,
-      "today_return_pct": -3.98,
-      "volume_spike_no_followthrough": false,
-      "price_up_declining_volume": false
-    },
-    "money_flow_notes": null
-  },
-  {
-    "date": "2026-09-04",
     "ticker": "TINS",
-    "action": "open",
+    "action": "hold",
     "technical_notes": "RSI14 70.5; 20D momentum +13.9%; +27.3% vs MA200; -4.1% from 52w high; full MA bullish alignment (MA20>MA50>MA200); 20D relative strength vs IHSG +9.4pp",
-    "fundamental_notes": "P/E 8.2x; P/BV 2.89x; ROE 41.8%; DER 0.12x; overall health 91/100",
+    "fundamental_notes": "P/E 8.8x; P/BV 3.12x; ROE 41.8%; DER 0.12x; overall health 91/100",
     "macro_notes": "IHSG regime: Bull (score +2); IHSG close 6636.48; 20D annualized volatility 17.11%",
     "risk_notes": "position size 10.0% (Rp 10,000,000); R:R 2.0:1 (entry 4,420, stop 4,165, target 4,930); sector: Basic Materials",
     "money_flow_proxies": {
