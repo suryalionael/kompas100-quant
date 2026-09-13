@@ -55,7 +55,7 @@
     "ticker": "INET",
     "action": "hold",
     "technical_notes": "RSI14 61.0; 20D momentum +52.2%; -5.8% vs MA200; -63.2% from 52w high; 20D relative strength vs IHSG +49.6pp",
-    "fundamental_notes": "P/E 146.4x; P/BV 2.12x; ROE 1.9%; DER 0.41x; overall health 91/100",
+    "fundamental_notes": "P/E 147.0x; P/BV 2.12x; ROE 1.9%; DER 0.41x; overall health 91/100",
     "macro_notes": "IHSG regime: Neutral (score +0); IHSG close 6541.38; 20D annualized volatility 16.03%",
     "risk_notes": "position size 10.0% (Rp 10,000,000); R:R 2.0:1 (entry 344, stop 304, target 424); sector: Communication Services",
     "money_flow_proxies": {
@@ -106,7 +106,7 @@
     "ticker": "SMGR",
     "action": "hold",
     "technical_notes": "RSI14 56.8; 20D momentum +9.0%; -21.1% vs MA200; -47.2% from 52w high; 20D relative strength vs IHSG +6.4pp",
-    "fundamental_notes": "P/E 30.2x; P/BV 0.26x; ROE 0.4%; DER 0.21x; overall health 100/100",
+    "fundamental_notes": "P/E 30.3x; P/BV 0.26x; ROE 0.4%; DER 0.21x; overall health 100/100",
     "macro_notes": "IHSG regime: Neutral (score +0); IHSG close 6541.38; 20D annualized volatility 16.03%",
     "risk_notes": "position size 10.0% (Rp 10,000,000); R:R 2.0:1 (entry 1,695, stop 1,574, target 1,937); sector: Basic Materials",
     "money_flow_proxies": {
