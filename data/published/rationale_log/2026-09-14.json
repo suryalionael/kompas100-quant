@@ -1,0 +1,206 @@
+[
+  {
+    "date": "2026-09-14",
+    "ticker": "BFIN",
+    "action": "close",
+    "technical_notes": "RSI14 62.7; 20D momentum +8.7%; +34.1% vs MA200; -4.3% from 52w high; full MA bullish alignment (MA20>MA50>MA200); 20D relative strength vs IHSG +5.0pp",
+    "fundamental_notes": "P/E 9.3x; P/BV 1.35x; ROE 15.4%; DER 1.18x; overall health 95/100",
+    "macro_notes": "IHSG regime: Bull (score +1); IHSG close 6534.69; 20D annualized volatility 15.35%",
+    "risk_notes": "position closed \u2014 dropped out of today's shortlist",
+    "money_flow_proxies": {
+      "date": "2026-09-14",
+      "volume_zscore": -0.03,
+      "today_return_pct": -1.0,
+      "volume_spike_no_followthrough": false,
+      "price_up_declining_volume": false
+    },
+    "money_flow_notes": null
+  },
+  {
+    "date": "2026-09-14",
+    "ticker": "BSDE",
+    "action": "open",
+    "technical_notes": "RSI14 57.1; 20D momentum +11.1%; -13.9% vs MA200; -45.8% from 52w high; 20D relative strength vs IHSG +7.4pp",
+    "fundamental_notes": "P/E 7.2x; P/BV 0.30x; ROE 4.2%; DER 0.35x; overall health 100/100",
+    "macro_notes": "IHSG regime: Bull (score +1); IHSG close 6534.69; 20D annualized volatility 15.35%",
+    "risk_notes": "position size 10.0% (Rp 10,000,000); R:R 2.0:1 (entry 650, stop 614, target 722); sector: Real Estate",
+    "money_flow_proxies": {
+      "date": "2026-09-14",
+      "volume_zscore": -0.47,
+      "today_return_pct": 0.78,
+      "volume_spike_no_followthrough": false,
+      "price_up_declining_volume": true
+    },
+    "money_flow_notes": null
+  },
+  {
+    "date": "2026-09-14",
+    "ticker": "DSNG",
+    "action": "hold",
+    "technical_notes": "RSI14 63.9; 20D momentum +28.9%; +17.1% vs MA200; -16.1% from 52w high; 20D relative strength vs IHSG +25.2pp",
+    "fundamental_notes": "P/E 8.9x; P/BV 1.44x; ROE 16.8%; DER 0.28x; overall health 100/100",
+    "macro_notes": "IHSG regime: Bull (score +1); IHSG close 6534.69; 20D annualized volatility 15.35%",
+    "risk_notes": "position size 10.0% (Rp 10,000,000); R:R 2.0:1 (entry 1,650, stop 1,541, target 1,869); sector: Consumer Defensive",
+    "money_flow_proxies": {
+      "date": "2026-09-14",
+      "volume_zscore": -0.61,
+      "today_return_pct": 1.54,
+      "volume_spike_no_followthrough": false,
+      "price_up_declining_volume": true
+    },
+    "money_flow_notes": null
+  },
+  {
+    "date": "2026-09-14",
+    "ticker": "ERAA",
+    "action": "hold",
+    "technical_notes": "RSI14 68.5; 20D momentum +27.2%; +49.1% vs MA200; -8.7% from 52w high; full MA bullish alignment (MA20>MA50>MA200); 20D relative strength vs IHSG +23.5pp",
+    "fundamental_notes": "P/E 6.6x; P/BV 0.98x; ROE 15.5%; DER 0.73x; overall health 100/100",
+    "macro_notes": "IHSG regime: Bull (score +1); IHSG close 6534.69; 20D annualized volatility 15.35%",
+    "risk_notes": "position size 10.0% (Rp 10,000,000); R:R 2.0:1 (entry 580, stop 529, target 683); sector: Consumer Cyclical",
+    "money_flow_proxies": {
+      "date": "2026-09-14",
+      "volume_zscore": -0.19,
+      "today_return_pct": -2.52,
+      "volume_spike_no_followthrough": false,
+      "price_up_declining_volume": false
+    },
+    "money_flow_notes": null
+  },
+  {
+    "date": "2026-09-14",
+    "ticker": "INET",
+    "action": "hold",
+    "technical_notes": "RSI14 56.2; 20D momentum +48.2%; -9.0% vs MA200; -64.5% from 52w high; 20D relative strength vs IHSG +44.5pp",
+    "fundamental_notes": "P/E 147.0x; P/BV 2.12x; ROE 1.9%; DER 0.41x; overall health 91/100",
+    "macro_notes": "IHSG regime: Bull (score +1); IHSG close 6534.69; 20D annualized volatility 15.35%",
+    "risk_notes": "position size 10.0% (Rp 10,000,000); R:R 2.0:1 (entry 332, stop 293, target 411); sector: Communication Services",
+    "money_flow_proxies": {
+      "date": "2026-09-14",
+      "volume_zscore": -0.38,
+      "today_return_pct": -3.49,
+      "volume_spike_no_followthrough": false,
+      "price_up_declining_volume": false
+    },
+    "money_flow_notes": null
+  },
+  {
+    "date": "2026-09-14",
+    "ticker": "KPIG",
+    "action": "open",
+    "technical_notes": "RSI14 61.4; 20D momentum +15.7%; -31.6% vs MA200; -73.0% from 52w high; 20D relative strength vs IHSG +12.0pp",
+    "fundamental_notes": "P/E 12.4x; P/BV 0.29x; ROE 2.1%; DER 0.19x; overall health 100/100",
+    "macro_notes": "IHSG regime: Bull (score +1); IHSG close 6534.69; 20D annualized volatility 15.35%",
+    "risk_notes": "position size 10.0% (Rp 10,000,000); R:R 2.0:1 (entry 81, stop 72, target 98); sector: Real Estate",
+    "money_flow_proxies": {
+      "date": "2026-09-14",
+      "volume_zscore": 1.05,
+      "today_return_pct": 2.53,
+      "volume_spike_no_followthrough": false,
+      "price_up_declining_volume": false
+    },
+    "money_flow_notes": null
+  },
+  {
+    "date": "2026-09-14",
+    "ticker": "LSIP",
+    "action": "hold",
+    "technical_notes": "RSI14 72.4; 20D momentum +22.2%; +32.1% vs MA200; -3.1% from 52w high; full MA bullish alignment (MA20>MA50>MA200); 20D relative strength vs IHSG +18.5pp",
+    "fundamental_notes": "P/E 5.6x; P/BV 0.81x; ROE 15.2%; overall health 90/100",
+    "macro_notes": "IHSG regime: Bull (score +1); IHSG close 6534.69; 20D annualized volatility 15.35%",
+    "risk_notes": "position size 10.0% (Rp 10,000,000); R:R 2.0:1 (entry 1,705, stop 1,611, target 1,892); sector: Consumer Defensive",
+    "money_flow_proxies": {
+      "date": "2026-09-14",
+      "volume_zscore": -0.15,
+      "today_return_pct": 0.29,
+      "volume_spike_no_followthrough": false,
+      "price_up_declining_volume": true
+    },
+    "money_flow_notes": null
+  },
+  {
+    "date": "2026-09-14",
+    "ticker": "PTBA",
+    "action": "hold",
+    "technical_notes": "RSI14 84.0; 20D momentum +31.6%; +22.9% vs MA200; -3.8% from 52w high; 20D relative strength vs IHSG +27.9pp",
+    "fundamental_notes": "P/E 7.5x; P/BV 1.41x; ROE 21.1%; DER 0.12x; overall health 100/100",
+    "macro_notes": "IHSG regime: Bull (score +1); IHSG close 6534.69; 20D annualized volatility 15.35%",
+    "risk_notes": "position size 10.0% (Rp 10,000,000); R:R 2.0:1 (entry 3,080, stop 2,888, target 3,464); sector: Energy",
+    "money_flow_proxies": {
+      "date": "2026-09-14",
+      "volume_zscore": -0.01,
+      "today_return_pct": -0.65,
+      "volume_spike_no_followthrough": false,
+      "price_up_declining_volume": false
+    },
+    "money_flow_notes": null
+  },
+  {
+    "date": "2026-09-14",
+    "ticker": "SMGR",
+    "action": "close",
+    "technical_notes": "RSI14 52.6; 20D momentum +9.6%; -22.8% vs MA200; -48.4% from 52w high; 20D relative strength vs IHSG +5.9pp",
+    "fundamental_notes": "P/E 30.3x; P/BV 0.26x; ROE 0.4%; DER 0.21x; overall health 100/100",
+    "macro_notes": "IHSG regime: Bull (score +1); IHSG close 6534.69; 20D annualized volatility 15.35%",
+    "risk_notes": "position closed \u2014 dropped out of today's shortlist",
+    "money_flow_proxies": {
+      "date": "2026-09-14",
+      "volume_zscore": -0.29,
+      "today_return_pct": -2.36,
+      "volume_spike_no_followthrough": false,
+      "price_up_declining_volume": false
+    },
+    "money_flow_notes": null
+  },
+  {
+    "date": "2026-09-14",
+    "ticker": "TINS",
+    "action": "hold",
+    "technical_notes": "RSI14 72.6; 20D momentum +26.3%; +33.4% vs MA200; -4.3% from 52w high; full MA bullish alignment (MA20>MA50>MA200); 20D relative strength vs IHSG +22.6pp",
+    "fundamental_notes": "P/E 9.5x; P/BV 3.35x; ROE 41.8%; DER 0.12x; overall health 91/100",
+    "macro_notes": "IHSG regime: Bull (score +1); IHSG close 6534.69; 20D annualized volatility 15.35%",
+    "risk_notes": "position size 10.0% (Rp 10,000,000); R:R 2.0:1 (entry 4,700, stop 4,409, target 5,283); sector: Basic Materials",
+    "money_flow_proxies": {
+      "date": "2026-09-14",
+      "volume_zscore": -0.18,
+      "today_return_pct": -0.84,
+      "volume_spike_no_followthrough": false,
+      "price_up_declining_volume": false
+    },
+    "money_flow_notes": null
+  },
+  {
+    "date": "2026-09-14",
+    "ticker": "TOWR",
+    "action": "hold",
+    "technical_notes": "RSI14 52.1; 20D momentum +14.4%; -4.7% vs MA200; -30.4% from 52w high; 20D relative strength vs IHSG +10.7pp",
+    "fundamental_notes": "P/E 6.7x; P/BV 0.92x; ROE 16.1%; DER 1.57x; overall health 100/100",
+    "macro_notes": "IHSG regime: Bull (score +1); IHSG close 6534.69; 20D annualized volatility 15.35%",
+    "risk_notes": "position size 10.0% (Rp 10,000,000); R:R 2.0:1 (entry 444, stop 416, target 500); sector: Real Estate",
+    "money_flow_proxies": {
+      "date": "2026-09-14",
+      "volume_zscore": 0.46,
+      "today_return_pct": -2.2,
+      "volume_spike_no_followthrough": false,
+      "price_up_declining_volume": false
+    },
+    "money_flow_notes": null
+  },
+  {
+    "date": "2026-09-14",
+    "ticker": "UNTR",
+    "action": "hold",
+    "technical_notes": "RSI14 66.6; 20D momentum +14.4%; -0.9% vs MA200; -16.7% from 52w high; 20D relative strength vs IHSG +10.7pp",
+    "fundamental_notes": "P/E 12.4x; P/BV 0.98x; ROE 7.4%; DER 0.28x; overall health 100/100",
+    "macro_notes": "IHSG regime: Bull (score +1); IHSG close 6534.69; 20D annualized volatility 15.35%",
+    "risk_notes": "position size 10.0% (Rp 10,000,000); R:R 2.0:1 (entry 26,400, stop 25,294, target 28,612); sector: Basic Materials",
+    "money_flow_proxies": {
+      "date": "2026-09-14",
+      "volume_zscore": -0.37,
+      "today_return_pct": 0.38,
+      "volume_spike_no_followthrough": false,
+      "price_up_declining_volume": true
+    },
+    "money_flow_notes": null
+  }
+]
