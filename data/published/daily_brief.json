@@ -1,37 +1,37 @@
 {
-  "generated_at_utc": "2026-09-16T15:07:55+00:00",
+  "generated_at_utc": "2026-09-17T15:11:21+00:00",
   "strategy_status": "naive_momentum_interim",
   "base_capital_idr": 100000000,
   "shortlist": [
     {
-      "ticker": "ERAA",
-      "sector": "Consumer Cyclical",
-      "score": 28.23,
+      "ticker": "PTBA",
+      "sector": "Energy",
+      "score": 32.49,
       "levels": {
-        "ticker": "ERAA",
-        "as_of_date": "2026-09-16",
-        "setup": "atr_band",
-        "entry": 595.0,
-        "atr": 35.14,
-        "stop": 542.29,
-        "target": 700.43,
+        "ticker": "PTBA",
+        "as_of_date": "2026-09-17",
+        "setup": "breakout",
+        "entry": 3140.0,
+        "atr": 127.14,
+        "stop": 2949.29,
+        "target": 3521.43,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
       "position_idr": 10000000.0
     },
     {
-      "ticker": "PTBA",
-      "sector": "Energy",
-      "score": 26.58,
+      "ticker": "ERAA",
+      "sector": "Consumer Cyclical",
+      "score": 32.48,
       "levels": {
-        "ticker": "PTBA",
-        "as_of_date": "2026-09-16",
+        "ticker": "ERAA",
+        "as_of_date": "2026-09-17",
         "setup": "atr_band",
-        "entry": 3000.0,
-        "atr": 126.43,
-        "stop": 2810.36,
-        "target": 3379.29,
+        "entry": 620.0,
+        "atr": 37.21,
+        "stop": 564.18,
+        "target": 731.64,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
@@ -40,32 +40,15 @@
     {
       "ticker": "LSIP",
       "sector": "Consumer Defensive",
-      "score": 20.85,
+      "score": 22.61,
       "levels": {
         "ticker": "LSIP",
-        "as_of_date": "2026-09-16",
+        "as_of_date": "2026-09-17",
         "setup": "breakout",
-        "entry": 1710.0,
-        "atr": 60.71,
-        "stop": 1618.93,
-        "target": 1892.14,
-        "rr_ratio": 2.0
-      },
-      "position_pct": 10.0,
-      "position_idr": 10000000.0
-    },
-    {
-      "ticker": "TINS",
-      "sector": "Basic Materials",
-      "score": 20.0,
-      "levels": {
-        "ticker": "TINS",
-        "as_of_date": "2026-09-16",
-        "setup": "atr_band",
-        "entry": 4680.0,
-        "atr": 197.14,
-        "stop": 4384.29,
-        "target": 5271.43,
+        "entry": 1735.0,
+        "atr": 61.43,
+        "stop": 1642.86,
+        "target": 1919.29,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
@@ -74,32 +57,15 @@
     {
       "ticker": "DSNG",
       "sector": "Consumer Defensive",
-      "score": 17.28,
+      "score": 22.06,
       "levels": {
         "ticker": "DSNG",
-        "as_of_date": "2026-09-16",
+        "as_of_date": "2026-09-17",
         "setup": "atr_band",
-        "entry": 1595.0,
-        "atr": 70.36,
-        "stop": 1489.46,
-        "target": 1806.07,
-        "rr_ratio": 2.0
-      },
-      "position_pct": 10.0,
-      "position_idr": 10000000.0
-    },
-    {
-      "ticker": "UNTR",
-      "sector": "Basic Materials",
-      "score": 11.79,
-      "levels": {
-        "ticker": "UNTR",
-        "as_of_date": "2026-09-16",
-        "setup": "atr_band",
-        "entry": 26075.0,
-        "atr": 721.43,
-        "stop": 24992.86,
-        "target": 28239.29,
+        "entry": 1660.0,
+        "atr": 74.64,
+        "stop": 1548.04,
+        "target": 1883.93,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
@@ -108,15 +74,83 @@
     {
       "ticker": "INET",
       "sector": "Communication Services",
-      "score": 8.22,
+      "score": 17.36,
       "levels": {
         "ticker": "INET",
-        "as_of_date": "2026-09-16",
+        "as_of_date": "2026-09-17",
         "setup": "atr_band",
-        "entry": 316.0,
-        "atr": 23.0,
-        "stop": 281.5,
-        "target": 385.0,
+        "entry": 338.0,
+        "atr": 22.71,
+        "stop": 303.93,
+        "target": 406.14,
+        "rr_ratio": 2.0
+      },
+      "position_pct": 10.0,
+      "position_idr": 10000000.0
+    },
+    {
+      "ticker": "TINS",
+      "sector": "Basic Materials",
+      "score": 16.05,
+      "levels": {
+        "ticker": "TINS",
+        "as_of_date": "2026-09-17",
+        "setup": "atr_band",
+        "entry": 4700.0,
+        "atr": 194.29,
+        "stop": 4408.57,
+        "target": 5282.86,
+        "rr_ratio": 2.0
+      },
+      "position_pct": 10.0,
+      "position_idr": 10000000.0
+    },
+    {
+      "ticker": "UNTR",
+      "sector": "Basic Materials",
+      "score": 9.01,
+      "levels": {
+        "ticker": "UNTR",
+        "as_of_date": "2026-09-17",
+        "setup": "atr_band",
+        "entry": 25700.0,
+        "atr": 737.5,
+        "stop": 24593.75,
+        "target": 27912.5,
+        "rr_ratio": 2.0
+      },
+      "position_pct": 10.0,
+      "position_idr": 10000000.0
+    },
+    {
+      "ticker": "ANTM",
+      "sector": "Basic Materials",
+      "score": 8.25,
+      "levels": {
+        "ticker": "ANTM",
+        "as_of_date": "2026-09-17",
+        "setup": "breakout",
+        "entry": 3280.0,
+        "atr": 102.86,
+        "stop": 3125.71,
+        "target": 3588.57,
+        "rr_ratio": 2.0
+      },
+      "position_pct": 10.0,
+      "position_idr": 10000000.0
+    },
+    {
+      "ticker": "BFIN",
+      "sector": "Financial Services",
+      "score": 8.24,
+      "levels": {
+        "ticker": "BFIN",
+        "as_of_date": "2026-09-17",
+        "setup": "atr_band",
+        "entry": 985.0,
+        "atr": 47.5,
+        "stop": 913.75,
+        "target": 1127.5,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
@@ -128,46 +162,12 @@
       "score": 8.12,
       "levels": {
         "ticker": "BBRI",
-        "as_of_date": "2026-09-16",
+        "as_of_date": "2026-09-17",
         "setup": "atr_band",
         "entry": 3330.0,
-        "atr": 81.43,
-        "stop": 3207.86,
-        "target": 3574.29,
-        "rr_ratio": 2.0
-      },
-      "position_pct": 10.0,
-      "position_idr": 10000000.0
-    },
-    {
-      "ticker": "BFIN",
-      "sector": "Financial Services",
-      "score": 5.38,
-      "levels": {
-        "ticker": "BFIN",
-        "as_of_date": "2026-09-16",
-        "setup": "atr_band",
-        "entry": 980.0,
-        "atr": 49.29,
-        "stop": 906.07,
-        "target": 1127.86,
-        "rr_ratio": 2.0
-      },
-      "position_pct": 10.0,
-      "position_idr": 10000000.0
-    },
-    {
-      "ticker": "KPIG",
-      "sector": "Real Estate",
-      "score": 4.35,
-      "levels": {
-        "ticker": "KPIG",
-        "as_of_date": "2026-09-16",
-        "setup": "atr_band",
-        "entry": 72.0,
-        "atr": 6.21,
-        "stop": 62.68,
-        "target": 90.64,
+        "atr": 80.71,
+        "stop": 3208.93,
+        "target": 3572.14,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
