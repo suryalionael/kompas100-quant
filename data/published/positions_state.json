@@ -1,6 +1,7 @@
 {
-  "date": "2026-09-17",
+  "date": "2026-09-18",
   "open_tickers": [
+    "AKRA",
     "ANTM",
     "BBRI",
     "BFIN",
@@ -9,7 +10,6 @@
     "INET",
     "LSIP",
     "PTBA",
-    "TINS",
-    "UNTR"
+    "TINS"
   ]
 }
