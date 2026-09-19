@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-09-18T14:36:14+00:00",
+  "generated_at_utc": "2026-09-19T13:59:05+00:00",
   "strategy_status": "naive_momentum_interim",
   "base_capital_idr": 100000000,
   "shortlist": [
@@ -123,23 +123,6 @@
       "position_idr": 10000000.0
     },
     {
-      "ticker": "INET",
-      "sector": "Communication Services",
-      "score": 5.73,
-      "levels": {
-        "ticker": "INET",
-        "as_of_date": "2026-09-18",
-        "setup": "atr_band",
-        "entry": 332.0,
-        "atr": 22.0,
-        "stop": 299.0,
-        "target": 398.0,
-        "rr_ratio": 2.0
-      },
-      "position_pct": 10.0,
-      "position_idr": 10000000.0
-    },
-    {
       "ticker": "BBRI",
       "sector": "Financial Services",
       "score": 5.41,
@@ -168,6 +151,23 @@
         "atr": 46.79,
         "stop": 1399.82,
         "target": 1610.36,
+        "rr_ratio": 2.0
+      },
+      "position_pct": 10.0,
+      "position_idr": 10000000.0
+    },
+    {
+      "ticker": "CPIN",
+      "sector": "Consumer Defensive",
+      "score": 4.3,
+      "levels": {
+        "ticker": "CPIN",
+        "as_of_date": "2026-09-18",
+        "setup": "atr_band",
+        "entry": 3150.0,
+        "atr": 115.0,
+        "stop": 2977.5,
+        "target": 3495.0,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
