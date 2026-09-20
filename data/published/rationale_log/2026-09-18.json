@@ -70,7 +70,7 @@
   {
     "date": "2026-09-18",
     "ticker": "CPIN",
-    "action": "open",
+    "action": "hold",
     "technical_notes": "RSI14 50.6; 20D momentum +4.3%; -16.7% vs MA200; -38.7% from 52w high; 20D relative strength vs IHSG +5.2pp",
     "fundamental_notes": "P/E 6.9x; P/BV 1.48x; ROE 22.8%; DER 0.28x; overall health 100/100",
     "macro_notes": "IHSG regime: Bear (score -1); IHSG close 6441.16; 20D annualized volatility 13.38%",
@@ -115,23 +115,6 @@
       "today_return_pct": 0.81,
       "volume_spike_no_followthrough": false,
       "price_up_declining_volume": true
-    },
-    "money_flow_notes": null
-  },
-  {
-    "date": "2026-09-18",
-    "ticker": "INET",
-    "action": "close",
-    "technical_notes": "RSI14 55.0; 20D momentum +5.7%; -8.1% vs MA200; -64.5% from 52w high; 20D relative strength vs IHSG +6.7pp",
-    "fundamental_notes": "P/E 140.1x; P/BV 7.41x; ROE 1.9%; DER 0.41x; quality flag: excluded_fundamental; overall health 80/100",
-    "macro_notes": "IHSG regime: Bear (score -1); IHSG close 6441.16; 20D annualized volatility 13.38%",
-    "risk_notes": "position closed \u2014 dropped out of today's shortlist",
-    "money_flow_proxies": {
-      "date": "2026-09-18",
-      "volume_zscore": -0.92,
-      "today_return_pct": -1.78,
-      "volume_spike_no_followthrough": false,
-      "price_up_declining_volume": false
     },
     "money_flow_notes": null
   },
