@@ -1,20 +1,20 @@
 {
-  "generated_at_utc": "2026-09-20T14:19:11+00:00",
+  "generated_at_utc": "2026-09-21T16:33:36+00:00",
   "strategy_status": "naive_momentum_interim",
   "base_capital_idr": 100000000,
   "shortlist": [
     {
       "ticker": "ERAA",
       "sector": "Consumer Cyclical",
-      "score": 34.12,
+      "score": 31.86,
       "levels": {
         "ticker": "ERAA",
-        "as_of_date": "2026-09-18",
+        "as_of_date": "2026-09-21",
         "setup": "atr_band",
         "entry": 625.0,
-        "atr": 37.93,
-        "stop": 568.11,
-        "target": 738.79,
+        "atr": 38.0,
+        "stop": 568.0,
+        "target": 739.0,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
@@ -23,15 +23,15 @@
     {
       "ticker": "PTBA",
       "sector": "Energy",
-      "score": 28.75,
+      "score": 28.33,
       "levels": {
         "ticker": "PTBA",
-        "as_of_date": "2026-09-18",
+        "as_of_date": "2026-09-21",
         "setup": "atr_band",
-        "entry": 3090.0,
-        "atr": 127.86,
-        "stop": 2898.21,
-        "target": 3473.57,
+        "entry": 3080.0,
+        "atr": 116.43,
+        "stop": 2905.36,
+        "target": 3429.29,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
@@ -40,15 +40,15 @@
     {
       "ticker": "TINS",
       "sector": "Basic Materials",
-      "score": 19.05,
+      "score": 21.59,
       "levels": {
         "ticker": "TINS",
-        "as_of_date": "2026-09-18",
-        "setup": "atr_band",
-        "entry": 4750.0,
-        "atr": 196.43,
-        "stop": 4455.36,
-        "target": 5339.29,
+        "as_of_date": "2026-09-21",
+        "setup": "breakout",
+        "entry": 4900.0,
+        "atr": 208.57,
+        "stop": 4587.14,
+        "target": 5525.71,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
@@ -57,15 +57,15 @@
     {
       "ticker": "DSNG",
       "sector": "Consumer Defensive",
-      "score": 19.01,
+      "score": 14.58,
       "levels": {
         "ticker": "DSNG",
-        "as_of_date": "2026-09-18",
+        "as_of_date": "2026-09-21",
         "setup": "atr_band",
-        "entry": 1690.0,
-        "atr": 70.71,
-        "stop": 1583.93,
-        "target": 1902.14,
+        "entry": 1650.0,
+        "atr": 67.86,
+        "stop": 1548.21,
+        "target": 1853.57,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
@@ -74,15 +74,15 @@
     {
       "ticker": "LSIP",
       "sector": "Consumer Defensive",
-      "score": 15.31,
+      "score": 11.99,
       "levels": {
         "ticker": "LSIP",
-        "as_of_date": "2026-09-18",
+        "as_of_date": "2026-09-21",
         "setup": "atr_band",
-        "entry": 1695.0,
-        "atr": 65.71,
-        "stop": 1596.43,
-        "target": 1892.14,
+        "entry": 1635.0,
+        "atr": 70.36,
+        "stop": 1529.46,
+        "target": 1846.07,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
@@ -91,49 +91,15 @@
     {
       "ticker": "BFIN",
       "sector": "Financial Services",
-      "score": 8.43,
+      "score": 7.95,
       "levels": {
         "ticker": "BFIN",
-        "as_of_date": "2026-09-18",
+        "as_of_date": "2026-09-21",
         "setup": "atr_band",
-        "entry": 965.0,
-        "atr": 48.93,
-        "stop": 891.61,
-        "target": 1111.79,
-        "rr_ratio": 2.0
-      },
-      "position_pct": 10.0,
-      "position_idr": 10000000.0
-    },
-    {
-      "ticker": "ANTM",
-      "sector": "Basic Materials",
-      "score": 6.37,
-      "levels": {
-        "ticker": "ANTM",
-        "as_of_date": "2026-09-18",
-        "setup": "breakout",
-        "entry": 3340.0,
-        "atr": 105.0,
-        "stop": 3182.5,
-        "target": 3655.0,
-        "rr_ratio": 2.0
-      },
-      "position_pct": 10.0,
-      "position_idr": 10000000.0
-    },
-    {
-      "ticker": "BBRI",
-      "sector": "Financial Services",
-      "score": 5.41,
-      "levels": {
-        "ticker": "BBRI",
-        "as_of_date": "2026-09-18",
-        "setup": "atr_band",
-        "entry": 3310.0,
-        "atr": 80.0,
-        "stop": 3190.0,
-        "target": 3550.0,
+        "entry": 950.0,
+        "atr": 45.0,
+        "stop": 882.5,
+        "target": 1085.0,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
@@ -142,32 +108,66 @@
     {
       "ticker": "AKRA",
       "sector": "Energy",
-      "score": 5.38,
+      "score": 5.43,
       "levels": {
         "ticker": "AKRA",
-        "as_of_date": "2026-09-18",
+        "as_of_date": "2026-09-21",
         "setup": "atr_band",
-        "entry": 1470.0,
-        "atr": 46.79,
-        "stop": 1399.82,
-        "target": 1610.36,
+        "entry": 1455.0,
+        "atr": 46.07,
+        "stop": 1385.89,
+        "target": 1593.21,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
       "position_idr": 10000000.0
     },
     {
-      "ticker": "CPIN",
-      "sector": "Consumer Defensive",
-      "score": 4.3,
+      "ticker": "MAPA",
+      "sector": "Consumer Cyclical",
+      "score": 4.48,
       "levels": {
-        "ticker": "CPIN",
-        "as_of_date": "2026-09-18",
+        "ticker": "MAPA",
+        "as_of_date": "2026-09-21",
         "setup": "atr_band",
-        "entry": 3150.0,
-        "atr": 115.0,
-        "stop": 2977.5,
-        "target": 3495.0,
+        "entry": 700.0,
+        "atr": 23.93,
+        "stop": 664.11,
+        "target": 771.79,
+        "rr_ratio": 2.0
+      },
+      "position_pct": 10.0,
+      "position_idr": 10000000.0
+    },
+    {
+      "ticker": "UNTR",
+      "sector": "Basic Materials",
+      "score": 3.35,
+      "levels": {
+        "ticker": "UNTR",
+        "as_of_date": "2026-09-21",
+        "setup": "atr_band",
+        "entry": 24700.0,
+        "atr": 680.36,
+        "stop": 23679.46,
+        "target": 26741.07,
+        "rr_ratio": 2.0
+      },
+      "position_pct": 10.0,
+      "position_idr": 10000000.0
+    },
+    {
+      "ticker": "JPFA",
+      "sector": "Consumer Defensive",
+      "score": 2.71,
+      "levels": {
+        "ticker": "JPFA",
+        "as_of_date": "2026-09-21",
+        "setup": "atr_band",
+        "entry": 2270.0,
+        "atr": 84.29,
+        "stop": 2143.57,
+        "target": 2522.86,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
