@@ -1,15 +1,15 @@
 {
-  "date": "2026-09-25",
+  "date": "2026-09-28",
   "open_tickers": [
     "AKRA",
-    "ANTM",
     "BFIN",
-    "DSNG",
+    "CPIN",
     "ERAA",
     "LSIP",
     "MAPI",
     "PTBA",
     "SMGR",
-    "TINS"
+    "TINS",
+    "UNTR"
   ]
 }
