@@ -1,20 +1,20 @@
 {
-  "generated_at_utc": "2026-09-29T16:36:18+00:00",
+  "generated_at_utc": "2026-09-30T16:29:03+00:00",
   "strategy_status": "naive_momentum_interim",
   "base_capital_idr": 100000000,
   "shortlist": [
     {
-      "ticker": "ERAA",
-      "sector": "Consumer Cyclical",
-      "score": 19.48,
+      "ticker": "TINS",
+      "sector": "Basic Materials",
+      "score": 15.96,
       "levels": {
-        "ticker": "ERAA",
-        "as_of_date": "2026-09-29",
+        "ticker": "TINS",
+        "as_of_date": "2026-09-30",
         "setup": "atr_band",
-        "entry": 595.0,
-        "atr": 28.21,
-        "stop": 552.68,
-        "target": 679.64,
+        "entry": 4650.0,
+        "atr": 227.14,
+        "stop": 4309.29,
+        "target": 5331.43,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
@@ -23,32 +23,32 @@
     {
       "ticker": "PTBA",
       "sector": "Energy",
-      "score": 16.48,
+      "score": 14.71,
       "levels": {
         "ticker": "PTBA",
-        "as_of_date": "2026-09-29",
+        "as_of_date": "2026-09-30",
         "setup": "breakout",
-        "entry": 3110.0,
-        "atr": 107.86,
-        "stop": 2948.21,
-        "target": 3433.57,
+        "entry": 3120.0,
+        "atr": 102.14,
+        "stop": 2966.79,
+        "target": 3426.43,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
       "position_idr": 10000000.0
     },
     {
-      "ticker": "TINS",
-      "sector": "Basic Materials",
-      "score": 12.96,
+      "ticker": "ERAA",
+      "sector": "Consumer Cyclical",
+      "score": 14.42,
       "levels": {
-        "ticker": "TINS",
-        "as_of_date": "2026-09-29",
+        "ticker": "ERAA",
+        "as_of_date": "2026-09-30",
         "setup": "atr_band",
-        "entry": 4620.0,
-        "atr": 237.86,
-        "stop": 4263.21,
-        "target": 5333.57,
+        "entry": 595.0,
+        "atr": 26.43,
+        "stop": 555.36,
+        "target": 674.29,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
@@ -57,83 +57,15 @@
     {
       "ticker": "MAPI",
       "sector": "Consumer Cyclical",
-      "score": 5.8,
+      "score": 8.39,
       "levels": {
         "ticker": "MAPI",
-        "as_of_date": "2026-09-29",
+        "as_of_date": "2026-09-30",
         "setup": "breakout",
         "entry": 1550.0,
-        "atr": 62.5,
-        "stop": 1456.25,
-        "target": 1737.5,
-        "rr_ratio": 2.0
-      },
-      "position_pct": 10.0,
-      "position_idr": 10000000.0
-    },
-    {
-      "ticker": "ANTM",
-      "sector": "Basic Materials",
-      "score": 2.6,
-      "levels": {
-        "ticker": "ANTM",
-        "as_of_date": "2026-09-29",
-        "setup": "atr_band",
-        "entry": 3160.0,
-        "atr": 125.71,
-        "stop": 2971.43,
-        "target": 3537.14,
-        "rr_ratio": 2.0
-      },
-      "position_pct": 10.0,
-      "position_idr": 10000000.0
-    },
-    {
-      "ticker": "AKRA",
-      "sector": "Energy",
-      "score": 2.5,
-      "levels": {
-        "ticker": "AKRA",
-        "as_of_date": "2026-09-29",
-        "setup": "atr_band",
-        "entry": 1435.0,
-        "atr": 40.36,
-        "stop": 1374.46,
-        "target": 1556.07,
-        "rr_ratio": 2.0
-      },
-      "position_pct": 10.0,
-      "position_idr": 10000000.0
-    },
-    {
-      "ticker": "LSIP",
-      "sector": "Consumer Defensive",
-      "score": -0.33,
-      "levels": {
-        "ticker": "LSIP",
-        "as_of_date": "2026-09-29",
-        "setup": "pullback",
-        "entry": 1505.0,
-        "atr": 63.57,
-        "stop": 1409.64,
-        "target": 1695.71,
-        "rr_ratio": 2.0
-      },
-      "position_pct": 10.0,
-      "position_idr": 10000000.0
-    },
-    {
-      "ticker": "AMRT",
-      "sector": "Consumer Defensive",
-      "score": -1.49,
-      "levels": {
-        "ticker": "AMRT",
-        "as_of_date": "2026-09-29",
-        "setup": "breakout",
-        "entry": 1320.0,
-        "atr": 35.71,
-        "stop": 1266.43,
-        "target": 1427.14,
+        "atr": 62.86,
+        "stop": 1455.71,
+        "target": 1738.57,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
@@ -142,15 +74,49 @@
     {
       "ticker": "UNTR",
       "sector": "Basic Materials",
-      "score": -1.56,
+      "score": 8.08,
       "levels": {
         "ticker": "UNTR",
-        "as_of_date": "2026-09-29",
+        "as_of_date": "2026-09-30",
+        "setup": "breakout",
+        "entry": 27075.0,
+        "atr": 710.71,
+        "stop": 26008.93,
+        "target": 29207.14,
+        "rr_ratio": 2.0
+      },
+      "position_pct": 10.0,
+      "position_idr": 10000000.0
+    },
+    {
+      "ticker": "ANTM",
+      "sector": "Basic Materials",
+      "score": 5.61,
+      "levels": {
+        "ticker": "ANTM",
+        "as_of_date": "2026-09-30",
         "setup": "atr_band",
-        "entry": 25175.0,
-        "atr": 644.64,
-        "stop": 24208.04,
-        "target": 27108.93,
+        "entry": 3200.0,
+        "atr": 125.0,
+        "stop": 3012.5,
+        "target": 3575.0,
+        "rr_ratio": 2.0
+      },
+      "position_pct": 10.0,
+      "position_idr": 10000000.0
+    },
+    {
+      "ticker": "AKRA",
+      "sector": "Energy",
+      "score": 3.94,
+      "levels": {
+        "ticker": "AKRA",
+        "as_of_date": "2026-09-30",
+        "setup": "atr_band",
+        "entry": 1450.0,
+        "atr": 39.29,
+        "stop": 1391.07,
+        "target": 1567.86,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
@@ -159,15 +125,49 @@
     {
       "ticker": "HRTA",
       "sector": "Consumer Cyclical",
-      "score": -2.68,
+      "score": 2.24,
       "levels": {
         "ticker": "HRTA",
-        "as_of_date": "2026-09-29",
+        "as_of_date": "2026-09-30",
         "setup": "atr_band",
-        "entry": 2180.0,
-        "atr": 87.86,
-        "stop": 2048.21,
-        "target": 2443.57,
+        "entry": 2280.0,
+        "atr": 90.0,
+        "stop": 2145.0,
+        "target": 2550.0,
+        "rr_ratio": 2.0
+      },
+      "position_pct": 10.0,
+      "position_idr": 10000000.0
+    },
+    {
+      "ticker": "AMRT",
+      "sector": "Consumer Defensive",
+      "score": 1.15,
+      "levels": {
+        "ticker": "AMRT",
+        "as_of_date": "2026-09-30",
+        "setup": "breakout",
+        "entry": 1320.0,
+        "atr": 36.43,
+        "stop": 1265.36,
+        "target": 1429.29,
+        "rr_ratio": 2.0
+      },
+      "position_pct": 10.0,
+      "position_idr": 10000000.0
+    },
+    {
+      "ticker": "CPIN",
+      "sector": "Consumer Defensive",
+      "score": -2.31,
+      "levels": {
+        "ticker": "CPIN",
+        "as_of_date": "2026-09-30",
+        "setup": "pullback",
+        "entry": 2960.0,
+        "atr": 80.0,
+        "stop": 2840.0,
+        "target": 3200.0,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
