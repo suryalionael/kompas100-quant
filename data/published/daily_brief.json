@@ -1,71 +1,20 @@
 {
-  "generated_at_utc": "2026-10-01T17:06:22+00:00",
+  "generated_at_utc": "2026-10-02T16:20:47+00:00",
   "strategy_status": "naive_momentum_interim",
   "base_capital_idr": 100000000,
   "shortlist": [
     {
-      "ticker": "TINS",
-      "sector": "Basic Materials",
-      "score": 12.22,
-      "levels": {
-        "ticker": "TINS",
-        "as_of_date": "2026-10-01",
-        "setup": "atr_band",
-        "entry": 4590.0,
-        "atr": 215.0,
-        "stop": 4267.5,
-        "target": 5235.0,
-        "rr_ratio": 2.0
-      },
-      "position_pct": 10.0,
-      "position_idr": 10000000.0
-    },
-    {
       "ticker": "PTBA",
       "sector": "Energy",
-      "score": 5.54,
+      "score": 10.42,
       "levels": {
         "ticker": "PTBA",
-        "as_of_date": "2026-10-01",
-        "setup": "atr_band",
-        "entry": 3050.0,
-        "atr": 103.57,
-        "stop": 2894.64,
-        "target": 3360.71,
-        "rr_ratio": 2.0
-      },
-      "position_pct": 10.0,
-      "position_idr": 10000000.0
-    },
-    {
-      "ticker": "MAPI",
-      "sector": "Consumer Cyclical",
-      "score": 4.23,
-      "levels": {
-        "ticker": "MAPI",
-        "as_of_date": "2026-10-01",
-        "setup": "atr_band",
-        "entry": 1480.0,
-        "atr": 66.07,
-        "stop": 1380.89,
-        "target": 1678.21,
-        "rr_ratio": 2.0
-      },
-      "position_pct": 10.0,
-      "position_idr": 10000000.0
-    },
-    {
-      "ticker": "UNTR",
-      "sector": "Basic Materials",
-      "score": 4.15,
-      "levels": {
-        "ticker": "UNTR",
-        "as_of_date": "2026-10-01",
+        "as_of_date": "2026-10-02",
         "setup": "breakout",
-        "entry": 26350.0,
-        "atr": 755.36,
-        "stop": 25216.96,
-        "target": 28616.07,
+        "entry": 3180.0,
+        "atr": 105.71,
+        "stop": 3021.43,
+        "target": 3497.14,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
@@ -74,15 +23,66 @@
     {
       "ticker": "AKRA",
       "sector": "Energy",
-      "score": 3.57,
+      "score": 5.42,
       "levels": {
         "ticker": "AKRA",
-        "as_of_date": "2026-10-01",
+        "as_of_date": "2026-10-02",
         "setup": "atr_band",
-        "entry": 1450.0,
-        "atr": 40.71,
-        "stop": 1388.93,
-        "target": 1572.14,
+        "entry": 1460.0,
+        "atr": 41.43,
+        "stop": 1397.86,
+        "target": 1584.29,
+        "rr_ratio": 2.0
+      },
+      "position_pct": 10.0,
+      "position_idr": 10000000.0
+    },
+    {
+      "ticker": "TINS",
+      "sector": "Basic Materials",
+      "score": 4.75,
+      "levels": {
+        "ticker": "TINS",
+        "as_of_date": "2026-10-02",
+        "setup": "atr_band",
+        "entry": 4630.0,
+        "atr": 206.43,
+        "stop": 4320.36,
+        "target": 5249.29,
+        "rr_ratio": 2.0
+      },
+      "position_pct": 10.0,
+      "position_idr": 10000000.0
+    },
+    {
+      "ticker": "MAPI",
+      "sector": "Consumer Cyclical",
+      "score": 4.21,
+      "levels": {
+        "ticker": "MAPI",
+        "as_of_date": "2026-10-02",
+        "setup": "atr_band",
+        "entry": 1485.0,
+        "atr": 66.79,
+        "stop": 1384.82,
+        "target": 1685.36,
+        "rr_ratio": 2.0
+      },
+      "position_pct": 10.0,
+      "position_idr": 10000000.0
+    },
+    {
+      "ticker": "UNTR",
+      "sector": "Basic Materials",
+      "score": 4.21,
+      "levels": {
+        "ticker": "UNTR",
+        "as_of_date": "2026-10-02",
+        "setup": "atr_band",
+        "entry": 26000.0,
+        "atr": 783.93,
+        "stop": 24824.11,
+        "target": 28351.79,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
@@ -91,15 +91,15 @@
     {
       "ticker": "ERAA",
       "sector": "Consumer Cyclical",
-      "score": 0.0,
+      "score": 1.69,
       "levels": {
         "ticker": "ERAA",
-        "as_of_date": "2026-10-01",
+        "as_of_date": "2026-10-02",
         "setup": "atr_band",
-        "entry": 595.0,
-        "atr": 26.07,
-        "stop": 555.89,
-        "target": 673.21,
+        "entry": 600.0,
+        "atr": 25.36,
+        "stop": 561.96,
+        "target": 676.07,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
@@ -108,15 +108,15 @@
     {
       "ticker": "ANTM",
       "sector": "Basic Materials",
-      "score": -0.95,
+      "score": 0.64,
       "levels": {
         "ticker": "ANTM",
-        "as_of_date": "2026-10-01",
-        "setup": "pullback",
-        "entry": 3120.0,
-        "atr": 124.29,
-        "stop": 2933.57,
-        "target": 3492.86,
+        "as_of_date": "2026-10-02",
+        "setup": "atr_band",
+        "entry": 3140.0,
+        "atr": 116.43,
+        "stop": 2965.36,
+        "target": 3489.29,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
@@ -125,15 +125,15 @@
     {
       "ticker": "AMRT",
       "sector": "Consumer Defensive",
-      "score": -2.26,
+      "score": -3.44,
       "levels": {
         "ticker": "AMRT",
-        "as_of_date": "2026-10-01",
-        "setup": "atr_band",
-        "entry": 1295.0,
-        "atr": 37.5,
-        "stop": 1238.75,
-        "target": 1407.5,
+        "as_of_date": "2026-10-02",
+        "setup": "pullback",
+        "entry": 1265.0,
+        "atr": 38.93,
+        "stop": 1206.61,
+        "target": 1381.79,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
@@ -142,15 +142,15 @@
     {
       "ticker": "HRTA",
       "sector": "Consumer Cyclical",
-      "score": -5.19,
+      "score": -3.95,
       "levels": {
         "ticker": "HRTA",
-        "as_of_date": "2026-10-01",
+        "as_of_date": "2026-10-02",
         "setup": "atr_band",
         "entry": 2190.0,
-        "atr": 92.86,
-        "stop": 2050.71,
-        "target": 2468.57,
+        "atr": 94.29,
+        "stop": 2048.57,
+        "target": 2472.86,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
@@ -159,15 +159,15 @@
     {
       "ticker": "DSNG",
       "sector": "Consumer Defensive",
-      "score": -6.12,
+      "score": -3.96,
       "levels": {
         "ticker": "DSNG",
-        "as_of_date": "2026-10-01",
+        "as_of_date": "2026-10-02",
         "setup": "atr_band",
-        "entry": 1535.0,
-        "atr": 71.79,
-        "stop": 1427.32,
-        "target": 1750.36,
+        "entry": 1575.0,
+        "atr": 70.71,
+        "stop": 1468.93,
+        "target": 1787.14,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
