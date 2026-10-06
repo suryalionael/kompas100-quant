@@ -1,37 +1,20 @@
 {
-  "generated_at_utc": "2026-10-05T19:22:03+00:00",
+  "generated_at_utc": "2026-10-06T16:54:04+00:00",
   "strategy_status": "naive_momentum_interim",
   "base_capital_idr": 100000000,
   "shortlist": [
     {
       "ticker": "PTBA",
       "sector": "Energy",
-      "score": 8.64,
+      "score": 13.33,
       "levels": {
         "ticker": "PTBA",
-        "as_of_date": "2026-10-05",
+        "as_of_date": "2026-10-06",
         "setup": "breakout",
-        "entry": 3270.0,
-        "atr": 112.14,
-        "stop": 3101.79,
-        "target": 3606.43,
-        "rr_ratio": 2.0
-      },
-      "position_pct": 10.0,
-      "position_idr": 10000000.0
-    },
-    {
-      "ticker": "ERAA",
-      "sector": "Consumer Cyclical",
-      "score": 7.83,
-      "levels": {
-        "ticker": "ERAA",
-        "as_of_date": "2026-10-05",
-        "setup": "atr_band",
-        "entry": 620.0,
-        "atr": 24.64,
-        "stop": 583.04,
-        "target": 693.93,
+        "entry": 3400.0,
+        "atr": 116.43,
+        "stop": 3225.36,
+        "target": 3749.29,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
@@ -40,49 +23,15 @@
     {
       "ticker": "MAPI",
       "sector": "Consumer Cyclical",
-      "score": 7.19,
+      "score": 11.11,
       "levels": {
         "ticker": "MAPI",
-        "as_of_date": "2026-10-05",
-        "setup": "atr_band",
-        "entry": 1490.0,
-        "atr": 60.36,
-        "stop": 1399.46,
-        "target": 1671.07,
-        "rr_ratio": 2.0
-      },
-      "position_pct": 10.0,
-      "position_idr": 10000000.0
-    },
-    {
-      "ticker": "ANTM",
-      "sector": "Basic Materials",
-      "score": 3.9,
-      "levels": {
-        "ticker": "ANTM",
-        "as_of_date": "2026-10-05",
-        "setup": "atr_band",
-        "entry": 3200.0,
-        "atr": 115.0,
-        "stop": 3027.5,
-        "target": 3545.0,
-        "rr_ratio": 2.0
-      },
-      "position_pct": 10.0,
-      "position_idr": 10000000.0
-    },
-    {
-      "ticker": "AKRA",
-      "sector": "Energy",
-      "score": 3.45,
-      "levels": {
-        "ticker": "AKRA",
-        "as_of_date": "2026-10-05",
-        "setup": "atr_band",
-        "entry": 1500.0,
-        "atr": 41.43,
-        "stop": 1437.86,
-        "target": 1624.29,
+        "as_of_date": "2026-10-06",
+        "setup": "breakout",
+        "entry": 1550.0,
+        "atr": 63.21,
+        "stop": 1455.18,
+        "target": 1739.64,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
@@ -91,15 +40,49 @@
     {
       "ticker": "TINS",
       "sector": "Basic Materials",
-      "score": 3.35,
+      "score": 6.14,
       "levels": {
         "ticker": "TINS",
-        "as_of_date": "2026-10-05",
+        "as_of_date": "2026-10-06",
         "setup": "atr_band",
-        "entry": 4630.0,
-        "atr": 205.0,
-        "stop": 4322.5,
-        "target": 5245.0,
+        "entry": 4670.0,
+        "atr": 195.0,
+        "stop": 4377.5,
+        "target": 5255.0,
+        "rr_ratio": 2.0
+      },
+      "position_pct": 10.0,
+      "position_idr": 10000000.0
+    },
+    {
+      "ticker": "ERAA",
+      "sector": "Consumer Cyclical",
+      "score": 5.93,
+      "levels": {
+        "ticker": "ERAA",
+        "as_of_date": "2026-10-06",
+        "setup": "atr_band",
+        "entry": 625.0,
+        "atr": 25.0,
+        "stop": 587.5,
+        "target": 700.0,
+        "rr_ratio": 2.0
+      },
+      "position_pct": 10.0,
+      "position_idr": 10000000.0
+    },
+    {
+      "ticker": "ANTM",
+      "sector": "Basic Materials",
+      "score": 5.52,
+      "levels": {
+        "ticker": "ANTM",
+        "as_of_date": "2026-10-06",
+        "setup": "atr_band",
+        "entry": 3250.0,
+        "atr": 110.71,
+        "stop": 3083.93,
+        "target": 3582.14,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
@@ -108,49 +91,32 @@
     {
       "ticker": "UNTR",
       "sector": "Basic Materials",
-      "score": 1.19,
+      "score": 0.48,
       "levels": {
         "ticker": "UNTR",
-        "as_of_date": "2026-10-05",
+        "as_of_date": "2026-10-06",
         "setup": "atr_band",
-        "entry": 25600.0,
-        "atr": 832.14,
-        "stop": 24351.79,
-        "target": 28096.43,
+        "entry": 26000.0,
+        "atr": 844.64,
+        "stop": 24733.04,
+        "target": 28533.93,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
       "position_idr": 10000000.0
     },
     {
-      "ticker": "HRTA",
-      "sector": "Consumer Cyclical",
-      "score": -1.79,
+      "ticker": "AKRA",
+      "sector": "Energy",
+      "score": -0.33,
       "levels": {
-        "ticker": "HRTA",
-        "as_of_date": "2026-10-05",
-        "setup": "atr_band",
-        "entry": 2200.0,
-        "atr": 92.14,
-        "stop": 2061.79,
-        "target": 2476.43,
-        "rr_ratio": 2.0
-      },
-      "position_pct": 10.0,
-      "position_idr": 10000000.0
-    },
-    {
-      "ticker": "ASII",
-      "sector": "Industrials",
-      "score": -3.26,
-      "levels": {
-        "ticker": "ASII",
-        "as_of_date": "2026-10-05",
-        "setup": "atr_band",
-        "entry": 4750.0,
-        "atr": 104.29,
-        "stop": 4593.57,
-        "target": 5062.86,
+        "ticker": "AKRA",
+        "as_of_date": "2026-10-06",
+        "setup": "breakout",
+        "entry": 1520.0,
+        "atr": 42.14,
+        "stop": 1456.79,
+        "target": 1646.43,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
@@ -159,15 +125,49 @@
     {
       "ticker": "SSIA",
       "sector": "Industrials",
-      "score": -3.34,
+      "score": -2.22,
       "levels": {
         "ticker": "SSIA",
-        "as_of_date": "2026-10-05",
+        "as_of_date": "2026-10-06",
         "setup": "atr_band",
-        "entry": 1735.0,
-        "atr": 72.14,
-        "stop": 1626.79,
-        "target": 1951.43,
+        "entry": 1760.0,
+        "atr": 70.71,
+        "stop": 1653.93,
+        "target": 1972.14,
+        "rr_ratio": 2.0
+      },
+      "position_pct": 10.0,
+      "position_idr": 10000000.0
+    },
+    {
+      "ticker": "ASII",
+      "sector": "Industrials",
+      "score": -2.23,
+      "levels": {
+        "ticker": "ASII",
+        "as_of_date": "2026-10-06",
+        "setup": "atr_band",
+        "entry": 4820.0,
+        "atr": 105.71,
+        "stop": 4661.43,
+        "target": 5137.14,
+        "rr_ratio": 2.0
+      },
+      "position_pct": 10.0,
+      "position_idr": 10000000.0
+    },
+    {
+      "ticker": "KLBF",
+      "sector": "Healthcare",
+      "score": -3.21,
+      "levels": {
+        "ticker": "KLBF",
+        "as_of_date": "2026-10-06",
+        "setup": "atr_band",
+        "entry": 755.0,
+        "atr": 21.07,
+        "stop": 723.39,
+        "target": 818.21,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
