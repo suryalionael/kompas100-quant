@@ -1,6 +1,7 @@
 {
-  "date": "2026-10-07",
+  "date": "2026-10-08",
   "open_tickers": [
+    "AMRT",
     "ANTM",
     "ASII",
     "ERAA",
@@ -9,7 +10,6 @@
     "PTBA",
     "PWON",
     "SSIA",
-    "TINS",
-    "UNTR"
+    "TINS"
   ]
 }
