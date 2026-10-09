@@ -1,10 +1,10 @@
 {
-  "scanned_at_utc": "2026-10-08T17:30:27+00:00",
+  "scanned_at_utc": "2026-10-09T17:08:32+00:00",
   "trigger": "schedule",
-  "market_date": "2026-10-08",
+  "market_date": "2026-10-09",
   "tickers_total": 100,
   "tickers_fetched": 100,
   "tickers_validated": 100,
-  "features_rows": 72429,
+  "features_rows": 72529,
   "stale_tickers": []
 }
