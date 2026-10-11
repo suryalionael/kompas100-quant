@@ -55,7 +55,7 @@
     "ticker": "HRTA",
     "action": "hold",
     "technical_notes": "RSI14 49.5; 20D momentum +0.5%; -3.6% vs MA200; -35.2% from 52w high; 20D relative strength vs IHSG +7.3pp",
-    "fundamental_notes": "P/E 7.5x; P/BV 2.69x; ROE 42.0%; DER 1.12x; overall health 91/100",
+    "fundamental_notes": "P/E 7.2x; P/BV 2.69x; ROE 42.0%; DER 1.12x; overall health 91/100",
     "macro_notes": "IHSG regime: Strong Bear (score -4); IHSG close 6093.76; 20D annualized volatility 16.46%",
     "risk_notes": "position size 10.0% (Rp 10,000,000); R:R 2.0:1 (entry 2,180, stop 2,044, target 2,452); sector: Consumer Cyclical",
     "money_flow_proxies": {
@@ -140,7 +140,7 @@
     "ticker": "SSIA",
     "action": "hold",
     "technical_notes": "RSI14 46.9; 20D momentum -0.6%; +5.2% vs MA200; -27.1% from 52w high; 20D relative strength vs IHSG +6.3pp",
-    "fundamental_notes": "P/E 38.6x; P/BV 1.37x; ROE 6.0%; DER 0.29x; overall health 100/100",
+    "fundamental_notes": "P/E 38.8x; P/BV 1.37x; ROE 6.0%; DER 0.29x; overall health 100/100",
     "macro_notes": "IHSG regime: Strong Bear (score -4); IHSG close 6093.76; 20D annualized volatility 16.46%",
     "risk_notes": "position size 10.0% (Rp 10,000,000); R:R 2.0:1 (entry 1,685, stop 1,580, target 1,895); sector: Industrials",
     "money_flow_proxies": {
@@ -157,7 +157,7 @@
     "ticker": "TOWR",
     "action": "hold",
     "technical_notes": "RSI14 63.8; 20D momentum +0.9%; +0.6% vs MA200; -28.2% from 52w high; 20D relative strength vs IHSG +7.7pp",
-    "fundamental_notes": "P/E 6.8x; P/BV 0.93x; ROE 16.1%; DER 1.57x; overall health 100/100",
+    "fundamental_notes": "P/E 6.4x; P/BV 0.93x; ROE 16.1%; DER 1.57x; overall health 100/100",
     "macro_notes": "IHSG regime: Strong Bear (score -4); IHSG close 6093.76; 20D annualized volatility 16.46%",
     "risk_notes": "position size 10.0% (Rp 10,000,000); R:R 2.0:1 (entry 458, stop 432, target 510); sector: Real Estate",
     "money_flow_proxies": {
