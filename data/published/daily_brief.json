@@ -1,20 +1,54 @@
 {
-  "generated_at_utc": "2026-10-14T15:21:46+00:00",
+  "generated_at_utc": "2026-10-15T15:13:18+00:00",
   "strategy_status": "naive_momentum_interim",
   "base_capital_idr": 100000000,
   "shortlist": [
     {
+      "ticker": "PWON",
+      "sector": "Real Estate",
+      "score": 8.89,
+      "levels": {
+        "ticker": "PWON",
+        "as_of_date": "2026-10-15",
+        "setup": "breakout",
+        "entry": 294.0,
+        "atr": 9.43,
+        "stop": 279.86,
+        "target": 322.29,
+        "rr_ratio": 2.0
+      },
+      "position_pct": 10.0,
+      "position_idr": 10000000.0
+    },
+    {
+      "ticker": "ACES",
+      "sector": "Consumer Cyclical",
+      "score": 3.98,
+      "levels": {
+        "ticker": "ACES",
+        "as_of_date": "2026-10-15",
+        "setup": "atr_band",
+        "entry": 366.0,
+        "atr": 12.29,
+        "stop": 347.57,
+        "target": 402.86,
+        "rr_ratio": 2.0
+      },
+      "position_pct": 10.0,
+      "position_idr": 10000000.0
+    },
+    {
       "ticker": "MAPI",
       "sector": "Consumer Cyclical",
-      "score": 13.41,
+      "score": 3.09,
       "levels": {
         "ticker": "MAPI",
-        "as_of_date": "2026-10-14",
-        "setup": "breakout",
-        "entry": 1565.0,
-        "atr": 67.14,
-        "stop": 1464.29,
-        "target": 1766.43,
+        "as_of_date": "2026-10-15",
+        "setup": "atr_band",
+        "entry": 1500.0,
+        "atr": 71.43,
+        "stop": 1392.86,
+        "target": 1714.29,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
@@ -23,83 +57,15 @@
     {
       "ticker": "PTBA",
       "sector": "Energy",
-      "score": 9.0,
+      "score": 2.23,
       "levels": {
         "ticker": "PTBA",
-        "as_of_date": "2026-10-14",
+        "as_of_date": "2026-10-15",
         "setup": "atr_band",
-        "entry": 3270.0,
-        "atr": 132.14,
-        "stop": 3071.79,
-        "target": 3666.43,
-        "rr_ratio": 2.0
-      },
-      "position_pct": 10.0,
-      "position_idr": 10000000.0
-    },
-    {
-      "ticker": "PWON",
-      "sector": "Real Estate",
-      "score": 7.46,
-      "levels": {
-        "ticker": "PWON",
-        "as_of_date": "2026-10-14",
-        "setup": "breakout",
-        "entry": 288.0,
-        "atr": 9.0,
-        "stop": 274.5,
-        "target": 315.0,
-        "rr_ratio": 2.0
-      },
-      "position_pct": 10.0,
-      "position_idr": 10000000.0
-    },
-    {
-      "ticker": "ERAA",
-      "sector": "Consumer Cyclical",
-      "score": 5.04,
-      "levels": {
-        "ticker": "ERAA",
-        "as_of_date": "2026-10-14",
-        "setup": "atr_band",
-        "entry": 625.0,
-        "atr": 27.14,
-        "stop": 584.29,
-        "target": 706.43,
-        "rr_ratio": 2.0
-      },
-      "position_pct": 10.0,
-      "position_idr": 10000000.0
-    },
-    {
-      "ticker": "TOWR",
-      "sector": "Real Estate",
-      "score": 4.13,
-      "levels": {
-        "ticker": "TOWR",
-        "as_of_date": "2026-10-14",
-        "setup": "atr_band",
-        "entry": 454.0,
-        "atr": 20.14,
-        "stop": 423.79,
-        "target": 514.43,
-        "rr_ratio": 2.0
-      },
-      "position_pct": 10.0,
-      "position_idr": 10000000.0
-    },
-    {
-      "ticker": "SMGR",
-      "sector": "Basic Materials",
-      "score": 3.15,
-      "levels": {
-        "ticker": "SMGR",
-        "as_of_date": "2026-10-14",
-        "setup": "breakout",
-        "entry": 1635.0,
-        "atr": 56.43,
-        "stop": 1550.36,
-        "target": 1804.29,
+        "entry": 3210.0,
+        "atr": 135.0,
+        "stop": 3007.5,
+        "target": 3615.0,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
@@ -108,15 +74,32 @@
     {
       "ticker": "KLBF",
       "sector": "Healthcare",
-      "score": 2.63,
+      "score": 1.94,
       "levels": {
         "ticker": "KLBF",
-        "as_of_date": "2026-10-14",
+        "as_of_date": "2026-10-15",
         "setup": "breakout",
-        "entry": 780.0,
-        "atr": 23.57,
-        "stop": 744.64,
-        "target": 850.71,
+        "entry": 790.0,
+        "atr": 23.93,
+        "stop": 754.11,
+        "target": 861.79,
+        "rr_ratio": 2.0
+      },
+      "position_pct": 10.0,
+      "position_idr": 10000000.0
+    },
+    {
+      "ticker": "TOWR",
+      "sector": "Real Estate",
+      "score": 1.36,
+      "levels": {
+        "ticker": "TOWR",
+        "as_of_date": "2026-10-15",
+        "setup": "atr_band",
+        "entry": 448.0,
+        "atr": 20.86,
+        "stop": 416.71,
+        "target": 510.57,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
@@ -125,15 +108,15 @@
     {
       "ticker": "CBDK",
       "sector": "Real Estate",
-      "score": 1.89,
+      "score": 0.55,
       "levels": {
         "ticker": "CBDK",
-        "as_of_date": "2026-10-14",
+        "as_of_date": "2026-10-15",
         "setup": "atr_band",
-        "entry": 3780.0,
-        "atr": 154.29,
-        "stop": 3548.57,
-        "target": 4242.86,
+        "entry": 3680.0,
+        "atr": 160.0,
+        "stop": 3440.0,
+        "target": 4160.0,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
@@ -142,15 +125,15 @@
     {
       "ticker": "AKRA",
       "sector": "Energy",
-      "score": 0.34,
+      "score": 0.0,
       "levels": {
         "ticker": "AKRA",
-        "as_of_date": "2026-10-14",
+        "as_of_date": "2026-10-15",
         "setup": "atr_band",
-        "entry": 1480.0,
-        "atr": 42.86,
-        "stop": 1415.71,
-        "target": 1608.57,
+        "entry": 1470.0,
+        "atr": 43.21,
+        "stop": 1405.18,
+        "target": 1599.64,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
@@ -159,15 +142,32 @@
     {
       "ticker": "ICBP",
       "sector": "Consumer Defensive",
-      "score": -0.36,
+      "score": 0.0,
       "levels": {
         "ticker": "ICBP",
-        "as_of_date": "2026-10-14",
+        "as_of_date": "2026-10-15",
         "setup": "breakout",
-        "entry": 7000.0,
-        "atr": 160.71,
-        "stop": 6758.93,
-        "target": 7482.14,
+        "entry": 6950.0,
+        "atr": 148.21,
+        "stop": 6727.68,
+        "target": 7394.64,
+        "rr_ratio": 2.0
+      },
+      "position_pct": 10.0,
+      "position_idr": 10000000.0
+    },
+    {
+      "ticker": "GGRM",
+      "sector": "Consumer Defensive",
+      "score": -0.57,
+      "levels": {
+        "ticker": "GGRM",
+        "as_of_date": "2026-10-15",
+        "setup": "atr_band",
+        "entry": 17400.0,
+        "atr": 541.07,
+        "stop": 16588.39,
+        "target": 19023.21,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
