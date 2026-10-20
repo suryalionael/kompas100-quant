@@ -1,14 +1,14 @@
 {
-  "date": "2026-10-19",
+  "date": "2026-10-20",
   "open_tickers": [
     "ACES",
+    "ASII",
     "CTRA",
-    "ICBP",
     "INDF",
-    "KLBF",
     "MYOR",
     "PTBA",
     "PWON",
+    "TAPG",
     "TOWR",
     "UNTR"
   ]
