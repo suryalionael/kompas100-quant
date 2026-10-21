@@ -1,88 +1,20 @@
 {
-  "generated_at_utc": "2026-10-20T15:17:42+00:00",
+  "generated_at_utc": "2026-10-21T15:30:03+00:00",
   "strategy_status": "naive_momentum_interim",
   "base_capital_idr": 100000000,
   "shortlist": [
     {
       "ticker": "PTBA",
       "sector": "Energy",
-      "score": 1.33,
+      "score": 1.97,
       "levels": {
         "ticker": "PTBA",
-        "as_of_date": "2026-10-20",
+        "as_of_date": "2026-10-21",
         "setup": "atr_band",
-        "entry": 3050.0,
-        "atr": 182.86,
-        "stop": 2775.71,
-        "target": 3598.57,
-        "rr_ratio": 2.0
-      },
-      "position_pct": 10.0,
-      "position_idr": 10000000.0
-    },
-    {
-      "ticker": "PWON",
-      "sector": "Real Estate",
-      "score": 0.75,
-      "levels": {
-        "ticker": "PWON",
-        "as_of_date": "2026-10-20",
-        "setup": "atr_band",
-        "entry": 270.0,
-        "atr": 13.57,
-        "stop": 249.64,
-        "target": 310.71,
-        "rr_ratio": 2.0
-      },
-      "position_pct": 10.0,
-      "position_idr": 10000000.0
-    },
-    {
-      "ticker": "UNTR",
-      "sector": "Basic Materials",
-      "score": 0.21,
-      "levels": {
-        "ticker": "UNTR",
-        "as_of_date": "2026-10-20",
-        "setup": "atr_band",
-        "entry": 24375.0,
-        "atr": 1146.43,
-        "stop": 22655.36,
-        "target": 27814.29,
-        "rr_ratio": 2.0
-      },
-      "position_pct": 10.0,
-      "position_idr": 10000000.0
-    },
-    {
-      "ticker": "ACES",
-      "sector": "Consumer Cyclical",
-      "score": -1.76,
-      "levels": {
-        "ticker": "ACES",
-        "as_of_date": "2026-10-20",
-        "setup": "atr_band",
-        "entry": 334.0,
-        "atr": 16.0,
-        "stop": 310.0,
-        "target": 382.0,
-        "rr_ratio": 2.0
-      },
-      "position_pct": 10.0,
-      "position_idr": 10000000.0
-    },
-    {
-      "ticker": "CTRA",
-      "sector": "Real Estate",
-      "score": -3.54,
-      "levels": {
-        "ticker": "CTRA",
-        "as_of_date": "2026-10-20",
-        "setup": "atr_band",
-        "entry": 545.0,
-        "atr": 25.71,
-        "stop": 506.43,
-        "target": 622.14,
+        "entry": 3110.0,
+        "atr": 190.0,
+        "stop": 2825.0,
+        "target": 3680.0,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
@@ -91,49 +23,83 @@
     {
       "ticker": "TOWR",
       "sector": "Real Estate",
-      "score": -3.96,
+      "score": 0.5,
       "levels": {
         "ticker": "TOWR",
-        "as_of_date": "2026-10-20",
+        "as_of_date": "2026-10-21",
         "setup": "atr_band",
-        "entry": 388.0,
-        "atr": 25.71,
-        "stop": 349.43,
-        "target": 465.14,
+        "entry": 406.0,
+        "atr": 27.14,
+        "stop": 365.29,
+        "target": 487.43,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
       "position_idr": 10000000.0
     },
     {
-      "ticker": "INDF",
-      "sector": "Consumer Defensive",
-      "score": -5.05,
+      "ticker": "PWON",
+      "sector": "Real Estate",
+      "score": 0.0,
       "levels": {
-        "ticker": "INDF",
-        "as_of_date": "2026-10-20",
+        "ticker": "PWON",
+        "as_of_date": "2026-10-21",
         "setup": "atr_band",
-        "entry": 6575.0,
-        "atr": 217.86,
-        "stop": 6248.21,
-        "target": 7228.57,
+        "entry": 278.0,
+        "atr": 13.43,
+        "stop": 257.86,
+        "target": 318.29,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
       "position_idr": 10000000.0
     },
     {
-      "ticker": "ASII",
-      "sector": "Industrials",
-      "score": -5.86,
+      "ticker": "CTRA",
+      "sector": "Real Estate",
+      "score": -0.87,
       "levels": {
-        "ticker": "ASII",
-        "as_of_date": "2026-10-20",
+        "ticker": "CTRA",
+        "as_of_date": "2026-10-21",
         "setup": "atr_band",
-        "entry": 4500.0,
-        "atr": 180.0,
-        "stop": 4230.0,
-        "target": 5040.0,
+        "entry": 570.0,
+        "atr": 26.79,
+        "stop": 529.82,
+        "target": 650.36,
+        "rr_ratio": 2.0
+      },
+      "position_pct": 10.0,
+      "position_idr": 10000000.0
+    },
+    {
+      "ticker": "UNTR",
+      "sector": "Basic Materials",
+      "score": -1.64,
+      "levels": {
+        "ticker": "UNTR",
+        "as_of_date": "2026-10-21",
+        "setup": "atr_band",
+        "entry": 24000.0,
+        "atr": 1114.29,
+        "stop": 22328.57,
+        "target": 27342.86,
+        "rr_ratio": 2.0
+      },
+      "position_pct": 10.0,
+      "position_idr": 10000000.0
+    },
+    {
+      "ticker": "ACES",
+      "sector": "Consumer Cyclical",
+      "score": -2.87,
+      "levels": {
+        "ticker": "ACES",
+        "as_of_date": "2026-10-21",
+        "setup": "atr_band",
+        "entry": 338.0,
+        "atr": 16.0,
+        "stop": 314.0,
+        "target": 386.0,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
@@ -142,32 +108,66 @@
     {
       "ticker": "TAPG",
       "sector": "Consumer Defensive",
-      "score": -6.37,
+      "score": -3.54,
       "levels": {
         "ticker": "TAPG",
-        "as_of_date": "2026-10-20",
+        "as_of_date": "2026-10-21",
         "setup": "atr_band",
         "entry": 1910.0,
-        "atr": 90.71,
-        "stop": 1773.93,
-        "target": 2182.14,
+        "atr": 91.79,
+        "stop": 1772.32,
+        "target": 2185.36,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
       "position_idr": 10000000.0
     },
     {
-      "ticker": "MYOR",
+      "ticker": "INDF",
       "sector": "Consumer Defensive",
-      "score": -6.4,
+      "score": -3.97,
       "levels": {
-        "ticker": "MYOR",
-        "as_of_date": "2026-10-20",
+        "ticker": "INDF",
+        "as_of_date": "2026-10-21",
         "setup": "atr_band",
-        "entry": 1390.0,
-        "atr": 55.71,
-        "stop": 1306.43,
-        "target": 1557.14,
+        "entry": 6650.0,
+        "atr": 221.43,
+        "stop": 6317.86,
+        "target": 7314.29,
+        "rr_ratio": 2.0
+      },
+      "position_pct": 10.0,
+      "position_idr": 10000000.0
+    },
+    {
+      "ticker": "ASII",
+      "sector": "Industrials",
+      "score": -4.0,
+      "levels": {
+        "ticker": "ASII",
+        "as_of_date": "2026-10-21",
+        "setup": "atr_band",
+        "entry": 4560.0,
+        "atr": 182.14,
+        "stop": 4286.79,
+        "target": 5106.43,
+        "rr_ratio": 2.0
+      },
+      "position_pct": 10.0,
+      "position_idr": 10000000.0
+    },
+    {
+      "ticker": "GGRM",
+      "sector": "Consumer Defensive",
+      "score": -6.78,
+      "levels": {
+        "ticker": "GGRM",
+        "as_of_date": "2026-10-21",
+        "setup": "atr_band",
+        "entry": 16500.0,
+        "atr": 785.71,
+        "stop": 15321.43,
+        "target": 18857.14,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
