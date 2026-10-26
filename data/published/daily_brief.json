@@ -1,71 +1,37 @@
 {
-  "generated_at_utc": "2026-10-25T14:29:42+00:00",
+  "generated_at_utc": "2026-10-26T16:52:59+00:00",
   "strategy_status": "naive_momentum_interim",
   "base_capital_idr": 100000000,
   "shortlist": [
     {
-      "ticker": "TOWR",
-      "sector": "Real Estate",
-      "score": 6.15,
-      "levels": {
-        "ticker": "TOWR",
-        "as_of_date": "2026-10-23",
-        "setup": "atr_band",
-        "entry": 414.0,
-        "atr": 28.43,
-        "stop": 371.36,
-        "target": 499.29,
-        "rr_ratio": 2.0
-      },
-      "position_pct": 10.0,
-      "position_idr": 10000000.0
-    },
-    {
-      "ticker": "PTBA",
-      "sector": "Energy",
-      "score": 6.15,
-      "levels": {
-        "ticker": "PTBA",
-        "as_of_date": "2026-10-23",
-        "setup": "atr_band",
-        "entry": 3280.0,
-        "atr": 194.29,
-        "stop": 2988.57,
-        "target": 3862.86,
-        "rr_ratio": 2.0
-      },
-      "position_pct": 10.0,
-      "position_idr": 10000000.0
-    },
-    {
       "ticker": "PWON",
       "sector": "Real Estate",
-      "score": 6.02,
+      "score": 10.08,
       "levels": {
         "ticker": "PWON",
-        "as_of_date": "2026-10-23",
+        "as_of_date": "2026-10-26",
         "setup": "atr_band",
-        "entry": 282.0,
-        "atr": 13.86,
-        "stop": 261.21,
-        "target": 323.57,
+        "entry": 284.0,
+        "atr": 13.57,
+        "stop": 263.64,
+        "target": 324.71,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
       "position_idr": 10000000.0
     },
     {
-      "ticker": "UNTR",
-      "sector": "Basic Materials",
-      "score": 4.44,
+      "ticker": "TOWR",
+      "sector": "Real Estate",
+      "score": 5.76,
       "levels": {
-        "ticker": "UNTR",
-        "as_of_date": "2026-10-23",
+        "ticker": "TOWR",
+        "as_of_date": "2026-10-26",
         "setup": "atr_band",
-        "entry": 25300.0,
-        "atr": 1139.29,
-        "stop": 23591.07,
-        "target": 28717.86,
+        "entry": 404.0,
+        "atr": 28.14,
+        "stop": 361.79,
+        "target": 488.43,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
@@ -74,83 +40,49 @@
     {
       "ticker": "SMRA",
       "sector": "Real Estate",
-      "score": 2.36,
+      "score": 4.0,
       "levels": {
         "ticker": "SMRA",
-        "as_of_date": "2026-10-23",
+        "as_of_date": "2026-10-26",
         "setup": "atr_band",
         "entry": 260.0,
-        "atr": 15.14,
-        "stop": 237.29,
-        "target": 305.43,
+        "atr": 15.43,
+        "stop": 236.86,
+        "target": 306.29,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
       "position_idr": 10000000.0
     },
     {
-      "ticker": "ACES",
-      "sector": "Consumer Cyclical",
-      "score": 0.0,
+      "ticker": "UNTR",
+      "sector": "Basic Materials",
+      "score": 2.56,
       "levels": {
-        "ticker": "ACES",
-        "as_of_date": "2026-10-23",
+        "ticker": "UNTR",
+        "as_of_date": "2026-10-26",
         "setup": "atr_band",
-        "entry": 342.0,
-        "atr": 17.0,
-        "stop": 316.5,
-        "target": 393.0,
+        "entry": 25000.0,
+        "atr": 1128.57,
+        "stop": 23307.14,
+        "target": 28385.71,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
       "position_idr": 10000000.0
     },
     {
-      "ticker": "ELSA",
+      "ticker": "PTBA",
       "sector": "Energy",
-      "score": 0.0,
+      "score": 1.26,
       "levels": {
-        "ticker": "ELSA",
-        "as_of_date": "2026-10-23",
-        "setup": "breakout",
-        "entry": 665.0,
-        "atr": 35.0,
-        "stop": 612.5,
-        "target": 770.0,
-        "rr_ratio": 2.0
-      },
-      "position_pct": 10.0,
-      "position_idr": 10000000.0
-    },
-    {
-      "ticker": "INDF",
-      "sector": "Consumer Defensive",
-      "score": 0.0,
-      "levels": {
-        "ticker": "INDF",
-        "as_of_date": "2026-10-23",
+        "ticker": "PTBA",
+        "as_of_date": "2026-10-26",
         "setup": "atr_band",
-        "entry": 6750.0,
-        "atr": 226.79,
-        "stop": 6409.82,
-        "target": 7430.36,
-        "rr_ratio": 2.0
-      },
-      "position_pct": 10.0,
-      "position_idr": 10000000.0
-    },
-    {
-      "ticker": "GGRM",
-      "sector": "Consumer Defensive",
-      "score": -1.17,
-      "levels": {
-        "ticker": "GGRM",
-        "as_of_date": "2026-10-23",
-        "setup": "atr_band",
-        "entry": 16950.0,
-        "atr": 810.71,
-        "stop": 15733.93,
-        "target": 19382.14,
+        "entry": 3220.0,
+        "atr": 191.43,
+        "stop": 2932.86,
+        "target": 3794.29,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
@@ -159,15 +91,83 @@
     {
       "ticker": "KLBF",
       "sector": "Healthcare",
-      "score": -2.04,
+      "score": 0.69,
       "levels": {
         "ticker": "KLBF",
-        "as_of_date": "2026-10-23",
+        "as_of_date": "2026-10-26",
         "setup": "atr_band",
-        "entry": 720.0,
+        "entry": 725.0,
         "atr": 36.07,
-        "stop": 665.89,
-        "target": 828.21,
+        "stop": 670.89,
+        "target": 833.21,
+        "rr_ratio": 2.0
+      },
+      "position_pct": 10.0,
+      "position_idr": 10000000.0
+    },
+    {
+      "ticker": "INDF",
+      "sector": "Consumer Defensive",
+      "score": 0.38,
+      "levels": {
+        "ticker": "INDF",
+        "as_of_date": "2026-10-26",
+        "setup": "atr_band",
+        "entry": 6675.0,
+        "atr": 230.36,
+        "stop": 6329.46,
+        "target": 7366.07,
+        "rr_ratio": 2.0
+      },
+      "position_pct": 10.0,
+      "position_idr": 10000000.0
+    },
+    {
+      "ticker": "JSMR",
+      "sector": "Industrials",
+      "score": 0.37,
+      "levels": {
+        "ticker": "JSMR",
+        "as_of_date": "2026-10-26",
+        "setup": "breakout",
+        "entry": 2700.0,
+        "atr": 128.21,
+        "stop": 2507.68,
+        "target": 3084.64,
+        "rr_ratio": 2.0
+      },
+      "position_pct": 10.0,
+      "position_idr": 10000000.0
+    },
+    {
+      "ticker": "BBNI",
+      "sector": "Financial Services",
+      "score": 0.29,
+      "levels": {
+        "ticker": "BBNI",
+        "as_of_date": "2026-10-26",
+        "setup": "breakout",
+        "entry": 3470.0,
+        "atr": 147.14,
+        "stop": 3249.29,
+        "target": 3911.43,
+        "rr_ratio": 2.0
+      },
+      "position_pct": 10.0,
+      "position_idr": 10000000.0
+    },
+    {
+      "ticker": "ACES",
+      "sector": "Consumer Cyclical",
+      "score": -1.75,
+      "levels": {
+        "ticker": "ACES",
+        "as_of_date": "2026-10-26",
+        "setup": "atr_band",
+        "entry": 336.0,
+        "atr": 17.14,
+        "stop": 310.29,
+        "target": 387.43,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
