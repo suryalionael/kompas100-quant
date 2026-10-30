@@ -1,6 +1,7 @@
 {
-  "date": "2026-10-29",
+  "date": "2026-10-30",
   "open_tickers": [
+    "ACES",
     "ASII",
     "CTRA",
     "ELSA",
@@ -9,7 +10,6 @@
     "MYOR",
     "PTBA",
     "PWON",
-    "SMRA",
-    "TAPG"
+    "SMRA"
   ]
 }

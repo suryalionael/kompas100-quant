@@ -1,20 +1,37 @@
 {
-  "generated_at_utc": "2026-10-29T17:02:19+00:00",
+  "generated_at_utc": "2026-10-30T16:47:18+00:00",
   "strategy_status": "naive_momentum_interim",
   "base_capital_idr": 100000000,
   "shortlist": [
     {
+      "ticker": "JSMR",
+      "sector": "Industrials",
+      "score": 11.02,
+      "levels": {
+        "ticker": "JSMR",
+        "as_of_date": "2026-10-30",
+        "setup": "breakout",
+        "entry": 2820.0,
+        "atr": 154.64,
+        "stop": 2588.04,
+        "target": 3283.93,
+        "rr_ratio": 2.0
+      },
+      "position_pct": 10.0,
+      "position_idr": 10000000.0
+    },
+    {
       "ticker": "PWON",
       "sector": "Real Estate",
-      "score": 13.49,
+      "score": 10.16,
       "levels": {
         "ticker": "PWON",
-        "as_of_date": "2026-10-29",
+        "as_of_date": "2026-10-30",
         "setup": "atr_band",
-        "entry": 286.0,
-        "atr": 14.0,
-        "stop": 265.0,
-        "target": 328.0,
+        "entry": 282.0,
+        "atr": 14.29,
+        "stop": 260.57,
+        "target": 324.86,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
@@ -23,49 +40,15 @@
     {
       "ticker": "CTRA",
       "sector": "Real Estate",
-      "score": 8.49,
+      "score": 6.54,
       "levels": {
         "ticker": "CTRA",
-        "as_of_date": "2026-10-29",
+        "as_of_date": "2026-10-30",
         "setup": "atr_band",
-        "entry": 575.0,
-        "atr": 29.64,
-        "stop": 530.54,
-        "target": 663.93,
-        "rr_ratio": 2.0
-      },
-      "position_pct": 10.0,
-      "position_idr": 10000000.0
-    },
-    {
-      "ticker": "JSMR",
-      "sector": "Industrials",
-      "score": 7.0,
-      "levels": {
-        "ticker": "JSMR",
-        "as_of_date": "2026-10-29",
-        "setup": "atr_band",
-        "entry": 2750.0,
-        "atr": 150.36,
-        "stop": 2524.46,
-        "target": 3201.07,
-        "rr_ratio": 2.0
-      },
-      "position_pct": 10.0,
-      "position_idr": 10000000.0
-    },
-    {
-      "ticker": "ASII",
-      "sector": "Industrials",
-      "score": 3.99,
-      "levels": {
-        "ticker": "ASII",
-        "as_of_date": "2026-10-29",
-        "setup": "atr_band",
-        "entry": 4690.0,
-        "atr": 235.71,
-        "stop": 4336.43,
-        "target": 5397.14,
+        "entry": 570.0,
+        "atr": 30.36,
+        "stop": 524.46,
+        "target": 661.07,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
@@ -74,15 +57,32 @@
     {
       "ticker": "SMRA",
       "sector": "Real Estate",
-      "score": 2.52,
+      "score": 5.13,
       "levels": {
         "ticker": "SMRA",
-        "as_of_date": "2026-10-29",
+        "as_of_date": "2026-10-30",
         "setup": "atr_band",
-        "entry": 244.0,
-        "atr": 16.57,
-        "stop": 219.14,
-        "target": 293.71,
+        "entry": 246.0,
+        "atr": 16.0,
+        "stop": 222.0,
+        "target": 294.0,
+        "rr_ratio": 2.0
+      },
+      "position_pct": 10.0,
+      "position_idr": 10000000.0
+    },
+    {
+      "ticker": "ASII",
+      "sector": "Industrials",
+      "score": 3.67,
+      "levels": {
+        "ticker": "ASII",
+        "as_of_date": "2026-10-30",
+        "setup": "atr_band",
+        "entry": 4800.0,
+        "atr": 239.29,
+        "stop": 4441.07,
+        "target": 5517.86,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
@@ -91,66 +91,15 @@
     {
       "ticker": "PTBA",
       "sector": "Energy",
-      "score": 0.33,
+      "score": 1.89,
       "levels": {
         "ticker": "PTBA",
-        "as_of_date": "2026-10-29",
+        "as_of_date": "2026-10-30",
         "setup": "atr_band",
-        "entry": 3060.0,
-        "atr": 206.43,
-        "stop": 2750.36,
-        "target": 3679.29,
-        "rr_ratio": 2.0
-      },
-      "position_pct": 10.0,
-      "position_idr": 10000000.0
-    },
-    {
-      "ticker": "TAPG",
-      "sector": "Consumer Defensive",
-      "score": 0.26,
-      "levels": {
-        "ticker": "TAPG",
-        "as_of_date": "2026-10-29",
-        "setup": "atr_band",
-        "entry": 1925.0,
-        "atr": 100.71,
-        "stop": 1773.93,
-        "target": 2227.14,
-        "rr_ratio": 2.0
-      },
-      "position_pct": 10.0,
-      "position_idr": 10000000.0
-    },
-    {
-      "ticker": "ELSA",
-      "sector": "Energy",
-      "score": 0.0,
-      "levels": {
-        "ticker": "ELSA",
-        "as_of_date": "2026-10-29",
-        "setup": "atr_band",
-        "entry": 620.0,
-        "atr": 41.43,
-        "stop": 557.86,
-        "target": 744.29,
-        "rr_ratio": 2.0
-      },
-      "position_pct": 10.0,
-      "position_idr": 10000000.0
-    },
-    {
-      "ticker": "MYOR",
-      "sector": "Consumer Defensive",
-      "score": 0.0,
-      "levels": {
-        "ticker": "MYOR",
-        "as_of_date": "2026-10-29",
-        "setup": "atr_band",
-        "entry": 1370.0,
-        "atr": 62.14,
-        "stop": 1276.79,
-        "target": 1556.43,
+        "entry": 3240.0,
+        "atr": 215.0,
+        "stop": 2917.5,
+        "target": 3885.0,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
@@ -159,15 +108,66 @@
     {
       "ticker": "KLBF",
       "sector": "Healthcare",
-      "score": -0.69,
+      "score": 0.69,
       "levels": {
         "ticker": "KLBF",
-        "as_of_date": "2026-10-29",
+        "as_of_date": "2026-10-30",
         "setup": "atr_band",
-        "entry": 715.0,
-        "atr": 36.07,
-        "stop": 660.89,
-        "target": 823.21,
+        "entry": 730.0,
+        "atr": 35.71,
+        "stop": 676.43,
+        "target": 837.14,
+        "rr_ratio": 2.0
+      },
+      "position_pct": 10.0,
+      "position_idr": 10000000.0
+    },
+    {
+      "ticker": "ACES",
+      "sector": "Consumer Cyclical",
+      "score": 0.62,
+      "levels": {
+        "ticker": "ACES",
+        "as_of_date": "2026-10-30",
+        "setup": "atr_band",
+        "entry": 324.0,
+        "atr": 19.29,
+        "stop": 295.07,
+        "target": 381.86,
+        "rr_ratio": 2.0
+      },
+      "position_pct": 10.0,
+      "position_idr": 10000000.0
+    },
+    {
+      "ticker": "ELSA",
+      "sector": "Energy",
+      "score": -0.79,
+      "levels": {
+        "ticker": "ELSA",
+        "as_of_date": "2026-10-30",
+        "setup": "atr_band",
+        "entry": 625.0,
+        "atr": 41.79,
+        "stop": 562.32,
+        "target": 750.36,
+        "rr_ratio": 2.0
+      },
+      "position_pct": 10.0,
+      "position_idr": 10000000.0
+    },
+    {
+      "ticker": "MYOR",
+      "sector": "Consumer Defensive",
+      "score": -1.46,
+      "levels": {
+        "ticker": "MYOR",
+        "as_of_date": "2026-10-30",
+        "setup": "atr_band",
+        "entry": 1350.0,
+        "atr": 62.86,
+        "stop": 1255.71,
+        "target": 1538.57,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
