@@ -1,0 +1,223 @@
+[
+  {
+    "date": "2026-11-03",
+    "ticker": "ACES",
+    "action": "hold",
+    "technical_notes": "RSI14 46.3; 20D momentum +0.6%; -5.7% vs MA200; -23.0% from 52w high; 20D relative strength vs IHSG +21.4pp",
+    "fundamental_notes": "P/E 7.3x; P/BV 0.88x; ROE 12.1%; DER 0.15x; overall health 100/100",
+    "macro_notes": "IHSG regime: Strong Bear (score -4); IHSG close 4904.29; 20D annualized volatility 53.94%",
+    "risk_notes": "position size 10.0% (Rp 10,000,000); R:R 2.0:1 (entry 326, stop 299, target 381); sector: Consumer Cyclical",
+    "money_flow_proxies": {
+      "date": "2026-11-03",
+      "volume_zscore": -0.13,
+      "today_return_pct": -0.61,
+      "volume_spike_no_followthrough": false,
+      "price_up_declining_volume": false
+    },
+    "money_flow_notes": null
+  },
+  {
+    "date": "2026-11-03",
+    "ticker": "ASII",
+    "action": "hold",
+    "technical_notes": "RSI14 51.7; 20D momentum -1.5%; -11.5% vs MA200; -33.2% from 52w high; 20D relative strength vs IHSG +19.4pp",
+    "fundamental_notes": "P/E 6.5x; P/BV 0.81x; ROE 11.6%; DER 0.39x; overall health 100/100",
+    "macro_notes": "IHSG regime: Strong Bear (score -4); IHSG close 4904.29; 20D annualized volatility 53.94%",
+    "risk_notes": "position size 10.0% (Rp 10,000,000); R:R 2.0:1 (entry 4,750, stop 4,370, target 5,511); sector: Industrials",
+    "money_flow_proxies": {
+      "date": "2026-11-03",
+      "volume_zscore": 0.07,
+      "today_return_pct": -2.26,
+      "volume_spike_no_followthrough": false,
+      "price_up_declining_volume": false
+    },
+    "money_flow_notes": null
+  },
+  {
+    "date": "2026-11-03",
+    "ticker": "BBNI",
+    "action": "open",
+    "technical_notes": "RSI14 41.3; 20D momentum -7.5%; -13.7% vs MA200; -26.5% from 52w high; 20D relative strength vs IHSG +13.3pp",
+    "fundamental_notes": "P/E 5.8x; P/BV 0.72x; ROE 12.2%; overall health 85/100",
+    "macro_notes": "IHSG regime: Strong Bear (score -4); IHSG close 4904.29; 20D annualized volatility 53.94%",
+    "risk_notes": "position size 10.0% (Rp 10,000,000); R:R 2.0:1 (entry 3,200, stop 2,931, target 3,738); sector: Financial Services",
+    "money_flow_proxies": {
+      "date": "2026-11-03",
+      "volume_zscore": -0.16,
+      "today_return_pct": -2.74,
+      "volume_spike_no_followthrough": false,
+      "price_up_declining_volume": false
+    },
+    "money_flow_notes": null
+  },
+  {
+    "date": "2026-11-03",
+    "ticker": "CTRA",
+    "action": "hold",
+    "technical_notes": "RSI14 32.4; 20D momentum -7.8%; -21.3% vs MA200; -46.3% from 52w high; 20D relative strength vs IHSG +13.0pp",
+    "fundamental_notes": "P/E 3.9x; P/BV 0.41x; ROE 10.0%; DER 0.29x; overall health 100/100",
+    "macro_notes": "IHSG regime: Strong Bear (score -4); IHSG close 4904.29; 20D annualized volatility 53.94%",
+    "risk_notes": "position size 10.0% (Rp 10,000,000); R:R 2.0:1 (entry 498, stop 452, target 591); sector: Real Estate",
+    "money_flow_proxies": {
+      "date": "2026-11-03",
+      "volume_zscore": 1.39,
+      "today_return_pct": -6.92,
+      "volume_spike_no_followthrough": false,
+      "price_up_declining_volume": false
+    },
+    "money_flow_notes": null
+  },
+  {
+    "date": "2026-11-03",
+    "ticker": "ELSA",
+    "action": "close",
+    "technical_notes": "RSI14 38.9; 20D momentum -10.1%; -11.3% vs MA200; -40.5% from 52w high; 20D relative strength vs IHSG +10.7pp",
+    "fundamental_notes": "P/E 5.2x; P/BV 0.80x; ROE 16.2%; DER 0.07x; overall health 100/100",
+    "macro_notes": "IHSG regime: Strong Bear (score -4); IHSG close 4904.29; 20D annualized volatility 53.94%",
+    "risk_notes": "position closed \u2014 dropped out of today's shortlist",
+    "money_flow_proxies": {
+      "date": "2026-11-03",
+      "volume_zscore": 0.22,
+      "today_return_pct": -6.45,
+      "volume_spike_no_followthrough": false,
+      "price_up_declining_volume": false
+    },
+    "money_flow_notes": null
+  },
+  {
+    "date": "2026-11-03",
+    "ticker": "INDF",
+    "action": "open",
+    "technical_notes": "RSI14 41.9; 20D momentum -5.1%; -1.8% vs MA200; -14.5% from 52w high; 20D relative strength vs IHSG +15.7pp",
+    "fundamental_notes": "P/E 6.0x; P/BV 0.72x; ROE 13.1%; DER 0.60x; overall health 100/100",
+    "macro_notes": "IHSG regime: Strong Bear (score -4); IHSG close 4904.29; 20D annualized volatility 53.94%",
+    "risk_notes": "position size 10.0% (Rp 10,000,000); R:R 2.0:1 (entry 6,500, stop 6,096, target 7,309); sector: Consumer Defensive",
+    "money_flow_proxies": {
+      "date": "2026-11-03",
+      "volume_zscore": -0.13,
+      "today_return_pct": -0.76,
+      "volume_spike_no_followthrough": false,
+      "price_up_declining_volume": false
+    },
+    "money_flow_notes": null
+  },
+  {
+    "date": "2026-11-03",
+    "ticker": "JSMR",
+    "action": "hold",
+    "technical_notes": "RSI14 56.3; 20D momentum +5.3%; -5.0% vs MA200; -29.9% from 52w high; 20D relative strength vs IHSG +26.1pp",
+    "fundamental_notes": "P/E 5.8x; P/BV 0.55x; ROE 7.9%; DER 1.21x; overall health 100/100",
+    "macro_notes": "IHSG regime: Strong Bear (score -4); IHSG close 4904.29; 20D annualized volatility 53.94%",
+    "risk_notes": "position size 10.0% (Rp 10,000,000); R:R 2.0:1 (entry 2,780, stop 2,549, target 3,242); sector: Industrials",
+    "money_flow_proxies": {
+      "date": "2026-11-03",
+      "volume_zscore": -0.26,
+      "today_return_pct": -2.46,
+      "volume_spike_no_followthrough": false,
+      "price_up_declining_volume": false
+    },
+    "money_flow_notes": null
+  },
+  {
+    "date": "2026-11-03",
+    "ticker": "KLBF",
+    "action": "open",
+    "technical_notes": "RSI14 46.1; 20D momentum -5.3%; -16.1% vs MA200; -45.3% from 52w high; 20D relative strength vs IHSG +15.5pp",
+    "fundamental_notes": "P/E 9.1x; P/BV 1.30x; ROE 15.1%; DER 0.01x; overall health 100/100",
+    "macro_notes": "IHSG regime: Strong Bear (score -4); IHSG close 4904.29; 20D annualized volatility 53.94%",
+    "risk_notes": "position size 10.0% (Rp 10,000,000); R:R 2.0:1 (entry 715, stop 663, target 819); sector: Healthcare",
+    "money_flow_proxies": {
+      "date": "2026-11-03",
+      "volume_zscore": -0.08,
+      "today_return_pct": -0.69,
+      "volume_spike_no_followthrough": false,
+      "price_up_declining_volume": false
+    },
+    "money_flow_notes": null
+  },
+  {
+    "date": "2026-11-03",
+    "ticker": "LSIP",
+    "action": "hold",
+    "technical_notes": "RSI14 46.4; 20D momentum -4.0%; +6.4% vs MA200; -20.1% from 52w high; 20D relative strength vs IHSG +16.8pp",
+    "fundamental_notes": "P/E 4.7x; P/BV 0.64x; ROE 16.7%; overall health 90/100",
+    "macro_notes": "IHSG regime: Strong Bear (score -4); IHSG close 4904.29; 20D annualized volatility 53.94%",
+    "risk_notes": "position size 10.0% (Rp 10,000,000); R:R 2.0:1 (entry 1,430, stop 1,314, target 1,662); sector: Consumer Defensive",
+    "money_flow_proxies": {
+      "date": "2026-11-03",
+      "volume_zscore": 0.23,
+      "today_return_pct": -0.35,
+      "volume_spike_no_followthrough": false,
+      "price_up_declining_volume": false
+    },
+    "money_flow_notes": null
+  },
+  {
+    "date": "2026-11-03",
+    "ticker": "MYOR",
+    "action": "close",
+    "technical_notes": "RSI14 30.0; 20D momentum -8.9%; -26.7% vs MA200; -46.7% from 52w high; 20D relative strength vs IHSG +11.9pp",
+    "fundamental_notes": "P/E 8.7x; P/BV 1.57x; ROE 19.0%; DER 0.25x; overall health 100/100",
+    "macro_notes": "IHSG regime: Strong Bear (score -4); IHSG close 4904.29; 20D annualized volatility 53.94%",
+    "risk_notes": "position closed \u2014 dropped out of today's shortlist",
+    "money_flow_proxies": {
+      "date": "2026-11-03",
+      "volume_zscore": 0.45,
+      "today_return_pct": -4.83,
+      "volume_spike_no_followthrough": false,
+      "price_up_declining_volume": false
+    },
+    "money_flow_notes": null
+  },
+  {
+    "date": "2026-11-03",
+    "ticker": "PWON",
+    "action": "hold",
+    "technical_notes": "RSI14 40.2; 20D momentum -3.8%; -12.2% vs MA200; -38.6% from 52w high; 20D relative strength vs IHSG +17.0pp",
+    "fundamental_notes": "P/E 5.8x; P/BV 0.56x; ROE 10.0%; DER 0.22x; overall health 100/100",
+    "macro_notes": "IHSG regime: Strong Bear (score -4); IHSG close 4904.29; 20D annualized volatility 53.94%",
+    "risk_notes": "position size 10.0% (Rp 10,000,000); R:R 2.0:1 (entry 256, stop 234, target 300); sector: Real Estate",
+    "money_flow_proxies": {
+      "date": "2026-11-03",
+      "volume_zscore": -0.38,
+      "today_return_pct": -4.48,
+      "volume_spike_no_followthrough": false,
+      "price_up_declining_volume": false
+    },
+    "money_flow_notes": null
+  },
+  {
+    "date": "2026-11-03",
+    "ticker": "SMRA",
+    "action": "hold",
+    "technical_notes": "RSI14 41.6; 20D momentum +0.0%; -23.5% vs MA200; -42.4% from 52w high; 20D relative strength vs IHSG +20.8pp",
+    "fundamental_notes": "P/E 6.9x; P/BV 0.34x; ROE 6.6%; DER 0.96x; overall health 100/100",
+    "macro_notes": "IHSG regime: Strong Bear (score -4); IHSG close 4904.29; 20D annualized volatility 53.94%",
+    "risk_notes": "position size 10.0% (Rp 10,000,000); R:R 2.0:1 (entry 240, stop 217, target 286); sector: Real Estate",
+    "money_flow_proxies": {
+      "date": "2026-11-03",
+      "volume_zscore": -0.57,
+      "today_return_pct": -3.23,
+      "volume_spike_no_followthrough": false,
+      "price_up_declining_volume": false
+    },
+    "money_flow_notes": null
+  },
+  {
+    "date": "2026-11-03",
+    "ticker": "TAPG",
+    "action": "close",
+    "technical_notes": "RSI14 43.2; 20D momentum -7.9%; +11.2% vs MA200; -25.0% from 52w high; 20D relative strength vs IHSG +12.9pp",
+    "fundamental_notes": "P/E 8.5x; P/BV 3.26x; ROE 39.4%; DER 0.08x; overall health 91/100",
+    "macro_notes": "IHSG regime: Strong Bear (score -4); IHSG close 4904.29; 20D annualized volatility 53.94%",
+    "risk_notes": "position closed \u2014 dropped out of today's shortlist",
+    "money_flow_proxies": {
+      "date": "2026-11-03",
+      "volume_zscore": -0.24,
+      "today_return_pct": -3.38,
+      "volume_spike_no_followthrough": false,
+      "price_up_declining_volume": false
+    },
+    "money_flow_notes": null
+  }
+]
