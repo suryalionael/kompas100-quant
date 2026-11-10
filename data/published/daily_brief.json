@@ -1,20 +1,37 @@
 {
-  "generated_at_utc": "2026-11-09T20:57:14+00:00",
+  "generated_at_utc": "2026-11-10T18:05:11+00:00",
   "strategy_status": "naive_momentum_interim",
   "base_capital_idr": 100000000,
   "shortlist": [
     {
+      "ticker": "ASII",
+      "sector": "Industrials",
+      "score": 12.63,
+      "levels": {
+        "ticker": "ASII",
+        "as_of_date": "2026-11-10",
+        "setup": "breakout",
+        "entry": 5350.0,
+        "atr": 213.21,
+        "stop": 5030.18,
+        "target": 5989.64,
+        "rr_ratio": 2.0
+      },
+      "position_pct": 10.0,
+      "position_idr": 10000000.0
+    },
+    {
       "ticker": "JSMR",
       "sector": "Industrials",
-      "score": 9.84,
+      "score": 10.36,
       "levels": {
         "ticker": "JSMR",
-        "as_of_date": "2026-11-09",
+        "as_of_date": "2026-11-10",
         "setup": "atr_band",
-        "entry": 2790.0,
-        "atr": 122.14,
-        "stop": 2606.79,
-        "target": 3156.43,
+        "entry": 2770.0,
+        "atr": 111.43,
+        "stop": 2602.86,
+        "target": 3104.29,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
@@ -23,32 +40,15 @@
     {
       "ticker": "ACES",
       "sector": "Consumer Cyclical",
-      "score": 7.55,
+      "score": 3.7,
       "levels": {
         "ticker": "ACES",
-        "as_of_date": "2026-11-09",
+        "as_of_date": "2026-11-10",
         "setup": "atr_band",
-        "entry": 342.0,
-        "atr": 12.29,
-        "stop": 323.57,
-        "target": 378.86,
-        "rr_ratio": 2.0
-      },
-      "position_pct": 10.0,
-      "position_idr": 10000000.0
-    },
-    {
-      "ticker": "ASII",
-      "sector": "Industrials",
-      "score": 7.07,
-      "levels": {
-        "ticker": "ASII",
-        "as_of_date": "2026-11-09",
-        "setup": "breakout",
-        "entry": 5150.0,
-        "atr": 206.79,
-        "stop": 4839.82,
-        "target": 5770.36,
+        "entry": 336.0,
+        "atr": 12.0,
+        "stop": 318.0,
+        "target": 372.0,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
@@ -57,15 +57,15 @@
     {
       "ticker": "SMRA",
       "sector": "Real Estate",
-      "score": 5.74,
+      "score": 3.12,
       "levels": {
         "ticker": "SMRA",
-        "as_of_date": "2026-11-09",
-        "setup": "atr_band",
-        "entry": 258.0,
-        "atr": 11.71,
-        "stop": 240.43,
-        "target": 293.14,
+        "as_of_date": "2026-11-10",
+        "setup": "breakout",
+        "entry": 264.0,
+        "atr": 11.0,
+        "stop": 247.5,
+        "target": 297.0,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
@@ -74,15 +74,32 @@
     {
       "ticker": "LSIP",
       "sector": "Consumer Defensive",
-      "score": 3.06,
+      "score": 2.38,
       "levels": {
         "ticker": "LSIP",
-        "as_of_date": "2026-11-09",
-        "setup": "breakout",
-        "entry": 1515.0,
-        "atr": 62.14,
-        "stop": 1421.79,
-        "target": 1701.43,
+        "as_of_date": "2026-11-10",
+        "setup": "atr_band",
+        "entry": 1505.0,
+        "atr": 61.79,
+        "stop": 1412.32,
+        "target": 1690.36,
+        "rr_ratio": 2.0
+      },
+      "position_pct": 10.0,
+      "position_idr": 10000000.0
+    },
+    {
+      "ticker": "MYOR",
+      "sector": "Consumer Defensive",
+      "score": 0.73,
+      "levels": {
+        "ticker": "MYOR",
+        "as_of_date": "2026-11-10",
+        "setup": "atr_band",
+        "entry": 1385.0,
+        "atr": 48.93,
+        "stop": 1311.61,
+        "target": 1531.79,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
@@ -94,12 +111,12 @@
       "score": 0.0,
       "levels": {
         "ticker": "BBNI",
-        "as_of_date": "2026-11-09",
-        "setup": "atr_band",
-        "entry": 3380.0,
-        "atr": 140.0,
-        "stop": 3170.0,
-        "target": 3800.0,
+        "as_of_date": "2026-11-10",
+        "setup": "breakout",
+        "entry": 3400.0,
+        "atr": 133.57,
+        "stop": 3199.64,
+        "target": 3800.71,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
@@ -108,10 +125,10 @@
     {
       "ticker": "INDF",
       "sector": "Consumer Defensive",
-      "score": -0.36,
+      "score": -1.79,
       "levels": {
         "ticker": "INDF",
-        "as_of_date": "2026-11-09",
+        "as_of_date": "2026-11-10",
         "setup": "breakout",
         "entry": 6875.0,
         "atr": 217.86,
@@ -123,17 +140,17 @@
       "position_idr": 10000000.0
     },
     {
-      "ticker": "MYOR",
-      "sector": "Consumer Defensive",
-      "score": -1.82,
+      "ticker": "MAPA",
+      "sector": "Consumer Cyclical",
+      "score": -3.23,
       "levels": {
-        "ticker": "MYOR",
-        "as_of_date": "2026-11-09",
+        "ticker": "MAPA",
+        "as_of_date": "2026-11-10",
         "setup": "atr_band",
-        "entry": 1345.0,
-        "atr": 48.93,
-        "stop": 1271.61,
-        "target": 1491.79,
+        "entry": 600.0,
+        "atr": 28.93,
+        "stop": 556.61,
+        "target": 686.79,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
@@ -142,32 +159,15 @@
     {
       "ticker": "KLBF",
       "sector": "Healthcare",
-      "score": -3.27,
+      "score": -3.85,
       "levels": {
         "ticker": "KLBF",
-        "as_of_date": "2026-11-09",
+        "as_of_date": "2026-11-10",
         "setup": "atr_band",
-        "entry": 740.0,
-        "atr": 27.14,
-        "stop": 699.29,
-        "target": 821.43,
-        "rr_ratio": 2.0
-      },
-      "position_pct": 10.0,
-      "position_idr": 10000000.0
-    },
-    {
-      "ticker": "UNTR",
-      "sector": "Basic Materials",
-      "score": -4.0,
-      "levels": {
-        "ticker": "UNTR",
-        "as_of_date": "2026-11-09",
-        "setup": "atr_band",
-        "entry": 23375.0,
-        "atr": 882.14,
-        "stop": 22051.79,
-        "target": 26021.43,
+        "entry": 750.0,
+        "atr": 27.5,
+        "stop": 708.75,
+        "target": 832.5,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
