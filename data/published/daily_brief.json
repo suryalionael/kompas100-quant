@@ -1,20 +1,20 @@
 {
-  "generated_at_utc": "2026-11-12T18:30:52+00:00",
+  "generated_at_utc": "2026-11-13T17:58:21+00:00",
   "strategy_status": "naive_momentum_interim",
   "base_capital_idr": 100000000,
   "shortlist": [
     {
       "ticker": "ASII",
       "sector": "Industrials",
-      "score": 14.02,
+      "score": 31.26,
       "levels": {
         "ticker": "ASII",
-        "as_of_date": "2026-11-12",
+        "as_of_date": "2026-11-13",
         "setup": "breakout",
-        "entry": 5450.0,
-        "atr": 222.86,
-        "stop": 5115.71,
-        "target": 6118.57,
+        "entry": 5500.0,
+        "atr": 225.36,
+        "stop": 5161.96,
+        "target": 6176.07,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
@@ -23,15 +23,15 @@
     {
       "ticker": "JSMR",
       "sector": "Industrials",
-      "score": 10.89,
+      "score": 28.91,
       "levels": {
         "ticker": "JSMR",
-        "as_of_date": "2026-11-12",
+        "as_of_date": "2026-11-13",
         "setup": "atr_band",
-        "entry": 2750.0,
-        "atr": 97.86,
-        "stop": 2603.21,
-        "target": 3043.57,
+        "entry": 2720.0,
+        "atr": 95.0,
+        "stop": 2577.5,
+        "target": 3005.0,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
@@ -40,49 +40,15 @@
     {
       "ticker": "LSIP",
       "sector": "Consumer Defensive",
-      "score": 5.41,
+      "score": 23.83,
       "levels": {
         "ticker": "LSIP",
-        "as_of_date": "2026-11-12",
+        "as_of_date": "2026-11-13",
         "setup": "breakout",
-        "entry": 1560.0,
-        "atr": 57.14,
-        "stop": 1474.29,
-        "target": 1731.43,
-        "rr_ratio": 2.0
-      },
-      "position_pct": 10.0,
-      "position_idr": 10000000.0
-    },
-    {
-      "ticker": "RMKE",
-      "sector": "Energy",
-      "score": 3.82,
-      "levels": {
-        "ticker": "RMKE",
-        "as_of_date": "2026-11-12",
-        "setup": "breakout",
-        "entry": 326.0,
-        "atr": 15.71,
-        "stop": 302.43,
-        "target": 373.14,
-        "rr_ratio": 2.0
-      },
-      "position_pct": 10.0,
-      "position_idr": 10000000.0
-    },
-    {
-      "ticker": "BBNI",
-      "sector": "Financial Services",
-      "score": 1.76,
-      "levels": {
-        "ticker": "BBNI",
-        "as_of_date": "2026-11-12",
-        "setup": "breakout",
-        "entry": 3470.0,
-        "atr": 122.14,
-        "stop": 3286.79,
-        "target": 3836.43,
+        "entry": 1585.0,
+        "atr": 56.43,
+        "stop": 1500.36,
+        "target": 1754.29,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
@@ -91,66 +57,32 @@
     {
       "ticker": "SMRA",
       "sector": "Real Estate",
-      "score": 1.52,
+      "score": 20.0,
       "levels": {
         "ticker": "SMRA",
-        "as_of_date": "2026-11-12",
+        "as_of_date": "2026-11-13",
         "setup": "breakout",
-        "entry": 268.0,
-        "atr": 9.86,
-        "stop": 253.21,
-        "target": 297.57,
+        "entry": 276.0,
+        "atr": 10.14,
+        "stop": 260.79,
+        "target": 306.43,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
       "position_idr": 10000000.0
     },
     {
-      "ticker": "MYOR",
-      "sector": "Consumer Defensive",
-      "score": 0.0,
+      "ticker": "BBNI",
+      "sector": "Financial Services",
+      "score": 18.86,
       "levels": {
-        "ticker": "MYOR",
-        "as_of_date": "2026-11-12",
+        "ticker": "BBNI",
+        "as_of_date": "2026-11-13",
         "setup": "breakout",
-        "entry": 1470.0,
-        "atr": 51.79,
-        "stop": 1392.32,
-        "target": 1625.36,
-        "rr_ratio": 2.0
-      },
-      "position_pct": 10.0,
-      "position_idr": 10000000.0
-    },
-    {
-      "ticker": "INDF",
-      "sector": "Consumer Defensive",
-      "score": -0.36,
-      "levels": {
-        "ticker": "INDF",
-        "as_of_date": "2026-11-12",
-        "setup": "breakout",
-        "entry": 6925.0,
-        "atr": 210.71,
-        "stop": 6608.93,
-        "target": 7557.14,
-        "rr_ratio": 2.0
-      },
-      "position_pct": 10.0,
-      "position_idr": 10000000.0
-    },
-    {
-      "ticker": "PTBA",
-      "sector": "Energy",
-      "score": -0.93,
-      "levels": {
-        "ticker": "PTBA",
-        "as_of_date": "2026-11-12",
-        "setup": "atr_band",
-        "entry": 3180.0,
-        "atr": 149.29,
-        "stop": 2956.07,
-        "target": 3627.86,
+        "entry": 3530.0,
+        "atr": 124.29,
+        "stop": 3343.57,
+        "target": 3902.86,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
@@ -159,15 +91,83 @@
     {
       "ticker": "BBRI",
       "sector": "Financial Services",
-      "score": -2.26,
+      "score": 15.91,
       "levels": {
         "ticker": "BBRI",
-        "as_of_date": "2026-11-12",
+        "as_of_date": "2026-11-13",
         "setup": "breakout",
-        "entry": 3030.0,
-        "atr": 110.71,
-        "stop": 2863.93,
-        "target": 3362.14,
+        "entry": 3060.0,
+        "atr": 112.14,
+        "stop": 2891.79,
+        "target": 3396.43,
+        "rr_ratio": 2.0
+      },
+      "position_pct": 10.0,
+      "position_idr": 10000000.0
+    },
+    {
+      "ticker": "SMGR",
+      "sector": "Basic Materials",
+      "score": 15.81,
+      "levels": {
+        "ticker": "SMGR",
+        "as_of_date": "2026-11-13",
+        "setup": "breakout",
+        "entry": 1575.0,
+        "atr": 75.0,
+        "stop": 1462.5,
+        "target": 1800.0,
+        "rr_ratio": 2.0
+      },
+      "position_pct": 10.0,
+      "position_idr": 10000000.0
+    },
+    {
+      "ticker": "MAPA",
+      "sector": "Consumer Cyclical",
+      "score": 15.38,
+      "levels": {
+        "ticker": "MAPA",
+        "as_of_date": "2026-11-13",
+        "setup": "atr_band",
+        "entry": 600.0,
+        "atr": 26.43,
+        "stop": 560.36,
+        "target": 679.29,
+        "rr_ratio": 2.0
+      },
+      "position_pct": 10.0,
+      "position_idr": 10000000.0
+    },
+    {
+      "ticker": "BMRI",
+      "sector": "Financial Services",
+      "score": 14.75,
+      "levels": {
+        "ticker": "BMRI",
+        "as_of_date": "2026-11-13",
+        "setup": "breakout",
+        "entry": 3890.0,
+        "atr": 112.14,
+        "stop": 3721.79,
+        "target": 4226.43,
+        "rr_ratio": 2.0
+      },
+      "position_pct": 10.0,
+      "position_idr": 10000000.0
+    },
+    {
+      "ticker": "PTBA",
+      "sector": "Energy",
+      "score": 14.29,
+      "levels": {
+        "ticker": "PTBA",
+        "as_of_date": "2026-11-13",
+        "setup": "atr_band",
+        "entry": 3200.0,
+        "atr": 148.57,
+        "stop": 2977.14,
+        "target": 3645.71,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
