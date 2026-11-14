@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-13T17:58:21+00:00",
+  "generated_at_utc": "2026-11-14T16:41:33+00:00",
   "strategy_status": "naive_momentum_interim",
   "base_capital_idr": 100000000,
   "shortlist": [
@@ -89,6 +89,23 @@
       "position_idr": 10000000.0
     },
     {
+      "ticker": "RMKE",
+      "sector": "Energy",
+      "score": 18.84,
+      "levels": {
+        "ticker": "RMKE",
+        "as_of_date": "2026-11-13",
+        "setup": "breakout",
+        "entry": 328.0,
+        "atr": 15.71,
+        "stop": 304.43,
+        "target": 375.14,
+        "rr_ratio": 2.0
+      },
+      "position_pct": 10.0,
+      "position_idr": 10000000.0
+    },
+    {
       "ticker": "BBRI",
       "sector": "Financial Services",
       "score": 15.91,
@@ -151,23 +168,6 @@
         "atr": 112.14,
         "stop": 3721.79,
         "target": 4226.43,
-        "rr_ratio": 2.0
-      },
-      "position_pct": 10.0,
-      "position_idr": 10000000.0
-    },
-    {
-      "ticker": "PTBA",
-      "sector": "Energy",
-      "score": 14.29,
-      "levels": {
-        "ticker": "PTBA",
-        "as_of_date": "2026-11-13",
-        "setup": "atr_band",
-        "entry": 3200.0,
-        "atr": 148.57,
-        "stop": 2977.14,
-        "target": 3645.71,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
