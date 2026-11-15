@@ -120,25 +120,8 @@
   },
   {
     "date": "2026-11-13",
-    "ticker": "PTBA",
-    "action": "close",
-    "technical_notes": "RSI14 55.7; 20D momentum +14.3%; +18.3% vs MA200; -8.3% from 52w high; 20D relative strength vs IHSG +11.2pp",
-    "fundamental_notes": "P/E 6.2x; P/BV 1.36x; ROE 24.9%; DER 0.17x; overall health 100/100",
-    "macro_notes": "IHSG regime: Neutral (score +0); IHSG close 5344.41; 20D annualized volatility 35.92%",
-    "risk_notes": "position closed \u2014 dropped out of today's shortlist",
-    "money_flow_proxies": {
-      "date": "2026-11-13",
-      "volume_zscore": -0.93,
-      "today_return_pct": 0.63,
-      "volume_spike_no_followthrough": false,
-      "price_up_declining_volume": true
-    },
-    "money_flow_notes": null
-  },
-  {
-    "date": "2026-11-13",
     "ticker": "RMKE",
-    "action": "open",
+    "action": "hold",
     "technical_notes": "RSI14 54.2; 20D momentum +18.8%; -37.8% vs MA200; -82.5% from 52w high; 20D relative strength vs IHSG +15.8pp",
     "fundamental_notes": "P/E 16.0x; P/BV 3.39x; ROE 22.7%; DER 0.45x; overall health 91/100",
     "macro_notes": "IHSG regime: Neutral (score +0); IHSG close 5344.41; 20D annualized volatility 35.92%",
