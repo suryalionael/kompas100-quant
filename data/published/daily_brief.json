@@ -1,37 +1,20 @@
 {
-  "generated_at_utc": "2026-11-19T19:06:32+00:00",
+  "generated_at_utc": "2026-11-20T18:44:06+00:00",
   "strategy_status": "naive_momentum_interim",
   "base_capital_idr": 100000000,
   "shortlist": [
     {
       "ticker": "ASII",
       "sector": "Industrials",
-      "score": 20.79,
+      "score": 16.48,
       "levels": {
         "ticker": "ASII",
-        "as_of_date": "2026-11-19",
+        "as_of_date": "2026-11-20",
         "setup": "atr_band",
-        "entry": 5375.0,
-        "atr": 221.43,
-        "stop": 5042.86,
-        "target": 6039.29,
-        "rr_ratio": 2.0
-      },
-      "position_pct": 10.0,
-      "position_idr": 10000000.0
-    },
-    {
-      "ticker": "SMGR",
-      "sector": "Basic Materials",
-      "score": 19.2,
-      "levels": {
-        "ticker": "SMGR",
-        "as_of_date": "2026-11-19",
-        "setup": "breakout",
-        "entry": 1645.0,
-        "atr": 65.71,
-        "stop": 1546.43,
-        "target": 1842.14,
+        "entry": 5300.0,
+        "atr": 226.43,
+        "stop": 4960.36,
+        "target": 5979.29,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
@@ -40,15 +23,32 @@
     {
       "ticker": "ICBP",
       "sector": "Consumer Defensive",
-      "score": 15.83,
+      "score": 16.32,
       "levels": {
         "ticker": "ICBP",
-        "as_of_date": "2026-11-19",
+        "as_of_date": "2026-11-20",
         "setup": "breakout",
         "entry": 6950.0,
-        "atr": 266.07,
-        "stop": 6550.89,
-        "target": 7748.21,
+        "atr": 253.57,
+        "stop": 6569.64,
+        "target": 7710.71,
+        "rr_ratio": 2.0
+      },
+      "position_pct": 10.0,
+      "position_idr": 10000000.0
+    },
+    {
+      "ticker": "SMGR",
+      "sector": "Basic Materials",
+      "score": 15.05,
+      "levels": {
+        "ticker": "SMGR",
+        "as_of_date": "2026-11-20",
+        "setup": "atr_band",
+        "entry": 1605.0,
+        "atr": 66.07,
+        "stop": 1505.89,
+        "target": 1803.21,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
@@ -57,49 +57,32 @@
     {
       "ticker": "BBCA",
       "sector": "Financial Services",
-      "score": 9.18,
+      "score": 10.45,
       "levels": {
         "ticker": "BBCA",
-        "as_of_date": "2026-11-19",
+        "as_of_date": "2026-11-20",
         "setup": "atr_band",
-        "entry": 5650.0,
-        "atr": 190.36,
-        "stop": 5364.46,
-        "target": 6221.07,
+        "entry": 5550.0,
+        "atr": 191.79,
+        "stop": 5262.32,
+        "target": 6125.36,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
       "position_idr": 10000000.0
     },
     {
-      "ticker": "INDF",
+      "ticker": "MYOR",
       "sector": "Consumer Defensive",
-      "score": 8.3,
+      "score": 9.78,
       "levels": {
-        "ticker": "INDF",
-        "as_of_date": "2026-11-19",
+        "ticker": "MYOR",
+        "as_of_date": "2026-11-20",
         "setup": "breakout",
-        "entry": 7175.0,
-        "atr": 192.86,
-        "stop": 6885.71,
-        "target": 7753.57,
-        "rr_ratio": 2.0
-      },
-      "position_pct": 10.0,
-      "position_idr": 10000000.0
-    },
-    {
-      "ticker": "LSIP",
-      "sector": "Consumer Defensive",
-      "score": 7.27,
-      "levels": {
-        "ticker": "LSIP",
-        "as_of_date": "2026-11-19",
-        "setup": "atr_band",
-        "entry": 1550.0,
+        "entry": 1515.0,
         "atr": 56.07,
-        "stop": 1465.89,
-        "target": 1718.21,
+        "stop": 1430.89,
+        "target": 1683.21,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
@@ -108,49 +91,32 @@
     {
       "ticker": "KLBF",
       "sector": "Healthcare",
-      "score": 6.94,
+      "score": 8.33,
       "levels": {
         "ticker": "KLBF",
-        "as_of_date": "2026-11-19",
+        "as_of_date": "2026-11-20",
         "setup": "atr_band",
-        "entry": 770.0,
+        "entry": 780.0,
         "atr": 26.07,
-        "stop": 730.89,
-        "target": 848.21,
+        "stop": 740.89,
+        "target": 858.21,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
       "position_idr": 10000000.0
     },
     {
-      "ticker": "BBRI",
-      "sector": "Financial Services",
-      "score": 6.55,
+      "ticker": "INDF",
+      "sector": "Consumer Defensive",
+      "score": 6.67,
       "levels": {
-        "ticker": "BBRI",
-        "as_of_date": "2026-11-19",
-        "setup": "atr_band",
-        "entry": 3090.0,
-        "atr": 105.0,
-        "stop": 2932.5,
-        "target": 3405.0,
-        "rr_ratio": 2.0
-      },
-      "position_pct": 10.0,
-      "position_idr": 10000000.0
-    },
-    {
-      "ticker": "SMRA",
-      "sector": "Real Estate",
-      "score": 6.25,
-      "levels": {
-        "ticker": "SMRA",
-        "as_of_date": "2026-11-19",
-        "setup": "atr_band",
-        "entry": 272.0,
-        "atr": 9.86,
-        "stop": 257.21,
-        "target": 301.57,
+        "ticker": "INDF",
+        "as_of_date": "2026-11-20",
+        "setup": "breakout",
+        "entry": 7200.0,
+        "atr": 194.64,
+        "stop": 6908.04,
+        "target": 7783.93,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
@@ -162,12 +128,46 @@
       "score": 5.98,
       "levels": {
         "ticker": "MAPA",
-        "as_of_date": "2026-11-19",
+        "as_of_date": "2026-11-20",
         "setup": "atr_band",
         "entry": 620.0,
-        "atr": 25.71,
-        "stop": 581.43,
-        "target": 697.14,
+        "atr": 25.0,
+        "stop": 582.5,
+        "target": 695.0,
+        "rr_ratio": 2.0
+      },
+      "position_pct": 10.0,
+      "position_idr": 10000000.0
+    },
+    {
+      "ticker": "BBRI",
+      "sector": "Financial Services",
+      "score": 5.84,
+      "levels": {
+        "ticker": "BBRI",
+        "as_of_date": "2026-11-20",
+        "setup": "atr_band",
+        "entry": 3080.0,
+        "atr": 105.0,
+        "stop": 2922.5,
+        "target": 3395.0,
+        "rr_ratio": 2.0
+      },
+      "position_pct": 10.0,
+      "position_idr": 10000000.0
+    },
+    {
+      "ticker": "BBTN",
+      "sector": "Financial Services",
+      "score": 5.79,
+      "levels": {
+        "ticker": "BBTN",
+        "as_of_date": "2026-11-20",
+        "setup": "atr_band",
+        "entry": 1005.0,
+        "atr": 41.43,
+        "stop": 942.86,
+        "target": 1129.29,
         "rr_ratio": 2.0
       },
       "position_pct": 10.0,
