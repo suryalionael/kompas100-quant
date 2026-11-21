@@ -4,7 +4,7 @@
     "ticker": "ASII",
     "action": "hold",
     "technical_notes": "RSI14 56.2; 20D momentum +16.5%; +0.3% vs MA200; -25.5% from 52w high; 20D relative strength vs IHSG +21.9pp",
-    "fundamental_notes": "P/E 7.2x; P/BV 0.90x; ROE 11.6%; DER 0.39x; overall health 100/100",
+    "fundamental_notes": "P/E 7.1x; P/BV 0.88x; ROE 11.6%; DER 0.39x; overall health 100/100",
     "macro_notes": "IHSG regime: Strong Bear (score -4); IHSG close 5146.33; 20D annualized volatility 26.42%",
     "risk_notes": "position size 10.0% (Rp 10,000,000); R:R 2.0:1 (entry 5,300, stop 4,960, target 5,979); sector: Industrials",
     "money_flow_proxies": {
@@ -21,7 +21,7 @@
     "ticker": "BBCA",
     "action": "hold",
     "technical_notes": "RSI14 52.9; 20D momentum +10.4%; -10.2% vs MA200; -32.5% from 52w high; 20D relative strength vs IHSG +15.8pp",
-    "fundamental_notes": "P/E 11.7x; P/BV 2.45x; ROE 21.2%; overall health 76/100",
+    "fundamental_notes": "P/E 11.5x; P/BV 2.41x; ROE 21.2%; overall health 76/100",
     "macro_notes": "IHSG regime: Strong Bear (score -4); IHSG close 5146.33; 20D annualized volatility 26.42%",
     "risk_notes": "position size 10.0% (Rp 10,000,000); R:R 2.0:1 (entry 5,550, stop 5,262, target 6,125); sector: Financial Services",
     "money_flow_proxies": {
@@ -53,7 +53,7 @@
   {
     "date": "2026-11-20",
     "ticker": "BBTN",
-    "action": "open",
+    "action": "hold",
     "technical_notes": "RSI14 53.5; 20D momentum +5.8%; -16.5% vs MA200; -33.2% from 52w high; 20D relative strength vs IHSG +11.2pp",
     "fundamental_notes": "P/E 3.4x; P/BV 0.38x; ROE 11.7%; overall health 85/100",
     "macro_notes": "IHSG regime: Strong Bear (score -4); IHSG close 5146.33; 20D annualized volatility 26.42%",
@@ -106,7 +106,7 @@
     "ticker": "KLBF",
     "action": "hold",
     "technical_notes": "RSI14 57.5; 20D momentum +8.3%; -5.5% vs MA200; -38.8% from 52w high; 20D relative strength vs IHSG +13.7pp",
-    "fundamental_notes": "P/E 9.3x; P/BV 1.39x; ROE 15.1%; DER 0.01x; overall health 100/100",
+    "fundamental_notes": "P/E 9.4x; P/BV 1.40x; ROE 15.1%; DER 0.01x; overall health 100/100",
     "macro_notes": "IHSG regime: Strong Bear (score -4); IHSG close 5146.33; 20D annualized volatility 26.42%",
     "risk_notes": "position size 10.0% (Rp 10,000,000); R:R 2.0:1 (entry 780, stop 741, target 858); sector: Healthcare",
     "money_flow_proxies": {
@@ -120,27 +120,10 @@
   },
   {
     "date": "2026-11-20",
-    "ticker": "LSIP",
-    "action": "close",
-    "technical_notes": "RSI14 56.6; 20D momentum +6.1%; +13.8% vs MA200; -12.8% from 52w high; 20D relative strength vs IHSG +11.5pp",
-    "fundamental_notes": "P/E 4.4x; P/BV 0.70x; ROE 16.7%; overall health 90/100",
-    "macro_notes": "IHSG regime: Strong Bear (score -4); IHSG close 5146.33; 20D annualized volatility 26.42%",
-    "risk_notes": "position closed \u2014 dropped out of today's shortlist",
-    "money_flow_proxies": {
-      "date": "2026-11-20",
-      "volume_zscore": -1.07,
-      "today_return_pct": 0.65,
-      "volume_spike_no_followthrough": false,
-      "price_up_declining_volume": true
-    },
-    "money_flow_notes": null
-  },
-  {
-    "date": "2026-11-20",
     "ticker": "MAPA",
     "action": "hold",
     "technical_notes": "RSI14 56.7; 20D momentum +6.0%; -1.7% vs MA200; -21.0% from 52w high; 20D relative strength vs IHSG +11.4pp",
-    "fundamental_notes": "P/E 8.9x; P/BV 1.74x; ROE 21.6%; DER 0.28x; overall health 100/100",
+    "fundamental_notes": "P/E 9.0x; P/BV 1.74x; ROE 21.6%; DER 0.28x; overall health 100/100",
     "macro_notes": "IHSG regime: Strong Bear (score -4); IHSG close 5146.33; 20D annualized volatility 26.42%",
     "risk_notes": "position size 10.0% (Rp 10,000,000); R:R 2.0:1 (entry 620, stop 582, target 695); sector: Consumer Cyclical",
     "money_flow_proxies": {
@@ -155,9 +138,9 @@
   {
     "date": "2026-11-20",
     "ticker": "MYOR",
-    "action": "open",
+    "action": "hold",
     "technical_notes": "RSI14 60.3; 20D momentum +9.8%; -11.1% vs MA200; -36.9% from 52w high; 20D relative strength vs IHSG +15.2pp",
-    "fundamental_notes": "P/E 9.2x; P/BV 1.66x; ROE 19.0%; DER 0.25x; overall health 100/100",
+    "fundamental_notes": "P/E 9.8x; P/BV 1.77x; ROE 19.0%; DER 0.25x; overall health 91/100",
     "macro_notes": "IHSG regime: Strong Bear (score -4); IHSG close 5146.33; 20D annualized volatility 26.42%",
     "risk_notes": "position size 10.0% (Rp 10,000,000); R:R 2.0:1 (entry 1,515, stop 1,431, target 1,683); sector: Consumer Defensive",
     "money_flow_proxies": {
@@ -174,30 +157,13 @@
     "ticker": "SMGR",
     "action": "hold",
     "technical_notes": "RSI14 59.2; 20D momentum +15.1%; -13.7% vs MA200; -50.0% from 52w high; 20D relative strength vs IHSG +20.4pp",
-    "fundamental_notes": "P/E 18.3x; P/BV 0.25x; ROE 1.0%; DER 0.16x; overall health 100/100",
+    "fundamental_notes": "P/E 17.8x; P/BV 0.25x; ROE 1.0%; DER 0.16x; overall health 100/100",
     "macro_notes": "IHSG regime: Strong Bear (score -4); IHSG close 5146.33; 20D annualized volatility 26.42%",
     "risk_notes": "position size 10.0% (Rp 10,000,000); R:R 2.0:1 (entry 1,605, stop 1,506, target 1,803); sector: Basic Materials",
     "money_flow_proxies": {
       "date": "2026-11-20",
       "volume_zscore": -0.81,
       "today_return_pct": -2.43,
-      "volume_spike_no_followthrough": false,
-      "price_up_declining_volume": false
-    },
-    "money_flow_notes": null
-  },
-  {
-    "date": "2026-11-20",
-    "ticker": "SMRA",
-    "action": "close",
-    "technical_notes": "RSI14 57.6; 20D momentum +4.6%; -10.9% vs MA200; -34.7% from 52w high; 20D relative strength vs IHSG +10.0pp",
-    "fundamental_notes": "P/E 7.2x; P/BV 0.38x; ROE 6.6%; DER 0.96x; overall health 100/100",
-    "macro_notes": "IHSG regime: Strong Bear (score -4); IHSG close 5146.33; 20D annualized volatility 26.42%",
-    "risk_notes": "position closed \u2014 dropped out of today's shortlist",
-    "money_flow_proxies": {
-      "date": "2026-11-20",
-      "volume_zscore": -1.94,
-      "today_return_pct": 0.0,
       "volume_spike_no_followthrough": false,
       "price_up_declining_volume": false
     },
