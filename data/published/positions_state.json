@@ -1,15 +1,15 @@
 {
-  "date": "2026-11-23",
+  "date": "2026-11-24",
   "open_tickers": [
+    "ACES",
     "ASII",
     "BBCA",
     "BBTN",
     "BBYB",
     "ICBP",
+    "INDF",
     "KLBF",
-    "LSIP",
     "MYOR",
-    "SMGR",
     "SMRA"
   ]
 }
